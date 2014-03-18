@@ -8,6 +8,5 @@
 /build/
 /vendor/
 /bin/
-/composer.phar
 .idea
 
