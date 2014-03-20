@@ -1,0 +1,3 @@
+we_task_we_task_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: WeTaskWeTaskBundle:Default:index }
