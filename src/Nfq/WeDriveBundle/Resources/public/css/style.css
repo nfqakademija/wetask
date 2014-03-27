@@ -9,9 +9,12 @@ body {
 }
 
 #map-canvas {
-    height: 100%
+    height: 100%;
 }
-
+#contentHolder{
+    position: absolute;
+    top:5px;
+}
 .container
 {
     display:table;
