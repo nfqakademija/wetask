@@ -79,4 +79,4 @@ sonata_block:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: WeTask\WeTaskBundle\Entity\User
+    user_class: Nfq\UserBundle\Entity\User

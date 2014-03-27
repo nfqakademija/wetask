@@ -1,7 +1,0 @@
-parameters:
-#    we_task_we_task.example.class: WeTask\WeTaskBundle\Example
-
-services:
-#    we_task_we_task.example:
-#        class: %we_task_we_task.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
