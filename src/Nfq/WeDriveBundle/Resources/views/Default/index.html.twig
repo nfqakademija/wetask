@@ -3,5 +3,267 @@
 
 
 {% block content %}
-    Hello All!
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 main_info">
+                <nav class="navbar navbar-inverse" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                            </button>
+                            <a class="navbar-brand" href="#">weDrive</a></div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th-list"></span>&nbsp;My Routes</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#">
+                                                New Route</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                Manage</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-envelope"></span>&nbsp; Notifications
+                                        <span class="badge">2</span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#">Jane wants to join you <br />(2014-04-02, Antakalnis)
+                                                <div class="btn-group btn-group-xs this">
+                                                    <button type="button" class="btn btn-success">Accept</button>
+                                                    <button type="button" class="btn btn-danger">Decline</button>
+                                                </div></a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Peter is searching same route like yours
+                                                <div class="btn-group btn-group-xs this">
+                                                    <button type="button" class="btn btn-info">Okay</button>
+                                                </div></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>&nbsp;Tom</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#">Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Log out</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+                <div class="col-lg-8">
+                    <h3>2014-03-27 19:28:03</h3>
+                </div>
+                <div class="col-lg-2 col-lg-offset-2">
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">New trip</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div  >
+                                        <table >
+                                            <tr ><td>Name:</td><td><input type="text" value="Antakalnis"></td></tr>
+                                            <tr ><td>Description:</td><td><textarea rows="6" cols="60">I am going to Antakalnis </textarea></td></tr>
+                                            <tr><td>Destination:</td><td>
+                                                    <select >
+                                                        <option value="a">Antakalnis</option>
+                                                        <option value="b">Pilaitė</option>
+                                                        <option value="c">Lazdynai</option>
+                                                        <option value="d">Žirmunai</option>
+                                                        <option value="d">Naujininkai</option>
+                                                        <option value="d">Lentvaris</option>
+                                                    </select>
+                                                </td></tr>
+                                            <tr><td>Departure time:</td><td><input type="text" value="2014-04-10 17:45"></td></tr>
+                                            <tr><td>Free seats</td><td>
+                                                    <select >
+                                                        <option value="a">1</option>
+                                                        <option value="b">2</option>
+                                                        <option value="c">3</option>
+                                                        <option value="d">4</option>
+                                                        <option value="d">5</option>
+                                                        <option value="d">6</option>
+                                                    </select>
+                                                </td></tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save trip</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal" data-target="#myModal">New trip</button>
+                </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Available trips</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="widget-container table-responsive">
+                                <table class="table table-hover table-striped order-table table-green" id="tasktable">
+                                    <thead>
+                                    <tr>
+                                        <th>Departure time</th>
+                                        <th>Destination</th>
+                                        <th>Driver</th>
+                                        <th>Seats left</th>
+                                        <th>Time left</th>
+                                        <th id="join_column" >Join</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody >
+
+                                    <tr>
+                                        <td>2014-03-27 17:00</td>
+                                        <td>Antakalnis</td>
+                                        <td>Tom</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-danger" style="width: 75%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            2:28:3
+                                        </td>
+                                        <td><button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2014-04-02 16:00</td>
+                                        <td>Antakalnis</td>
+                                        <td>Tom</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-warning" style="width: 50%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            more than 5 days
+                                        </td>
+                                        <td><button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2014-04-02 17:00</td>
+                                        <td>Pilaitė</td>
+                                        <td>Mike</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-warning" style="width: 75%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            more than 5 days
+                                        </td>
+                                        <td><button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2014-04-02 19:00</td>
+                                        <td>Žirmunai</td>
+                                        <td>Paul</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-warning" style="width: 25%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            more than 5 days
+                                        </td>
+                                        <td><button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2014-04-03 15:40</td>
+                                        <td>Žirmunai</td>
+                                        <td>Paul</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-success" style="width: 75%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            more than 6 days
+                                        </td>
+                                        <td><button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2014-04-03 17:00</td>
+                                        <td>Antakalnis</td>
+                                        <td>Tom</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-success" style="width: 25%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            more than 6 days
+                                        </td>
+                                        <td><button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2014-04-04 16:55</td>
+                                        <td>Lazdynai</td>
+                                        <td>Jan</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-success" style="width: 50%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            more than 7 days
+                                        </td>
+                                        <td><button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>2014-04-08 19:00</td>
+                                        <td>Pilaitė</td>
+                                        <td>Mike</td>
+                                        <td>
+                                            <div class="progress progress-striped active" style="margin-bottom: 0px">
+                                                <div class="progress-bar progress-bar-success" style="width: 75%">                        </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            more than 11 days
+                                        </td>
+                                        <td><button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    </div>
 {% endblock %}
