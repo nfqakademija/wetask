@@ -15,7 +15,8 @@
 {% block body %}{% endblock %}
 
 {% block javascripts %}
-    {% javascripts '@NfqWeDriveBundle/Resources/public/js/*' %}
+    {% javascripts '@NfqWeDriveBundle/Resources/public/js/jquery-2.1.0.min.js'
+ '@NfqWeDriveBundle/Resources/public/js/bootstrap.min.js'%}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
