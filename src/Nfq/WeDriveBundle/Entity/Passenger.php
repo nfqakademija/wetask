@@ -26,22 +26,22 @@ class Passenger
      * @var Trip
      *
      * @ORM\ManyToOne(targetEntity="Trip", inversedBy="passenger")
-     * @ORM\Column()
+     * @ORM\JoinColumn(name="trip_id", referencedColumnName="id", nullable=false)
      */
     private $trip;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Accepted", type="integer")
+     * @ORM\Column(name="accepted", type="integer")
      */
     private $accepted;
 
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\Column()
+     * @ORM\ManyToOne(targetEntity="Nfq\UserBundle\Entity\User", inversedBy="passengers")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
 

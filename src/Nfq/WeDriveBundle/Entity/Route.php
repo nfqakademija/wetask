@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Nfq\UserBundle\Entity\User;
 
@@ -23,9 +24,9 @@ class Route
     private $id;
 
     /**
-     * @var Trip
+     * @var ArrayCollection|Trip[]
      *
-     * @ORM\OneToMany(targetEntity="Trip", mappedBy="route")`
+     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\Trip", mappedBy="route")`
      */
     private $trip;
 

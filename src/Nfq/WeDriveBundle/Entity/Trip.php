@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Nfq\WeDriveBundle\Entity\Route;
 
@@ -25,9 +26,8 @@ class Trip
     /**
      * @var Route
      *
-     * @ORM\ManyToOne(targetEntity="Route", inversedBy="trip")
+     * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="trip")
      * @ORM\JoinColumn(name="route_id", referencedColumnName="id", nullable=false)
-     * @ORM\Column(name="route_id")
      */
     private $route;
 
@@ -53,10 +53,9 @@ class Trip
     private $description;
 
     /**
-     * @var Passenger
+     * @var ArrayCollection|Passenger[]
      *
      * @ORM\OneToMany(targetEntity="Passenger", mappedBy="trip")
-     * @ORM\Column()
      */
     private $passenger;
 
