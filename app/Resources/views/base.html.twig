@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8"/>
     <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
-
-    {% stylesheets '@NfqWeDriveBundle/Resources/public/css/*' filter='cssrewrite' %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
+    {% block stylesheets %}
+        {% stylesheets '@NfqWeDriveBundle/Resources/public/css/*' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 {% block body %}{% endblock %}
 
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+    {% javascripts '@NfqWeDriveBundle/Resources/public/js/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
 
-{% javascripts '@NfqWeDriveBundle/Resources/public/js/*'%}
-
-<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
 </body>
 </html>
