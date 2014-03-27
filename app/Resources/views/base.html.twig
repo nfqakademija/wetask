@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
     {% block stylesheets %}
-        {% stylesheets '@NfqWeDriveBundle/Resources/public/css/*' filter='cssrewrite' %}
+        {% stylesheets 'bundles/nfqwedrive/css/*' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}
@@ -15,9 +15,10 @@
 {% block body %}{% endblock %}
 
 {% block javascripts %}
-    {% javascripts '@NfqWeDriveBundle/Resources/public/js/jquery-2.1.0.min.js'
-    '@NfqWeDriveBundle/Resources/public/js/bootstrap.min.js'
-    '@NfqWeDriveBundle/Resources/public/js/maps.js' %}
+    {% javascripts output='static/scripts.js'
+        'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
+        'bundles/nfqwedrive/js/bootstrap.min.js'
+        'bundles/nfqwedrive/js/maps.js' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

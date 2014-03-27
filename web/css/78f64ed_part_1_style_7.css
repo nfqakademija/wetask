@@ -1,0 +1,39 @@
+html {
+    height: 100%
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0
+}
+
+#map-canvas {
+    height: 100%;
+}
+#contentHolder{
+    position: absolute;
+    top:5px;
+    width: 40%;
+    min-width: 480px;
+}
+.container
+{
+    display:table;
+    width: 100%;
+    padding: 0 0 0 0; /*set left/right padding according to needs*/
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.row
+{
+    height: 100%;
+    display: table-row;
+}
+#join_column{
+    width: 80px;
+}
+#btn_new_trip{
+    margin: 20px 10px 0 0;
+}
