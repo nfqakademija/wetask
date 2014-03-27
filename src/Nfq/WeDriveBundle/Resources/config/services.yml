@@ -1,0 +1,7 @@
+parameters:
+#    nfq_we_drive.example.class: Nfq\WeDriveBundle\Example
+
+services:
+#    nfq_we_drive.example:
+#        class: %nfq_we_drive.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
