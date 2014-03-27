@@ -1,3 +1,0 @@
-nfq_venick_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: NfqVenickBundle:Default:index }
