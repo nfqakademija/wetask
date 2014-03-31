@@ -14,8 +14,8 @@ body {
 #contentHolder{
     position: absolute;
     top:5px;
-    width: 40%;
-    min-width: 480px;
+    width: 35%;
+    min-width: 430px;
 }
 .container
 {
