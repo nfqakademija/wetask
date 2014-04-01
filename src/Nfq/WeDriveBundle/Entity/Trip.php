@@ -70,28 +70,7 @@ class Trip
         return $this->id;
     }
 
-    /**
-     * Set route
-     *
-     * @param integer $route
-     * @return Trip
-     */
-    public function setRoute($route)
-    {
-        $this->route = $route;
 
-        return $this;
-    }
-
-    /**
-     * Get route
-     *
-     * @return integer 
-     */
-    public function getRoute()
-    {
-        return $this->route;
-    }
 
     /**
      * Set departTime
@@ -183,5 +162,58 @@ class Trip
     public function getPassenger()
     {
         return $this->passenger;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->passenger = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set route
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Route $route
+     * @return Trip
+     */
+    public function setRoute(\Nfq\WeDriveBundle\Entity\Route $route)
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    /**
+     * Get route
+     *
+     * @return \Nfq\WeDriveBundle\Entity\Route 
+     */
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
+    /**
+     * Add passenger
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Passenger $passenger
+     * @return Trip
+     */
+    public function addPassenger(\Nfq\WeDriveBundle\Entity\Passenger $passenger)
+    {
+        $this->passenger[] = $passenger;
+
+        return $this;
+    }
+
+    /**
+     * Remove passenger
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Passenger $passenger
+     */
+    public function removePassenger(\Nfq\WeDriveBundle\Entity\Passenger $passenger)
+    {
+        $this->passenger->removeElement($passenger);
     }
 }

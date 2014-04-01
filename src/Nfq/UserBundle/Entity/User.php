@@ -81,4 +81,46 @@ class User extends BaseUser
     }
 
 
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add passengers
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Passenger $passengers
+     * @return User
+     */
+    public function addPassenger(\Nfq\WeDriveBundle\Entity\Passenger $passengers)
+    {
+        $this->passengers[] = $passengers;
+
+        return $this;
+    }
+
+    /**
+     * Remove passengers
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Passenger $passengers
+     */
+    public function removePassenger(\Nfq\WeDriveBundle\Entity\Passenger $passengers)
+    {
+        $this->passengers->removeElement($passengers);
+    }
+
+    /**
+     * Get passengers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPassengers()
+    {
+        return $this->passengers;
+    }
 }

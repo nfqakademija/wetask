@@ -117,4 +117,34 @@ class Route
     {
         return $this->trip;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->trip = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add trip
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Trip $trip
+     * @return Route
+     */
+    public function addTrip(\Nfq\WeDriveBundle\Entity\Trip $trip)
+    {
+        $this->trip[] = $trip;
+
+        return $this;
+    }
+
+    /**
+     * Remove trip
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Trip $trip
+     */
+    public function removeTrip(\Nfq\WeDriveBundle\Entity\Trip $trip)
+    {
+        $this->trip->removeElement($trip);
+    }
 }
