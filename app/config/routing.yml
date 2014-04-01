@@ -26,6 +26,6 @@ fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
 
-nfq_homepage:
+nfq_wedrive:
     resource: "@NfqWeDriveBundle/Resources/config/routing.yml"
     prefix: /

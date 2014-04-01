@@ -3,7 +3,10 @@
 
 
 {% block content %}
+    {{ parent() }}
+
     {{ render(controller('NfqWeDriveBundle:Map:index')) }}
+    
     <div id="contentHolder">
         <div>
             <div class=" main_info">
@@ -73,7 +76,8 @@
                     </div>
                     <!-- /.container-fluid -->
                 </nav>
-                {{ render(controller('NfqWeDriveBundle:Route:list')) }}
+                {% block list %}
+                {% endblock %}
             </div>
         </div>
     </div>
