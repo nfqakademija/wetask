@@ -34,7 +34,7 @@ class Trip
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="depart_time", type="date")
+     * @ORM\Column(name="depart_time", type="datetime")
      */
     private $departTime;
 
