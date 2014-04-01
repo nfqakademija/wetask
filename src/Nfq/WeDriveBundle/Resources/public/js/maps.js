@@ -8,6 +8,8 @@ var map;
 var waypoints = new Array();
 var waypointlim = 8;
 var waypointlinreached = false;
+var elemAvailableTrips = $("");
+var elemRoutePlanner = $("");
 
 function Initialise() {
     var mapElement = document.getElementById("map-canvas");
