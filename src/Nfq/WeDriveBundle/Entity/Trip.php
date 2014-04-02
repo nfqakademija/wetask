@@ -59,11 +59,24 @@ class Trip
      */
     private $passenger;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="available_seats", type="integer")
+     */
+    private $availableSeats;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -88,7 +101,7 @@ class Trip
     /**
      * Get departTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDepartTime()
     {
@@ -111,7 +124,7 @@ class Trip
     /**
      * Get maxPassengers
      *
-     * @return integer 
+     * @return integer
      */
     public function getMaxPassengers()
     {
@@ -134,7 +147,7 @@ class Trip
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -157,7 +170,7 @@ class Trip
     /**
      * Get passenger
      *
-     * @return integer 
+     * @return integer
      */
     public function getPassenger()
     {
@@ -187,7 +200,7 @@ class Trip
     /**
      * Get route
      *
-     * @return \Nfq\WeDriveBundle\Entity\Route 
+     * @return \Nfq\WeDriveBundle\Entity\Route
      */
     public function getRoute()
     {
@@ -215,5 +228,44 @@ class Trip
     public function removePassenger(\Nfq\WeDriveBundle\Entity\Passenger $passenger)
     {
         $this->passenger->removeElement($passenger);
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Trip
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAvailableSeats()
+    {
+        return $this->availableSeats;
+    }
+
+    /**
+     * @param int $availableSeats
+     */
+    public function setAvailableSeats($availableSeats)
+    {
+        $this->availableSeats = $availableSeats;
     }
 }

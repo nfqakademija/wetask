@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class TripRepository extends EntityRepository
 {
+    public function findUpcomingTrips($time)
+    {
+        return $this->findBy(
+            //DQL
+        );
+    }
 }
