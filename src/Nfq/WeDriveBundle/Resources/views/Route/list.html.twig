@@ -78,20 +78,16 @@
                     <table class="table table-hover table-striped order-table table-green" id="tasktable">
                         <thead>
                         <tr>
-                            <th>Departure</th>
+                            <th>Name</th>
                             <th>Destination</th>
-                            <th>Driver</th>
-                            <th>Seats</th>
                             <th id="join_column">Join</th>
                         </tr>
                         </thead>
                         <tbody id="RouteBody">
                         {% for route in routes %}
                             <tr>
-                                <td></td>
+                                <td>{{ route.name }}</td>
                                 <td>{{ route.destination }}</td>
-                                <td>{{ route.user }}</td>
-                                <td></td>
                                 <td>
                                     <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
                                 </td>

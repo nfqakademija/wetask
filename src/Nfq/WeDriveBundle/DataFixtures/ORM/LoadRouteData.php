@@ -21,25 +21,26 @@ class LoadRouteData extends AbstractFixture implements OrderedFixtureInterface
     {
 
         $routes = array(
-            array('Antakalnis', 'user-1', 'route-1'),
-            array('Antakalnis', 'user-2', 'route-2'),
-            array('Zirmunai', 'user-1', 'route-3'),
-            array('Naujamestis', 'user-3', 'route-4'),
-            array('Pilaite', 'user-8', 'route-5'),
-            array('Jeruzale', 'user-6', 'route-6'),
-            array('Lazdynai', 'user-4', 'route-7'),
-            array('Lazdynai', 'user-2', 'route-8'),
-            array('Kalnenai', 'user-5', 'route-9'),
-            array('Fabijoniskes', 'user-6', 'route-10'),
-            array('Fabijoniskes', 'user-7', 'route-11'),
-            array('Virsuliskes', 'user-9', 'route-12'),
-            array('Karoliniskes', 'user-10', 'route-13')
+            array('Antakalnis', 'user-1', 'route-1', 'Home'),
+            array('Antakalnis', 'user-2', 'route-2', 'Work'),
+            array('Zirmunai', 'user-1', 'route-3', 'Home'),
+            array('Naujamestis', 'user-3', 'route-4', 'Work'),
+            array('Pilaite', 'user-8', 'route-5', 'Party'),
+            array('Jeruzale', 'user-6', 'route-6', 'Hotel'),
+            array('Lazdynai', 'user-4', 'route-7', 'Friends house'),
+            array('Lazdynai', 'user-2', 'route-8', 'Pet store'),
+            array('Kalnenai', 'user-5', 'route-9', 'Park'),
+            array('Fabijoniskes', 'user-6', 'route-10', 'Perverted forest'),
+            array('Fabijoniskes', 'user-7', 'route-11', 'Shrub exhibition'),
+            array('Virsuliskes', 'user-9', 'route-12', 'Glass room'),
+            array('Karoliniskes', 'user-10', 'route-13', 'Home')
         );
 
         foreach ($routes as $routeData) {
             $route = new Route();
             $route->setDestination($routeData[0]);
             $route->setUser($this->getReference($routeData[1]));
+            $route->setName($routeData[3]);
             $manager->persist($route);
             $this->addReference($routeData[2], $route);
         }

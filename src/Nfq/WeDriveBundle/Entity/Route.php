@@ -49,8 +49,16 @@ class Route
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Name", type="string", length=255)
+     */
+    private $name;
+
     public function getId()
     {
         return $this->id;
@@ -72,7 +80,7 @@ class Route
     /**
      * Get destination
      *
-     * @return string 
+     * @return string
      */
     public function getDestination()
     {
@@ -117,6 +125,7 @@ class Route
     {
         return $this->trip;
     }
+
     /**
      * Constructor
      */
@@ -146,5 +155,21 @@ class Route
     public function removeTrip(\Nfq\WeDriveBundle\Entity\Trip $trip)
     {
         $this->trip->removeElement($trip);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 }

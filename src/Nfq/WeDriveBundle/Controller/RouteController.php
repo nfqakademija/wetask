@@ -8,7 +8,7 @@ class RouteController extends Controller
 {
     public function listAction()
     {
-        $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findAll();
+        $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findBy(array('user' => 8));
         if (!$routes) {
             //Throw exception
         }
