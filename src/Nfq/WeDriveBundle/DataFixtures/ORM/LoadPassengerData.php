@@ -20,21 +20,20 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
     public function load(ObjectManager $manager)
     {
 
-               $passengers= array(
-                   array('trip-1','accepted', 'user-11'),
-                   array('trip-1','invited', 'user-12')
-               );
+        $passengers = array(
+            array('trip-1', 'accepted', 'user-11'),
+            array('trip-1', 'invited', 'user-12')
+        );
 
-                foreach($passengers as $passengerData){
-                    $passenger = new Passenger();
-                    $passenger->setUser($this->getReference($passengerData[2]));
-                    $passenger->setTrip($this->getReference($passengerData[0]));
-                    $passenger->setAccepted($passengerData[1]);
+        foreach ($passengers as $passengerData) {
+            $passenger = new Passenger();
+            $passenger->setUser($this->getReference($passengerData[2]));
+            $passenger->setTrip($this->getReference($passengerData[0]));
+            $passenger->setAccepted($passengerData[1]);
 
-                    $manager->persist($passenger);
-                }
-                $manager->flush();
-//*/
+            $manager->persist($passenger);
+        }
+        $manager->flush();
     }
 
     /**

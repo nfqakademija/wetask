@@ -10,7 +10,7 @@ class RouteController extends Controller
     {
         $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findAll();
         if (!$routes) {
-            //Throw exeption
+            //Throw exception
         }
         return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes));
     }

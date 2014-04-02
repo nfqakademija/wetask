@@ -20,22 +20,22 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
 
-       $trips= array(
-            array('route-1','2014-04-30 16:45:00', 3, 'My car is on 5A floor','trip-1')
+        $trips = array(
+            array('route-1', '2014-04-30 16:45:00', 3, 'My car is on 5A floor', 'trip-1')
         );
 
-        foreach($trips as $tripData){
+        foreach ($trips as $tripData) {
             $trip = new Trip();
             $trip->setRoute($this->getReference($tripData[0]));
-            $tmpDT=new \DateTime($tripData[1]);
+            $tmpDT = new \DateTime($tripData[1]);
             $trip->setDepartTime($tmpDT);
             $trip->setMaxPassengers($tripData[2]);
             $trip->setDescription($tripData[3]);
 
             $manager->persist($trip);
-            $this->addReference($tripData[4],$trip);
+            $this->addReference($tripData[4], $trip);
         }
-        $manager->flush();//*/
+        $manager->flush(); //*/
     }
 
     /**
