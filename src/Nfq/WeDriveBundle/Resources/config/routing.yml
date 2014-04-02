@@ -5,3 +5,7 @@ nfq_wedrive_base:
 nfq_wedrive_route_list:
     pattern:  /route/list
     defaults: { _controller: NfqWeDriveBundle:Route:list }
+
+nfq_wedrive_trip_list:
+    pattern:  /trip/list
+    defaults: { _controller: NfqWeDriveBundle:Trip:list }

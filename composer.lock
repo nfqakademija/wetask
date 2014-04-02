@@ -1564,12 +1564,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "41410b632a7b3c12da910188159278fc59d34734"
+                "reference": "23c42a8bd7844261a0bea9d74de4d1d9312d4904"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/41410b632a7b3c12da910188159278fc59d34734",
-                "reference": "41410b632a7b3c12da910188159278fc59d34734",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/23c42a8bd7844261a0bea9d74de4d1d9312d4904",
+                "reference": "23c42a8bd7844261a0bea9d74de4d1d9312d4904",
                 "shasum": ""
             },
             "require": {
@@ -1636,7 +1636,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2014-03-18 10:48:18"
+            "time": "2014-03-19 15:12:28"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -2053,16 +2053,16 @@
         },
         {
             "name": "sonata-project/google-authenticator",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/GoogleAuthenticator.git",
-                "reference": "0bb0f409a93da46fd76fe641b3f0c5aa52d3c063"
+                "reference": "72f47caddd09d09c0d3c3e046f6b435e0c004cd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/0bb0f409a93da46fd76fe641b3f0c5aa52d3c063",
-                "reference": "0bb0f409a93da46fd76fe641b3f0c5aa52d3c063",
+                "url": "https://api.github.com/repos/sonata-project/GoogleAuthenticator/zipball/72f47caddd09d09c0d3c3e046f6b435e0c004cd4",
+                "reference": "72f47caddd09d09c0d3c3e046f6b435e0c004cd4",
                 "shasum": ""
             },
             "require": {
@@ -2099,7 +2099,7 @@
             "keywords": [
                 "google authenticator"
             ],
-            "time": "2014-02-14 12:23:00"
+            "time": "2014-03-31 09:18:53"
         },
         {
             "name": "sonata-project/jquery-bundle",
@@ -2752,7 +2752,7 @@
             ],
             "authors": [
                 {
-                    "name": "William Durand",
+                    "name": "William DURAND",
                     "email": "william.durand1@gmail.com",
                     "homepage": "http://www.willdurand.fr"
                 }
