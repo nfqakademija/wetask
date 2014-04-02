@@ -8,6 +8,15 @@ body {
     padding: 0;
 
 }
+#list_title{
+    display: inline-block;
+}
+#new_btn{
+    position: absolute;
+    right: 29px;
+    top: 7px;
+    display: inline-block;
+}
 #RouteBody{
     overflow: scroll;
 }
