@@ -96,13 +96,19 @@
                             <td> {{ trip.title }}</td>
                             <td> {{ trip.route.user.username}} </td>
 
-                            {#{% if trip.%}#}
-                            {#<td>#}
-                                {#<button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>#}
-                            {#</td>#}
-                            {#{% else %}#}
-                                <td><button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button><td>
-                            {#{% endif %}#}
+                            {% if trip.availableSeats >= 3 %}
+                                <td>
+                                    <button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                </td>
+                            {% elseif trip.availableSeats >= 2 %}
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                </td>
+                            {% else %}
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                </td>
+                            {% endif %}
                             <td> {{ trip.availableSeats}} </td>
                             </tr>
                         {% endfor %}
