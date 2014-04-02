@@ -65,13 +65,14 @@
             </div>
         </div>
         <button type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal"
-                data-target="#myModal">New trip
+                data-target="#myModal">
+            <span class="glyphicon glyphicon-plus"></span>
         </button>
     </div>
     <div class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Available trips</h3>
+                <h3 class="panel-title">Your routes</h3>
             </div>
             <div class="panel-body">
                 <div class="widget-container table-responsive">
@@ -80,7 +81,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Destination</th>
-                            <th id="join_column">Join</th>
+                            <th></th>
+                            <th id="join_column">Delete</th>
                         </tr>
                         </thead>
                         <tbody id="RouteBody">
@@ -89,7 +91,11 @@
                                 <td>{{ route.name }}</td>
                                 <td>{{ route.destination }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                    <button type="button" class="btn btn-success btn-xs"><span
+                                                class="glyphicon glyphicon-chevron-right"></span></button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
                                 </td>
                             </tr>
                         {% endfor %}
