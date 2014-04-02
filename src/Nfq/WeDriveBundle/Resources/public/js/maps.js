@@ -3,7 +3,6 @@
  */
 var currentLocation = new google.maps.LatLng(54.696164, 25.277769);
 var idleCenter = new google.maps.LatLng(54.68901487769897, 25.227699279785);
-var initialisedCenter = idleCenter;          //TODO Set initialised to a new coordinate location
 var map;
 var waypoints = new Array();
 var waypointlim = 8;
@@ -83,7 +82,6 @@ function showRoutePlanner() {
     //Add event listeners like added marker or something
     //Initialise variables
     //Initialise form
-    map.panTo(initialisedCenter);
 }
 function hideRoutePlanner() {
     console.log('trying to hide route planner');

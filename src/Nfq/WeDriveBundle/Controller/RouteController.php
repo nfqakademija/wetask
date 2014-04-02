@@ -8,7 +8,10 @@ class RouteController extends Controller
 {
     public function listAction()
     {
-        $routes = array(1, 2, 3, 4);
+        $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findAll();
+        if (!$routes) {
+            //Throw exeption
+        }
         return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes));
     }
 }

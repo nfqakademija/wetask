@@ -1,9 +1,6 @@
 {% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
 
 {% block list %}
-    {% for route in routes %}
-        {{ route }},
-    {% endfor %}
     <div class="col-lg-8">
         <h3>2014-03-27 19:28:03</h3>
     </div>
@@ -88,103 +85,18 @@
                             <th id="join_column">Join</th>
                         </tr>
                         </thead>
-                        <tbody>
-
-                        <tr>
-                            <td>17:00</td>
-                            <td>Antakalnis</td>
-                            <td>Tom</td>
-                            <td>
-                                <span class="badge alert-danger">1</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>02d. 16:00</td>
-                            <td>Antakalnis</td>
-                            <td>Tom</td>
-                            <td>
-                                <span class="badge alert-warning">2</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>02d. 17:00</td>
-                            <td>Pilaitė 300metrų už PUPOS</td>
-                            <td>Vardenis Pavardenis-Baltas</td>
-                            <td>
-                                <span class="badge alert-warning">2</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>02d. 19:00</td>
-                            <td>Žirmunai</td>
-                            <td>Paul</td>
-                            <td>
-                                <span class="badge alert-warning">2</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>03d. 15:40</td>
-                            <td>Žirmunai</td>
-                            <td>Paul</td>
-                            <td>
-                                <span class="badge alert-success">3</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>03d. 17:00</td>
-                            <td>Antakalnis</td>
-                            <td>Tom</td>
-                            <td>
-                                <span class="badge alert-success">3</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>04d. 16:55</td>
-                            <td>Lazdynai</td>
-                            <td>Jan</td>
-                            <td>
-                                <span class="badge alert-danger">1</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>08d. 19:00</td>
-                            <td>Pilaitė</td>
-                            <td>Mike</td>
-                            <td>
-                                <span class="badge alert-warning">2</span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                            </td>
-                        </tr>
+                        <tbody id="RouteBody">
+                        {% for route in routes %}
+                            <tr>
+                                <td></td>
+                                <td>{{ route.destination }}</td>
+                                <td>{{ route.user }}</td>
+                                <td></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
 
