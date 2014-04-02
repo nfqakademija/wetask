@@ -11,9 +11,26 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nfq\UserBundle\Entity\User;
+use FOS\UserBundle\Doctrine\UserManager;
+use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
+class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -36,10 +53,12 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             array('Markas', 'test', 'markas@wedrive.dev', 'user', 'user-12'),
         );
 
+        $userManager = $this->container->get('fos_user.user_manager');
+
         foreach ($users as $userData) {
-            $userUser = new User();
+            $userUser = $userManager->createUser();
             $userUser->setUsername($userData[0]);
-            $userUser->setPassword($userData[1]);
+            $userUser->setPlainPassword($userData[1]);
             $userUser->setEmail($userData[2]);
             $userUser->addRole($userData[3]);
 
