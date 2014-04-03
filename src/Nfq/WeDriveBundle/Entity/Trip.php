@@ -34,9 +34,9 @@ class Trip
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="depart_time", type="datetime")
+     * @ORM\Column(name="departure_time", type="datetime")
      */
-    private $departTime;
+    private $departureTime;
 
     /**
      * @var integer
@@ -81,31 +81,6 @@ class Trip
     public function getId()
     {
         return $this->id;
-    }
-
-
-
-    /**
-     * Set departTime
-     *
-     * @param \DateTime $departTime
-     * @return Trip
-     */
-    public function setDepartTime($departTime)
-    {
-        $this->departTime = $departTime;
-
-        return $this;
-    }
-
-    /**
-     * Get departTime
-     *
-     * @return \DateTime
-     */
-    public function getDepartTime()
-    {
-        return $this->departTime;
     }
 
     /**
@@ -267,5 +242,21 @@ class Trip
     public function setAvailableSeats($availableSeats)
     {
         $this->availableSeats = $availableSeats;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDepartureTime()
+    {
+        return $this->departureTime;
+    }
+
+    /**
+     * @param \DateTime $departureTime
+     */
+    public function setDepartureTime($departureTime)
+    {
+        $this->departureTime = $departureTime;
     }
 }

@@ -36,7 +36,7 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
             $trip = new Trip();
             $trip->setRoute($route);
             $tmpDT= new \DateTime(date('Y-m-d H:i:s', $tripData[1]));
-            $trip->setDepartTime($tmpDT);
+            $trip->setDepartureTime($tmpDT);
             $trip->setMaxPassengers($tripData[2]);
             $trip->setDescription($tripData[3]);
             $trip->setTitle($route->getDestination());

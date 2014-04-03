@@ -28,7 +28,7 @@ class Route
      *
      * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\Trip", mappedBy="route")`
      */
-    private $trip;
+    private $trips;
 
 
     /**
@@ -111,22 +111,6 @@ class Route
     }
 
     /**
-     * @param Trip $trip
-     */
-    public function setTrip(Trip $trip = null)
-    {
-        $this->trip = $trip;
-    }
-
-    /**
-     * @return Trip
-     */
-    public function getTrip()
-    {
-        return $this->trip;
-    }
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -171,5 +155,21 @@ class Route
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Trip[]
+     */
+    public function getTrips()
+    {
+        return $this->trips;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Trip[] $trips
+     */
+    public function setTrips($trips)
+    {
+        $this->trips = $trips;
     }
 }

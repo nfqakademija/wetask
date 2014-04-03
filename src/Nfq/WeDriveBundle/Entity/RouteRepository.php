@@ -3,6 +3,7 @@
 namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints\Null;
 
 /**
  * RouteRepository
@@ -12,4 +13,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class RouteRepository extends EntityRepository
 {
+    /**
+     * @param Route $route
+     * @return bool
+     */
+    public function willBeUsed(Route $route)
+    {
+        $now = date('Y-m-d H:i:s');
+
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery("
+            SELECT r
+            FROM Nfq\WeDriveBundle\Entity\Route r
+            JOIN r.trips t
+            WHERE r.id = :routeId
+        ");
+
+        $trips = $query->setParameter('routeId', $route->getId())->getResult();
+
+        if ($trips != Null){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
