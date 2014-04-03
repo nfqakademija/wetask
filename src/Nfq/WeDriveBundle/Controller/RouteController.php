@@ -47,12 +47,14 @@ class RouteController extends Controller
         /** @var User $user */
         $user = $userRepository->findOneBy(array('username' => 'Jonas'));
 
-        $this->canDelete($route,$user);
+        try {
+            $this->checkIfRouteIsDeleteable($route,$user);
+            $entityManager->remove($route);
+            $entityManager->flush();
+        } catch (RouteException $e) {
+            die($e->getMessage());
+        }
 
-        $entityManager->remove($route);
-        $entityManager->flush();
-
-//        die();
         return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));
     }
 
@@ -63,15 +65,16 @@ class RouteController extends Controller
      * @throws \Nfq\WeDriveBundle\Exception\UserException
      * @return bool
      */
-    public function canDelete(Route $route, User $user)
+    public function checkIfRouteIsDeleteable(Route $route, User $user)
     {
         if ($route->getUser()->getId() !== $user->getId()) {
-            throw new UserException;
-        } else {
-            $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
-            if ($routeRepository->willBeUsed($route) != 0) {
-                throw new RouteException;
-            }
+            throw new RouteException("Route doesn't belong to user");
+        }
+
+        $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
+
+        if ($routeRepository->willBeUsed($route) != 0) {
+            throw new RouteException("Route is already being used in a trip");
         }
     }
 
