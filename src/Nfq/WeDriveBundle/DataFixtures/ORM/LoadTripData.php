@@ -27,6 +27,8 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
             array('route-4', strtotime('+37 minutes'), 3, 'My car is on 5A floor','trip-4',1),
             array('route-5', strtotime('+50 minutes'), 3, 'My car is on 5A floor','trip-5',2),
             array('route-6', strtotime('+1350 minutes'), 3, 'My car is on 5A floor','trip-6',3),
+            array('route-6', strtotime('+12 minutes'), 2, 'Imu suni', 'trip-7', 1),
+            array('route-11', strtotime('+25 minutes'), 3, 'Nothing to see here', 'trip-8', 2)
         );
 
         foreach ($trips as $tripData) {

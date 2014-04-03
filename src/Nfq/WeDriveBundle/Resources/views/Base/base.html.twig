@@ -20,18 +20,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                                    class="glyphicon glyphicon-th-list"></span>&nbsp;My Routes</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">
-                                    New Route</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Manage</a>
-                            </li>
-                        </ul>
+                        <a href="{{ path('nfq_wedrive_route_list') }}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            My Routes
+                        </a>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
