@@ -25,9 +25,15 @@ body {
 }
 #contentHolder{
     position: absolute;
-    top:5px;
+    top:54px;
     width: 35%;
     min-width: 430px;
+}
+#user_bar{
+    position: absolute;
+    top: 8px;
+    width: 98%;
+    left: 1%;
 }
 .container
 {
