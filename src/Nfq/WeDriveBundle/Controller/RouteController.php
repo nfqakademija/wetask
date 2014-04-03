@@ -5,7 +5,6 @@ namespace Nfq\WeDriveBundle\Controller;
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Exception\RouteException;
-use Nfq\WeDriveBundle\Exception\UserException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -24,7 +23,9 @@ class RouteController extends Controller
         /** @var User $user */
         $user = $userRepository->findOneBy(array('username' => 'Jonas'));
 
-        $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findBy(array('user' => $user->getId()));
+        $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findBy(
+            array('user' => $user->getId())
+        );
         if (!$routes) {
             //Throw exception
         }
@@ -48,7 +49,7 @@ class RouteController extends Controller
         $user = $userRepository->findOneBy(array('username' => 'Jonas'));
 
         try {
-            $this->checkIfRouteIsDeleteable($route,$user);
+            $this->checkIfRouteIsDeleteable($route, $user);
             $entityManager->remove($route);
             $entityManager->flush();
         } catch (RouteException $e) {
