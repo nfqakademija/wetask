@@ -6,7 +6,7 @@ nfq_wedrive_route_list:
     pattern:  /route/list
     defaults: { _controller: NfqWeDriveBundle:Route:list }
 
-nfq_wedrive_delete:
+nfq_wedrive_route_delete:
     pattern:  /route/delete/{routeId}
     defaults: { _controller: NfqWeDriveBundle:Route:delete }
 

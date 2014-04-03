@@ -93,7 +93,8 @@
                                                 class="glyphicon glyphicon-chevron-right"></span></button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>
+                                    {#<button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>#}
+                                    <a href="{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}" class="btn btn-danger btn-xs">Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}

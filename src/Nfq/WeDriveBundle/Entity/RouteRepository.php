@@ -28,6 +28,7 @@ class RouteRepository extends EntityRepository
             FROM Nfq\WeDriveBundle\Entity\Route r
             JOIN r.trips t
             WHERE r.id = :routeId
+              AND t.departureTime > '$now'
         ");
 
         $trips = $query->setParameter('routeId', $route->getId())->getResult();

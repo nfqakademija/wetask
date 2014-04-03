@@ -92,7 +92,7 @@
                         <tbody>
                         {% for trip in trips %}
                         <tr>
-                            <td> {{ trip.departTime.date|date('H:i') }} </td>
+                            <td> {{ trip.departureTime.date|date('H:i') }} </td>
                             <td> {{ trip.title }}</td>
                             <td> {{ trip.route.user.username}} </td>
 

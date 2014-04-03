@@ -4,7 +4,10 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Entity\Route;
+use Nfq\WeDriveBundle\Exception\RouteException;
+use Nfq\WeDriveBundle\Exception\UserException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class RouteController
@@ -30,6 +33,7 @@ class RouteController extends Controller
 
     /**
      * @param $routeId
+     * @return RedirectResponse
      */
     public function deleteAction($routeId)
     {
@@ -43,28 +47,31 @@ class RouteController extends Controller
         /** @var User $user */
         $user = $userRepository->findOneBy(array('username' => 'Jonas'));
 
-        if (canDelete($route,$user)) {
-            //return
-        }
-
-        if ($routeRepository->willBeUsed($route) != 0) {
-            //return
-        }
+        $this->canDelete($route,$user);
 
         $entityManager->remove($route);
         $entityManager->flush();
 
+//        die();
+        return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));
     }
 
     /**
      * @param Route $route
      * @param User $user
+     * @throws \Nfq\WeDriveBundle\Exception\RouteException
+     * @throws \Nfq\WeDriveBundle\Exception\UserException
      * @return bool
      */
     public function canDelete(Route $route, User $user)
     {
-        if ($route->getUser()->getId() == $user->getId()) {
-            return true;
+        if ($route->getUser()->getId() !== $user->getId()) {
+            throw new UserException;
+        } else {
+            $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
+            if ($routeRepository->willBeUsed($route) != 0) {
+                throw new RouteException;
+            }
         }
     }
 
