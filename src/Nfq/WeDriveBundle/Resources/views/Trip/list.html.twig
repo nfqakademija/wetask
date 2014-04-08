@@ -2,10 +2,11 @@
 
 {% block list %}
     {#{% for trip in trips %}#}
-        {#{{ trip }},#}
+    {#{{ trip }},#}
     {#{% endfor %}#}
     <div class="col-lg-8">
-        <h3>2014-03-27 19:28:03</h3>
+        {#<h3>2014-03-27 19:28:03</h3>#}
+        <h3> {{ "+ 3hours"|date ('Y-m-d H:i') }} </h3>
     </div>
     <div class="col-lg-2 col-lg-offset-2">
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -71,7 +72,7 @@
     <div class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Available trips</h3>
+                <h3 class="panel-title">My Trips / Available trips</h3>
                 <button id="new_btn" type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal"
                         data-target="#myModal">
                     <span class="glyphicon glyphicon-plus"></span>
@@ -85,33 +86,53 @@
                             <th>Departure</th>
                             <th>Destination</th>
                             <th>Driver</th>
-                            <th id="join_column">Join</th>
+                            <th id="join_column">Join/Delete</th>
                             <th>Free</th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        {% for trip in trips %}
-                        <tr>
-                            <td> {{ trip.departureTime.date|date('H:i') }} </td>
-                            <td> {{ trip.title }}</td>
-                            <td> {{ trip.route.user.username}} </td>
-
-                            {% if trip.availableSeats >= 3 %}
-                                <td>
-                                    <button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                                </td>
-                            {% elseif trip.availableSeats >= 2 %}
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                                </td>
-                            {% else %}
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
-                                </td>
+                        {% for trip in userTrips %}
+                            {% if (trip.departureTime.date < "now"|date) %}
+                                <tr>
+                                    <td> {{ trip.departureTime.date|date('H:i') }} </td>
+                                    <td> {{ trip.title }}</td>
+                                    {#<td> {{ trip.route.user.username}} </td>#}
+                                    <td> Me</td>
+                                    <td>
+                                        {#<button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>#}
+                                        <button type="button" class="btn btn-danger btn-xs">&nbsp;Delete&nbsp;</button>
+                                    </td>
+                                    <td> {{ trip.availableSeats }} </td>
+                                </tr>
                             {% endif %}
-                            <td> {{ trip.availableSeats}} </td>
-                            </tr>
+                        {% endfor %}
+
+                        {% for trip in otherTrips %}
+                            {% if (trip.departureTime.date < "now"|date) %}
+                                <tr>
+                                    <td> {{ trip.departureTime.date|date('H:i') }} </td>
+                                    <td> {{ trip.title }}</td>
+                                    <td> {{ trip.route.user.username }} </td>
+
+                                    {% if trip.availableSeats >= 3 %}
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                        </td>
+                                    {% elseif trip.availableSeats >= 2 %}
+                                        <td>
+                                            <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                        </td>
+                                    {% endif %}
+
+                                    <td> {{ trip.availableSeats }} </td>
+
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>

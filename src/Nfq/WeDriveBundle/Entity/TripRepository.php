@@ -3,6 +3,7 @@
 namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * TripRepository
@@ -12,10 +13,42 @@ use Doctrine\ORM\EntityRepository;
  */
 class TripRepository extends EntityRepository
 {
-    public function findUpcomingTrips($time)
+
+    public function getTrips($option)
     {
-        return $this->findBy(
-            //DQL
-        );
+        $em = $this->getEntityManager();
+
+        if ($option == 0) {
+            $query = $em->createQuery(
+                "
+                                SELECT t
+                                FROM Nfq\WeDriveBundle\Entity\Trip t
+                                JOIN t.route r
+                                JOIN r.user u
+                                WHERE u.username = :username
+                            "
+            )->setParameter('username', 'Jonas');
+        } else {
+            $query = $em->createQuery(
+                "
+                                SELECT t
+                                FROM Nfq\WeDriveBundle\Entity\Trip t
+                                JOIN t.route r
+                                JOIN r.user u
+                                WHERE u.username != :username
+                            "
+            )->setParameter('username', 'Jonas');
+        }
+
+        $trips = $query->getResult();
+
+        if (!$trips) {
+            throw $this->createNotFoundException(
+                'No trips found'
+            );
+        }
+
+        return $trips;
     }
+
 }

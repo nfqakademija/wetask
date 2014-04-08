@@ -46,11 +46,6 @@ class Route
      */
     private $user;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
 
     /**
      * @var string
@@ -59,6 +54,11 @@ class Route
      */
     private $name;
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
