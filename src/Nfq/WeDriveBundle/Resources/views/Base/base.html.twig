@@ -6,7 +6,6 @@
     {{ parent() }}
 
     {{ render(controller('NfqWeDriveBundle:Map:index')) }}
-
     <nav id="user_bar" class="navbar navbar-inverse" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -15,7 +14,7 @@
                         data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                 </button>
-                <a class="navbar-brand" href="#">weDrive</a></div>
+                <a class="navbar-brand" href="{{ path('nfq_wedrive_base') }}">weDrive</a></div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
@@ -71,10 +70,129 @@
     <div id="contentHolder">
         <div>
             <div class=" main_info">
-
                 {% block list %}
+                    <!-- Table -->
+                    <div class="col-lg-8">
+                        <h3> {{"+3 hours"|date('Y-m-d H:i') }}   </h3>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">New trip</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td>Name:</td>
+                                                    <td><input type="text" value="Antakalnis"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Description:</td>
+                                                    <td><textarea rows="6" cols="60">I am going to
+                                                            Antakalnis </textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Destination:</td>
+                                                    <td>
+                                                        <select>
+                                                            <option value="a">Antakalnis</option>
+                                                            <option value="b">Pilaitė</option>
+                                                            <option value="c">Lazdynai</option>
+                                                            <option value="d">Žirmunai</option>
+                                                            <option value="d">Naujininkai</option>
+                                                            <option value="d">Lentvaris</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Departure time:</td>
+                                                    <td><input type="text" value="2014-04-10 17:45"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Free seats</td>
+                                                    <td>
+                                                        <select>
+                                                            <option value="a">1</option>
+                                                            <option value="b">2</option>
+                                                            <option value="c">3</option>
+                                                            <option value="d">4</option>
+                                                            <option value="d">5</option>
+                                                            <option value="d">6</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Save trip
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 id="list_title" class="panel-title">Available trips</h3>
+                                <button id="new_btn" type="button" class="btn btn-primary btn-sm" id="btn_new_trip"
+                                        data-toggle="modal"
+                                        data-target="#myModal">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </div>
+                            <div class="panel-body">
+                                <div class="widget-container table-responsive">
+                                    <table class="table table-hover table-striped order-table table-green"
+                                           id="tasktable">
+                                        <thead>
+                                        <tr>
+                                            <th>Departure</th>
+                                            <th>Destination</th>
+                                            <th> Driver </th>
+                                            <th id="join_column"> Join </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="RouteBody">
+                                        {% for trip in trips %}
+                                            {% if (trip.departureTime.date|date('YmdHis') > "now"|date('YmdHis')) %}
+                                                <tr>
+                                                    <td> {{ trip.departureTime.date|date('m-d H:i') }} </td>
+                                                    <td> {{ trip.title }}</td>
+                                                    <td> {{ trip.route.user.username }} </td>
+                                                    {% if trip.availableSeats >= 3 %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-success btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                                        </td>
+                                                    {% elseif trip.availableSeats >= 2 %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-warning btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                                        </td>
+                                                    {% else %}
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Join&nbsp;&nbsp;&nbsp;</button>
+                                                        </td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {% endblock %}
             </div>
         </div>
     </div>
+
+
 {% endblock %}

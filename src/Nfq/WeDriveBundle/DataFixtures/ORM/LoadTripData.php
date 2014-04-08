@@ -21,14 +21,14 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $trips = array(
-            array('route-1', strtotime('+30 minutes'), 3, 'Antakalnis', 'trip-1', 1),
-            array('route-2', strtotime('+32 minutes'), 3, 'Vairuosiu kruta masina', 'trip-2', 2),
-            array('route-8', strtotime('+34 minutes'), 3, 'Priimu rukancius', 'trip-3', 3),
-            array('route-9', strtotime('+37 minutes'), 3, 'My car is on 5A floor', 'trip-4', 1),
-            array('route-10', strtotime('+50 minutes'), 3, 'My car is on 5A floor', 'trip-5', 2),
-            array('route-6', strtotime('+1350 minutes'), 3, 'My car is on 5A floor', 'trip-6', 3),
-            array('route-6', strtotime('+12 minutes'), 2, 'Imu suni', 'trip-7', 1),
-            array('route-11', strtotime('+25 minutes'), 3, 'Nothing to see here', 'trip-8', 2)
+            array('route-1', strtotime('+3 hours 30 minutes'), 3, 'Antakalnis', 'trip-1', 1),
+            array('route-2', strtotime('+3 hours 32 minutes'), 3, 'Vairuosiu kruta masina', 'trip-2', 2),
+            array('route-8', strtotime('+3 hours 34 minutes'), 3, 'Priimu rukancius', 'trip-3', 3),
+            array('route-9', strtotime('+3 hours 37 minutes'), 3, 'My car is on 5A floor', 'trip-4', 1),
+            array('route-10', strtotime('+3 hours 50 minutes'), 3, 'My car is on 5A floor', 'trip-5', 2),
+            array('route-6', strtotime('+3 hours 1350 minutes'), 3, 'My car is on 5A floor', 'trip-6', 3),
+            array('route-6', strtotime('+3 hours 12 minutes'), 2, 'Imu suni', 'trip-7', 1),
+            array('route-11', strtotime('+3 hours 25 minutes'), 3, 'Nothing to see here', 'trip-8', 2)
         );
 
         foreach ($trips as $tripData) {
