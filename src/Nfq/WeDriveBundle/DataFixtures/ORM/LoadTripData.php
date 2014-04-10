@@ -29,10 +29,10 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
             array('route-4', strtotime('+3 hours 1350 minutes'), 3, 'My car is on 5A floor', 'trip-6', 0),
             array('route-6', strtotime('+3 hours 12 minutes'), 2, 'Imu suni', 'trip-7', 1),
             array('route-1', strtotime('+3 hours 25 minutes'), 3, 'Nothing to see here', 'trip-8', 0),
-            array('route-3', strtotime('+3 hours 25 minutes'), 3, 'Nothing to see here', 'trip-9', 0),
+            array('route-3', strtotime('+3 hours 25 minutes'), 3, 'Nothing to see here', 'trip-9', 1),
             array('route-4', strtotime('+3 hours 5125 minutes'), 3, 'Nothing to see here', 'trip-10', 0),
-            array('route-4', strtotime('+3 hours 225 minutes'), 3, 'Nothing to see here', 'trip-11', 0),
-            array('route-5', strtotime('+3 hours 325 minutes'), 3, 'Nothing to see here', 'trip-12', 0),
+            array('route-4', strtotime('+3 hours 225 minutes'), 3, 'Nothing to see here', 'trip-11', 2),
+            array('route-5', strtotime('+3 hours 325 minutes'), 3, 'Nothing to see here', 'trip-12', 1),
             array('route-6', strtotime('+3 hours 425 minutes'), 3, 'Nothing to see here', 'trip-13', 0)
         );
 

@@ -12,6 +12,8 @@ class TestController extends Controller
 {
     public function indexAction()
     {
-        return new Response('<html><body>Hello World from test!</body></html>');
+        $user = $this->container->get('security.context')->getToken()->getUser();
+//        %userName = $user->
+        return new Response('<html><body>Hello World from test'.$user->getUsername().'!</body></html>');
     }
 }

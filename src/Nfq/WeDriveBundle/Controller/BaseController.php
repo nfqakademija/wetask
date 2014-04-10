@@ -11,6 +11,7 @@ class BaseController extends Controller
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $otherTrips = $tripRepository->getTrips(1);
 
+
         return $this->render(
             'NfqWeDriveBundle:Base:base.html.twig',
             array(
