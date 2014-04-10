@@ -69,10 +69,12 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">My Trips</h3>
+                {% block button %}
                 <button id="new_btn" type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal"
-                        data-target="#myModal">
+                                 data-target="#myModal">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
+                {% endblock %}
             </div>
             <div class="panel-body">
                 <div class="widget-container table-responsive">
@@ -81,7 +83,6 @@
                         <tr>
                             <th>Departure</th>
                             <th>Destination</th>
-                            <th>Driver</th>
                             <th id="join_column">Delete</th>
                             <th>Free</th>
                         </tr>
@@ -89,13 +90,12 @@
 
                         <tbody>
                         {% for trip in userTrips %}
-                            {% if (trip.departureTime.date|date('YmdHis') > "now"|date('YmdHis')) %}
+                            {% if (trip.departureTime.date|date('YmdHis') > "+3 hours"|date('YmdHis')) %}
                                 <tr>
                                     <td> {{ trip.departureTime.date|date('m-d H:i') }} </td>
                                     <td> {{ trip.title }}</td>
-                                    <td> Me</td>
                                     <td>
-                                        <button type="button" class="btn btn-danger btn-xs">&nbsp;Delete&nbsp;</button>
+                                        <button type="button" class="btn btn-warning btn-xs">&nbsp;Manage&nbsp;</button>
                                     </td>
                                     <td> {{ trip.availableSeats }} </td>
                                 </tr>

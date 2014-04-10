@@ -51,4 +51,19 @@ class TripRepository extends EntityRepository
         return $trips;
     }
 
+    public function getPassenger($userName)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            "
+                        SELECT p
+                        FROM Nfq\WeDriveBundle\Entity\Passenger p
+                        JOIN p.trip t
+                        JOIN p.user u
+                        WHERE u.username = :username
+                    "
+        )->setParameter('username', $userName);
+
+
+    }
 }

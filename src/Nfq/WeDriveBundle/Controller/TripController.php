@@ -38,10 +38,9 @@ class TripController extends Controller
         /** @var  $trips */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $userTrips = $tripRepository->getTrips(0);
-        $otherTrips = $tripRepository->getTrips(1);
 
         return $this->render('NfqWeDriveBundle:Trip:list.html.twig',
-                    array('userTrips' => $userTrips, 'otherTrips' => $otherTrips));
+                    array('userTrips' => $userTrips));
     }
 
     public function deleteAction($tripId)
