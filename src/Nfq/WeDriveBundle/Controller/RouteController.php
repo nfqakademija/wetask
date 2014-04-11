@@ -19,9 +19,11 @@ class RouteController extends Controller
      */
     public function listAction()
     {
+        $user1 = $this->container->get('security.context')->getToken()->getUser();
+
         $userRepository = $this->getDoctrine()->getRepository('NfqUserBundle:User');
         /** @var User $user */
-        $user = $userRepository->findOneBy(array('username' => 'Jonas'));
+        $user = $userRepository->findOneBy(array('username' => $user1->getUsername()));
 
         $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findBy(
             array('user' => $user->getId())
@@ -29,7 +31,7 @@ class RouteController extends Controller
         if (!$routes) {
             //Throw exception
         }
-        return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes));
+        return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes, 'user' => $user1));
     }
 
     /**

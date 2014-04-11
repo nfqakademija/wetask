@@ -37,10 +37,11 @@ class TripController extends Controller
 
         /** @var  $trips */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-        $userTrips = $tripRepository->getTrips(0);
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $userTrips = $tripRepository->getTrips(0, $user);
 
         return $this->render('NfqWeDriveBundle:Trip:list.html.twig',
-                    array('userTrips' => $userTrips));
+                    array('userTrips' => $userTrips, 'user' => $user));
     }
 
     public function deleteAction($tripId)
@@ -51,7 +52,8 @@ class TripController extends Controller
 
     public function newAction()
     {
-        return $this->render('NfqWeDriveBundle:Trip:new.html.twig');
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        return $this->render('NfqWeDriveBundle:Trip:new.html.twig', array('user' => $user));
     }
 
 }

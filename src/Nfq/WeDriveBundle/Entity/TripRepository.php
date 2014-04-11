@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class TripRepository extends EntityRepository
 {
 
-    public function getTrips($option)
+    public function getTrips($option, $user)
     {
         $em = $this->getEntityManager();
 
@@ -27,7 +27,7 @@ class TripRepository extends EntityRepository
                                 JOIN r.user u
                                 WHERE u.username = :username
                             "
-            )->setParameter('username', 'Jonas');
+            )->setParameter('username', $user->getUsername());
         } else {
             $query = $em->createQuery(
                 "
@@ -37,15 +37,15 @@ class TripRepository extends EntityRepository
                                 JOIN r.user u
                                 WHERE u.username != :username
                             "
-            )->setParameter('username', 'Jonas');
+            )->setParameter('username', $user->getUsername());
         }
 
         $trips = $query->getResult();
 
         if (!$trips) {
-            throw $this->createNotFoundException(
-                'No trips found'
-            );
+//            throw $this->createNotFoundException(
+//                'No trips found'
+//            );
         }
 
         return $trips;
@@ -63,7 +63,6 @@ class TripRepository extends EntityRepository
                         WHERE u.username = :username
                     "
         )->setParameter('username', $userName);
-
 
     }
 }

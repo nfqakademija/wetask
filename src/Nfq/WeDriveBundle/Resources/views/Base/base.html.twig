@@ -49,7 +49,7 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                                        class="glyphicon glyphicon-user"></span>&nbsp;Jonas</a>
+                                        class="glyphicon glyphicon-user"></span>&nbsp;{{ user.username }}</a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="#">Profile</a>
@@ -58,7 +58,7 @@
                                     <a href={{ path('nfq_wedrive_trip_list') }}>Trips</a>
                                 </li>
                                 <li>
-                                    <a href="#">Log out</a>
+                                    <a href="{{ path('nfq_wedrive_base') }}logout">Log out</a>
                                 </li>
                             </ul>
                         </li>
@@ -84,7 +84,7 @@
                         <div class="panel-heading">
                             <h3 id="list_title"
                                 class="panel-title">{% block panel_title %}Available trips {% endblock %}</h3>
-                            {% block button %}
+                            {% block panel_title_button %}
                             {% endblock %}
                         </div>
                         <div class="panel-body">
@@ -118,7 +118,7 @@
                                                     {% endif %}
 
                                                     {% for passenger in trip.passenger %}
-                                                        {% if passenger.user.username ==  userName %}
+                                                        {% if passenger.user.username ==  user.username %}
                                                             {% if passenger.accepted == 1 %}
                                                                 {% set buttonName = 'Waiting..' %}
                                                                 {% set buttonType = 'warning' %}

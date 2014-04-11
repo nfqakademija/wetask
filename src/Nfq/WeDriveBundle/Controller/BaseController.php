@@ -9,14 +9,14 @@ class BaseController extends Controller
     public function indexAction()
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-        $otherTrips = $tripRepository->getTrips(1);
-
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $otherTrips = $tripRepository->getTrips(1, $user);
 
         return $this->render(
             'NfqWeDriveBundle:Base:base.html.twig',
             array(
                 'otherTrips' => $otherTrips,
-                'userName' => 'Jonas',
+                'user' => $user,
                 'buttonName' => 'Join',
                 'buttonType' => 'success'
             )
