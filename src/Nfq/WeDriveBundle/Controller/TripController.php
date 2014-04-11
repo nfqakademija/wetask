@@ -49,4 +49,9 @@ class TripController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
     }
 
+    public function newAction()
+    {
+        return $this->render('NfqWeDriveBundle:Trip:new.html.twig');
+    }
+
 }

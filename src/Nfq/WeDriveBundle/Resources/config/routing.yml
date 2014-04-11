@@ -18,3 +18,7 @@ nfq_wedrive_trip_list:
 nfq_wedrive_test_page:
     pattern:  /test
     defaults: { _controller: NfqWeDriveBundle:Test:index }
+
+nfq_wedrive_trip_new:
+    pattern:  /trip/new
+    defaults:  { _controller: NfqWeDriveBundle:Trip:new }

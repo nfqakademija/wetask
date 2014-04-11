@@ -3,6 +3,37 @@
 <head>
     <meta charset="UTF-8"/>
     <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
+    <script>
+        function startTime()
+        {
+            var today=new Date();
+
+            var Y=today.getFullYear();
+            var M=today.getMonth();
+            var d=today.getDay();
+
+            var h=today.getHours();
+            var m=today.getMinutes();
+            var s=today.getSeconds();
+// add a zero in front of numbers<10
+            M=checkTime(M);
+            d=checkTime(d);
+
+            m=checkTime(m);
+            s=checkTime(s);
+            document.getElementById('txt').innerHTML=Y+"-"+M+"-"+d+" "+h+":"+m+":"+s;
+            t=setTimeout(function(){startTime()},500);
+        }
+
+        function checkTime(i)
+        {
+            if (i<10)
+            {
+                i="0" + i;
+            }
+            return i;
+        }
+    </script>
     {% block stylesheets %}
         {% stylesheets 'bundles/nfqwedrive/css/*' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
@@ -11,7 +42,7 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
-<body>
+<body  onload="startTime()">
 {% block body %}{% endblock %}
 
 {% block javascripts %}
