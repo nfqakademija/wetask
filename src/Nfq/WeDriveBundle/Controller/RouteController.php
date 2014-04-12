@@ -5,8 +5,11 @@ namespace Nfq\WeDriveBundle\Controller;
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Exception\RouteException;
+use Nfq\WeDriveBundle\Form\RouteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Null;
 
 /**
  * Class RouteController
@@ -15,7 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class RouteController extends Controller
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function listAction()
     {
@@ -32,6 +35,25 @@ class RouteController extends Controller
             //Throw exception
         }
         return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes, 'user' => $user1));
+    }
+
+    /**
+     * @return Response
+     */
+    public function addAction()
+    {
+        $user1 = $this->container->get('security.context')->getToken()->getUser();
+
+        $route = new Route();
+        $route->setName("Name your route");
+        $route->setDestination("Name your  destination");
+
+        $form = $this->createFormBuilder($route)
+            ->add('name','text')
+            ->add('destination','text')
+            ->getForm();
+
+        return $this->render('NfqWeDriveBundle:Route:add.html.twig', array('form' => $form->createView(),'user' => $user1));
     }
 
     /**

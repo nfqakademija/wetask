@@ -6,9 +6,15 @@ nfq_wedrive_route_list:
     pattern:  /route/list
     defaults: { _controller: NfqWeDriveBundle:Route:list }
 
+nfq_wedrive_route_add:
+    pattern: /route/add
+    defaults: { _controller: NfqWeDriveBundle:Route:add }
+
 nfq_wedrive_route_delete:
     pattern:  /route/delete/{routeId}
     defaults: { _controller: NfqWeDriveBundle:Route:delete }
+    requirements:
+        routeId: \d+
 
 nfq_wedrive_trip_list:
     pattern:  /trip/list
