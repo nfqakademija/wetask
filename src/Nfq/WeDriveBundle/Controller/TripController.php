@@ -2,9 +2,8 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Nfq\WeDriveBundle\Entity\Trip;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use Nfq\UserBundle\Entity\User;
 
 
 class TripController extends Controller
@@ -40,8 +39,10 @@ class TripController extends Controller
         $user = $this->container->get('security.context')->getToken()->getUser();
         $userTrips = $tripRepository->getTrips(0, $user);
 
-        return $this->render('NfqWeDriveBundle:Trip:list.html.twig',
-                    array('userTrips' => $userTrips, 'user' => $user));
+        return $this->render(
+            'NfqWeDriveBundle:Trip:list.html.twig',
+            array('userTrips' => $userTrips)
+        );
     }
 
     public function deleteAction($tripId)
@@ -53,7 +54,22 @@ class TripController extends Controller
     public function newAction()
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
-        return $this->render('NfqWeDriveBundle:Trip:new.html.twig', array('user' => $user));
+
+        $trip = new Trip();
+        $trip->setMaxPassengers(3);
+        $form = $this->createFormBuilder($trip)
+            ->add('Departure_time', 'text')
+            ->add('Max_passengers', 'integer')
+            ->add('Description', 'text')
+            ->add('save', 'submit')
+            ->getForm();
+
+        return $this->render(
+            'NfqWeDriveBundle:Trip:new.html.twig',
+            array(
+                'form' => $form->createView()
+            )
+        );
     }
 
 }

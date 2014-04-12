@@ -31,7 +31,7 @@ class RouteController extends Controller
         if (!$routes) {
             //Throw exception
         }
-        return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes, 'user' => $user1));
+        return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes));
     }
 
     /**
