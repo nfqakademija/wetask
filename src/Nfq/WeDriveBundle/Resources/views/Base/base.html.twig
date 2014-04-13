@@ -83,7 +83,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 id="list_title"
-                                class="panel-title">{% block panel_title %}Available trips {% endblock %}</h3>
+                                class="panel-title"> {% block panel_title %} {% endblock %} </h3>
                             {% block panel_title_button %}
                             {% endblock %}
                         </div>
@@ -91,57 +91,6 @@
                             <div class="widget-container table-responsive">
                                 <!-- Table ---------------->
                                 {% block panel_body %}
-                                    <table class="table table-hover table-striped order-table table-green"
-                                           id="tasktable">
-                                        <thead>
-                                        <tr>
-                                            <th>Departure</th>
-                                            <th>Destination</th>
-                                            <th>Driver</th>
-                                            <th id="join_column"> Status</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        {% for trip in otherTrips %}
-                                            {% if (trip.departureTime.date|date('YmdHis') > "+3 hours"|date('YmdHis')) %}
-                                                <tr>
-                                                    <td> {{ trip.departureTime.date|date('m-d H:i') }} </td>
-                                                    <td> {{ trip.title }}</td>
-                                                    <td> {{ trip.route.user.username }}</td>
-
-                                                    {% if trip.availableSeats == 1 %}
-                                                        {% set buttonType = 'warning' %}
-                                                    {% elseif trip.availableSeats == 0 %}
-                                                        {% set buttonName = 'No seats' %}
-                                                        {% set buttonType = 'danger' %}
-                                                    {% endif %}
-
-                                                    {% for passenger in trip.passenger %}
-                                                        {% if passenger.user.username ==  user.username %}
-                                                            {% if passenger.accepted == 1 %}
-                                                                {% set buttonName = 'Waiting..' %}
-                                                                {% set buttonType = 'warning' %}
-                                                            {% elseif passenger.accepted == 2 %}
-                                                                {% set buttonName = 'Already joined' %}
-                                                                {% set buttonType = 'success' %}
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    {% endfor %}
-
-                                                    <td>
-                                                        <button type="button" class="btn btn-{{ buttonType }} btn-xs">
-                                                            &nbsp;&nbsp;&nbsp;{{ buttonName }}
-                                                            &nbsp;&nbsp;&nbsp;</button>
-                                                    </td>
-                                                    {% set buttonName = 'Join' %}
-                                                    {% set buttonType = 'success' %}
-                                                    {#<td> {{ trip.availableSeats }} </td>#}
-                                                </tr>
-                                            {% endif %}
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
                                 {% endblock %}
                             </div>
                         </div>

@@ -13,7 +13,7 @@ class BaseController extends Controller
         $otherTrips = $tripRepository->getTrips(1, $user);
 
         return $this->render(
-            'NfqWeDriveBundle:Base:base.html.twig',
+            'NfqWeDriveBundle:Default:index.html.twig',
             array(
                 'otherTrips' => $otherTrips,
                 'user' => $user,
