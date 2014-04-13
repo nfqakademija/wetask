@@ -6,11 +6,32 @@ var idleCenter = new google.maps.LatLng(54.68901487769897, 25.227699279785);
 var map;
 var waypoints = new Array();
 var waypointlim = 8;
-var waypointlinreached = false;
+
+var routeWaypoints = new Array();
+
 var elemAvailableTrips = $("");
 var elemRoutePlanner = $("");
 
 function Initialise() {
+    directionsService = new google.maps.DirectionsService();
+    directionsDisplay = new google.maps.DirectionsRenderer({
+        'draggable':true,
+        'markerOptions':{
+            animation: google.maps.Animation.DROP,
+            flat:false,
+            raiseOnDrag:true
+        },
+        'polylineOptions':{
+            editable:false,
+            draggable:false,
+            clickable:false,
+            strokeColor:'#736AFF',
+            strokeWeight:5,
+            strokeOpacity:0.9
+        },
+        'preserveViewport': true,
+    });
+
     var mapElement = document.getElementById("map-canvas");
 
     var mapOptions = {
@@ -41,13 +62,14 @@ function Initialise() {
     };
 
     map = new google.maps.Map(mapElement, mapOptions);
+    directionsDisplay.setMap(map);
 
-    google.maps.event.addListener(map, 'rightclick', function (event) {
-        console.log('Current waypoints elements:' + waypoints.length);
+    google.maps.event.addListener(map, 'click', function (event) {
         if (waypoints.length == 0) {
             startRoutePlan();
         }
         addWaypoint(event);
+        plotRoute();
     });
     function startRoutePlan() {
         hideAvailableTrips();
@@ -71,24 +93,53 @@ function addWaypoint(event) {
     } else {
     }
 };
+
+function plotRoute(){
+    var routeOrigin = currentLocation;
+    var routeDestinationWaypoint = waypoints[waypoints.length-1];
+
+    var routeDestination = routeDestinationWaypoint.getPosition();
+
+    var routeWaypoints =[];
+
+    if (waypoints.length > 1){
+        for (var i = 0,n = waypoints.length;i<n;i++){
+            routeWaypoints[i] = {location:waypoints[i].getPosition(),
+                                stopover:true}
+        }
+        routeWaypoints.pop();
+    }
+    console.log(routeWaypoints);
+
+    var request = {
+        origin: routeOrigin,
+        destination: routeDestination,
+        travelMode: google.maps.TravelMode.DRIVING,
+        waypoints:routeWaypoints,
+        //provideRouteAlternatives: Boolean,
+        region: 'lt'
+    };
+
+    directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+        }
+    });
+};
+
 function hideAvailableTrips() {
-    console.log('trying to hide available trips');
 }
 function showAvailableTrips() {
-    console.log('trying to show available trips');
 }
 function showRoutePlanner() {
-    console.log('trying to show routePlanner');
     //Add event listeners like added marker or something
     //Initialise variables
     //Initialise form
 }
 function hideRoutePlanner() {
-    console.log('trying to hide route planner');
     //Remove event listeners
     //Clear form variables
     //Hide form
     //recenter the map
-    map.panTo(idleCenter);
 }
 google.maps.event.addDomListener(window, 'load', Initialise);
