@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RouteType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -17,10 +17,9 @@ class RouteType extends AbstractType
         $builder
             ->add('destination')
             ->add('name')
-            ->add('user')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

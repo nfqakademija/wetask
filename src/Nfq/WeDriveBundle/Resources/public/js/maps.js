@@ -16,11 +16,12 @@ function Initialise() {
     directionsService = new google.maps.DirectionsService();
     directionsDisplay = new google.maps.DirectionsRenderer({
         'draggable':true,
-        'markerOptions':{
-            animation: google.maps.Animation.DROP,
-            flat:false,
-            raiseOnDrag:true
-        },
+        'suppressMarkers':true,
+//        'markerOptions':{
+//            animation: google.maps.Animation.DROP,
+//            flat:false,
+//            raiseOnDrag:true
+//        },
         'polylineOptions':{
             editable:false,
             draggable:false,
@@ -71,6 +72,7 @@ function Initialise() {
         addWaypoint(event);
         plotRoute();
     });
+
     function startRoutePlan() {
         hideAvailableTrips();
         showRoutePlanner();
@@ -82,17 +84,6 @@ function Initialise() {
         waypoints.length = 0;
     }
 }
-function addWaypoint(event) {
-    if (!(waypoints.length > waypointlim)) {
-        var waypoint = new google.maps.Marker({
-            animation: google.maps.Animation.DROP,
-            position: event.latLng,
-            map: map
-        });
-        waypoints.push(waypoint);
-    } else {
-    }
-};
 
 function plotRoute(){
     var routeOrigin = currentLocation;
@@ -105,7 +96,7 @@ function plotRoute(){
     if (waypoints.length > 1){
         for (var i = 0,n = waypoints.length;i<n;i++){
             routeWaypoints[i] = {location:waypoints[i].getPosition(),
-                                stopover:true}
+                stopover:true}
         }
         routeWaypoints.pop();
     }
@@ -125,6 +116,25 @@ function plotRoute(){
             directionsDisplay.setDirections(response);
         }
     });
+};
+
+function addWaypoint(event) {
+    if (!(waypoints.length > waypointlim)) {
+
+        var waypoint = new google.maps.Marker({
+            animation: google.maps.Animation.DROP,
+            position: event.latLng,
+            map: map,
+            draggable:true
+        });
+
+        waypoints.push(waypoint);
+
+        google.maps.event.addListener(waypoint,'dragend',function() {
+            plotRoute();
+        });
+    } else {
+    }
 };
 
 function hideAvailableTrips() {

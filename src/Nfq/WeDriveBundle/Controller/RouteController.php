@@ -42,18 +42,15 @@ class RouteController extends Controller
      */
     public function addAction()
     {
-        $user1 = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->container->get('security.context')->getToken()->getUser();
 
-        $route = new Route();
-        $route->setName("Name your route");
-        $route->setDestination("Name your  destination");
+//        $route = new Route();
+//        $route->setName("Name your route");
+//        $route->setDestination("Name your  destination");
 
-        $form = $this->createFormBuilder($route)
-            ->add('name','text')
-            ->add('destination','text')
-            ->getForm();
+        $form = $this->createForm(new RouteType());
 
-        return $this->render('NfqWeDriveBundle:Route:add.html.twig', array('form' => $form->createView(),'user' => $user1));
+        return $this->render('NfqWeDriveBundle:Route:add.html.twig', array('form' => $form->createView(),'user' => $user));
     }
 
     /**

@@ -6,7 +6,6 @@ var mapCenter = new google.maps.LatLng(54.682167934292465,25.224266052246094);
 var map;
 var waypoints = new Array();
 var waypointlim = 8;
-var waypointlinreached = false;
 
 function Initialise() {
     var mapElement = document.getElementById("map-canvas");
