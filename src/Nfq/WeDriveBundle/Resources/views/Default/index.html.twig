@@ -31,8 +31,8 @@
                         {% set buttonType = 'danger' %}
                     {% endif %}
 
-                    {% for passenger in trip.passenger %}
-                        {% if passenger.user.username ==  user.username %}
+                    {% for passenger in trip.passengers %}
+                        {% if passenger.user.username ==  app.user.username %}
                             {% if passenger.accepted == 1 %}
                                 {% set buttonName = 'Waiting..' %}
                                 {% set buttonType = 'warning' %}

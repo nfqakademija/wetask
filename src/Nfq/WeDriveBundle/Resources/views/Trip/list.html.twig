@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block panel_title_button %}
-    <a href = "{{ path('nfq_wedrive_trip_new') }}" id="new_btn" type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal">
+    <a href="{{ path('nfq_wedrive_trip_new') }}" id="new_btn" type="button" class="btn btn-primary btn-sm"
+       id="btn_new_trip" data-toggle="modal">
         <span class="glyphicon glyphicon-plus"></span>
     </a>
 {% endblock %}
@@ -16,7 +17,7 @@
         <tr>
             <th>Departure</th>
             <th>Destination</th>
-            <th id="join_column">Delete</th>
+            <th id="join_column"></th>
             <th>Free</th>
         </tr>
         </thead>

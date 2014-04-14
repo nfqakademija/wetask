@@ -1,5 +1,14 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+
+    {% block map %}
+        {{ render(controller('NfqWeDriveBundle:Base:showMap')) }}
+    {% endblock %}
+
+    {% block navbar %}
+        {{ render(controller('NfqWeDriveBundle:Base:showNavbar')) }}
+    {% endblock %}
+
     {% block content %} {% endblock %}
 {% endblock %}

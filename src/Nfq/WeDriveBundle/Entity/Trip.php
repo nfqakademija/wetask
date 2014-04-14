@@ -4,7 +4,6 @@ namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Nfq\WeDriveBundle\Entity\Route;
 
 /**
  * Trip
@@ -57,7 +56,7 @@ class Trip
      *
      * @ORM\OneToMany(targetEntity="Passenger", mappedBy="trip")
      */
-    private $passenger;
+    private $passengers;
 
     /**
      * @var string
@@ -135,7 +134,7 @@ class Trip
      * @param integer $passenger
      * @return Trip
      */
-    public function setPassenger($passenger)
+    public function setPassengers($passenger)
     {
         $this->passenger = $passenger;
 
@@ -145,11 +144,11 @@ class Trip
     /**
      * Get passenger
      *
-     * @return integer
+     * @return ArrayCollection|Passenger[]
      */
-    public function getPassenger()
+    public function getPassengers()
     {
-        return $this->passenger;
+        return $this->passengers;
     }
     /**
      * Constructor

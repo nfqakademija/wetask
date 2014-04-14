@@ -10,16 +10,26 @@ class BaseController extends Controller
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $user = $this->container->get('security.context')->getToken()->getUser();
-        $otherTrips = $tripRepository->getTrips(1, $user);
+        $otherTrips = $tripRepository->getOtherTrips($user);
 
         return $this->render(
             'NfqWeDriveBundle:Default:index.html.twig',
             array(
                 'otherTrips' => $otherTrips,
-                'user' => $user,
                 'buttonName' => 'Join',
                 'buttonType' => 'success'
             )
         );
     }
+
+    public function showNavbarAction()
+    {
+        return $this->render('NfqWeDriveBundle:Navbar:navbar.html.twig');
+    }
+
+    public function showMapAction()
+    {
+        return $this->render('NfqWeDriveBundle:Map:map.html.twig');
+    }
+
 }

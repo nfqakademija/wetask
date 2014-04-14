@@ -15,11 +15,11 @@ class TripController extends Controller
         /** @var  $trips */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $user = $this->getUser();
-        $userTrips = $tripRepository->getTrips(0, $user);
+        $userTrips = $tripRepository->getUserTrips($user);
 
         return $this->render(
             'NfqWeDriveBundle:Trip:list.html.twig',
-            array('userTrips' => $userTrips, 'user' => $user)
+            array('userTrips' => $userTrips)
         );
     }
 
@@ -43,18 +43,14 @@ class TripController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-//            var_dump($trip);
-//            die();
             $em->persist($trip);
             $em->flush();
-//
-//            return $this->redirect($this->generateUrl('task_success'));
+            return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
 
         return $this->render(
             'NfqWeDriveBundle:Trip:new.html.twig',
             array(
-                'user' => $user,
                 'form' => $form->createView()
             )
         );

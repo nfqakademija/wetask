@@ -3,7 +3,6 @@
 namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * TripRepository
@@ -14,31 +13,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class TripRepository extends EntityRepository
 {
 
-    public function getTrips($option, $user)
+    public function getUserTrips($user)
     {
         $em = $this->getEntityManager();
 
-        if ($option == 0) {
-            $query = $em->createQuery(
-                "
-                                SELECT t
-                                FROM Nfq\WeDriveBundle\Entity\Trip t
-                                JOIN t.route r
-                                JOIN r.user u
-                                WHERE u.username = :username
-                            "
-            )->setParameter('username', $user->getUsername());
-        } else {
-            $query = $em->createQuery(
-                "
-                                SELECT t
-                                FROM Nfq\WeDriveBundle\Entity\Trip t
-                                JOIN t.route r
-                                JOIN r.user u
-                                WHERE u.username != :username
-                            "
-            )->setParameter('username', $user->getUsername());
-        }
+        $query = $em->createQuery(
+            "
+                            SELECT t
+                            FROM Nfq\WeDriveBundle\Entity\Trip t
+                            JOIN t.route r
+                            JOIN r.user u
+                            WHERE u.username = :username
+                        "
+        )->setParameter('username', $user->getUsername());
 
         $trips = $query->getResult();
 
@@ -51,35 +38,27 @@ class TripRepository extends EntityRepository
         return $trips;
     }
 
-    public function getPassenger($userName)
+    public function getOtherTrips($user)
     {
         $em = $this->getEntityManager();
+
         $query = $em->createQuery(
             "
-                        SELECT p
-                        FROM Nfq\WeDriveBundle\Entity\Passenger p
-                        JOIN p.trip t
-                        JOIN p.user u
-                        WHERE u.username = :username
-                    "
-        )->setParameter('username', $userName);
+                            SELECT t
+                            FROM Nfq\WeDriveBundle\Entity\Trip t
+                            JOIN t.route r
+                            JOIN r.user u
+                            WHERE u.username != :username
+                        "
+        )->setParameter('username', $user->getUsername());
 
-    }
+        $trips = $query->getResult();
+        if (!$trips) {
+//            throw $this->createNotFoundException(
+//                'No trips found'
+//            );
+        }
 
-    public function getRouteNames($user)
-    {
-
-        $em = $this->getEntityManager();
-
-        $names = $em->createQuery(
-            "
-                        SELECT r.name
-                        FROM Nfq\WeDriveBundle\Entity\Route r
-                        JOIN r.user u
-                        WHERE u.id = :userId
-                    "
-        )->setParameter('userId', $user->getId())->getResult();
-
-        return $names;
+        return $trips;
     }
 }
