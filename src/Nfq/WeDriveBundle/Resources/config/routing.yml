@@ -20,11 +20,6 @@ nfq_wedrive_trip_list:
     pattern:  /trip/list
     defaults: { _controller: NfqWeDriveBundle:Trip:list }
 
-#page for test
-nfq_wedrive_test_page:
-    pattern:  /test
-    defaults: { _controller: NfqWeDriveBundle:Test:index }
-
 nfq_wedrive_trip_new:
     pattern:  /trip/new
     defaults:  { _controller: NfqWeDriveBundle:Trip:new }
