@@ -22,11 +22,6 @@ class BaseController extends Controller
         );
     }
 
-    public function showNavbarAction()
-    {
-        return $this->render('NfqWeDriveBundle:Navbar:navbar.html.twig');
-    }
-
     public function showMapAction()
     {
         return $this->render('NfqWeDriveBundle:Map:map.html.twig');
