@@ -14,7 +14,7 @@
 </head>
 <body>
 {% block body %}{% endblock %}
-
+{% block fos_user_content %}{% endblock %}
 {% block javascripts %}
     {% javascripts output='static/scripts.js'
         'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
@@ -22,12 +22,13 @@
         'bundles/nfqwedrive/js/maps.js'
         'bundles/nfqwedrive/js/clock.js'%}
         <script type="text/javascript" src="{{ asset_url }}"></script>
-        <script>
-            $( document ).ready(function() {
-                startTime()
-            });
-        </script>
+
     {% endjavascripts %}
+    <script>
+        $( document ).ready(function() {
+            startTime()
+        });
+    </script>
 {% endblock %}
 
 </body>
