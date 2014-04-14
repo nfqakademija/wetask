@@ -17,6 +17,7 @@ class RouteType extends AbstractType
         $builder
             ->add('destination')
             ->add('name')
+            ->add('submit','submit')
         ;
     }
 

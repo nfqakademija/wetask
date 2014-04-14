@@ -30,7 +30,7 @@ function Initialise() {
             strokeWeight:5,
             strokeOpacity:0.9
         },
-        'preserveViewport': true,
+        'preserveViewport': true
     });
 
     var mapElement = document.getElementById("map-canvas");

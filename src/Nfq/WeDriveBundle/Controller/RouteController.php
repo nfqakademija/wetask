@@ -7,6 +7,7 @@ use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Exception\RouteException;
 use Nfq\WeDriveBundle\Form\RouteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Null;
@@ -38,19 +39,34 @@ class RouteController extends Controller
     }
 
     /**
+     * @param \Symfony\Component\BrowserKit\Request|\Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
 
-//        $route = new Route();
-//        $route->setName("Name your route");
-//        $route->setDestination("Name your  destination");
-
         $form = $this->createForm(new RouteType());
 
-        return $this->render('NfqWeDriveBundle:Route:add.html.twig', array('form' => $form->createView(),'user' => $user));
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $route = $form->getData();
+
+            $route->setUser($user);
+
+            $em->persist($route);
+            $em->flush();
+
+            return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));
+        }
+
+        return $this->render(
+            'NfqWeDriveBundle:Route:add.html.twig',
+            array('form' => $form->createView(), 'user' => $user)
+        );
     }
 
     /**
