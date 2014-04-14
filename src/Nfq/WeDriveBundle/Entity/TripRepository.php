@@ -65,4 +65,21 @@ class TripRepository extends EntityRepository
         )->setParameter('username', $userName);
 
     }
+
+    public function getRouteNames($user)
+    {
+
+        $em = $this->getEntityManager();
+
+        $names = $em->createQuery(
+            "
+                        SELECT r.name
+                        FROM Nfq\WeDriveBundle\Entity\Route r
+                        JOIN r.user u
+                        WHERE u.id = :userId
+                    "
+        )->setParameter('userId', $user->getId())->getResult();
+
+        return $names;
+    }
 }

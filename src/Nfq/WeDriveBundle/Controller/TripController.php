@@ -4,8 +4,8 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Nfq\WeDriveBundle\Entity\Trip;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Nfq\WeDriveBundle\Form\Type\TripType;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class TripController extends Controller
@@ -14,7 +14,7 @@ class TripController extends Controller
     {
         /** @var  $trips */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $userTrips = $tripRepository->getTrips(0, $user);
 
         return $this->render(
@@ -29,12 +29,27 @@ class TripController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
     }
 
-    public function newAction()
+    public function newAction(Request $request)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
+
+        $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findBy(
+            array('user' => $user->getId())
+        );
 
         $trip = new Trip();
-        $form = $this->createForm(new TripType());
+        $form = $this->createForm(new TripType($routes), $trip);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+//            var_dump($trip);
+//            die();
+            $em->persist($trip);
+            $em->flush();
+//
+//            return $this->redirect($this->generateUrl('task_success'));
+        }
 
         return $this->render(
             'NfqWeDriveBundle:Trip:new.html.twig',
@@ -44,4 +59,5 @@ class TripController extends Controller
             )
         );
     }
+
 }
