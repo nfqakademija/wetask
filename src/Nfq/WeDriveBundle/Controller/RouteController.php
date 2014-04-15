@@ -13,12 +13,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Null;
 
 /**
+ * Manage route
+ * Shows routes list
+ *
  * Class RouteController
  * @package Nfq\WeDriveBundle\Controller
  */
 class RouteController extends Controller
 {
     /**
+     * Returns Routes list
+     *
      * @return Response
      */
     public function listAction()
@@ -39,6 +44,8 @@ class RouteController extends Controller
     }
 
     /**
+     * Adds new Route for logged in user
+     *
      * @param \Symfony\Component\BrowserKit\Request|\Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
@@ -70,6 +77,8 @@ class RouteController extends Controller
     }
 
     /**
+     * Deletes Route by id
+     *
      * @param $routeId
      * @return RedirectResponse
      */
@@ -97,6 +106,7 @@ class RouteController extends Controller
     }
 
     /**
+     *
      * @param Route $route
      * @param User $user
      * @throws \Nfq\WeDriveBundle\Exception\RouteException

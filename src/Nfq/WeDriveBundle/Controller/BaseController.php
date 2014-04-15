@@ -4,8 +4,17 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+/**
+ * Shows main window
+ *
+ * Class BaseController
+ * @package Nfq\WeDriveBundle\Controller
+ */
 class BaseController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction()
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
@@ -22,6 +31,9 @@ class BaseController extends Controller
         );
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function showMapAction()
     {
         return $this->render('NfqWeDriveBundle:Map:map.html.twig');
