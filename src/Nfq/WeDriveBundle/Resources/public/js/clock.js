@@ -3,8 +3,8 @@ var Clock = {
         var today=new Date();
 
         var Y = today.getFullYear();
-        var M = today.getMonth();
-        var d=today.getDay();
+        var M = today.getMonth()+1;
+        var d=today.getDate();
 
         var h=today.getHours();
         var m=today.getMinutes();
