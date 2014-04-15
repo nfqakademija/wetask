@@ -17,7 +17,7 @@
             <th>Name</th>
             <th>Destination</th>
             <th></th>
-            <th id="join_column">Delete</th>
+            <th></th>
         </tr>
         </thead>
         <tbody id="RouteBody">
@@ -26,12 +26,12 @@
                 <td>{{ route.name }}</td>
                 <td>{{ route.destination }}</td>
                 <td>
-                    <button type="button" class="btn btn-success btn-xs"><span
-                                class="glyphicon glyphicon-chevron-right"></span></button>
+                    {#<button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>#}
+                    <a href="{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}" class="btn btn-warning btn-xs">Manage</a>
                 </td>
                 <td>
-                    {#<button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>#}
-                    <a href="{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}" class="btn btn-danger btn-xs">Delete</a>
+                    <button type="button" class="btn btn-success btn-xs"><span
+                                class="glyphicon glyphicon-chevron-right"></span></button>
                 </td>
             </tr>
         {% endfor %}

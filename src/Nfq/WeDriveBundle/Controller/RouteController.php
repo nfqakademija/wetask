@@ -51,7 +51,7 @@ class RouteController extends Controller
      */
     public function addAction(Request $request)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
         $form = $this->createForm(new RouteType());
 
@@ -72,7 +72,7 @@ class RouteController extends Controller
 
         return $this->render(
             'NfqWeDriveBundle:Route:add.html.twig',
-            array('form' => $form->createView(), 'user' => $user)
+            array('form' => $form->createView())
         );
     }
 
@@ -84,6 +84,7 @@ class RouteController extends Controller
      */
     public function deleteAction($routeId)
     {
+        $user = $this->getUser();
         $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
         $userRepository = $this->getDoctrine()->getRepository('NfqUserBundle:User');
         $entityManager = $this->getDoctrine()->getManager();
@@ -92,7 +93,7 @@ class RouteController extends Controller
         $route = $routeRepository->findOneBy(array('id' => $routeId));
 
         /** @var User $user */
-        $user = $userRepository->findOneBy(array('username' => 'Jonas'));
+        $user = $userRepository->findOneBy(array('username' => $user->getUsername()));
 
         try {
             $this->checkIfRouteIsDeleteable($route, $user);
