@@ -13,9 +13,15 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Entity\Trip;
 
+/**
+ * Class LoadTripData
+ * Loads fixtures for Trip in defined order
+ * @package Nfq\WeDriveBundle\DataFixtures\ORM
+ */
 class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
+     * Loads fixtures
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)

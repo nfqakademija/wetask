@@ -12,9 +12,15 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nfq\WeDriveBundle\Entity\Route;
 
+/**
+ * Class LoadRouteData
+ * Loads fixtures for Route in defined order
+ * @package Nfq\WeDriveBundle\DataFixtures\ORM
+ */
 class LoadRouteData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
+     * Loads fixtures
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)

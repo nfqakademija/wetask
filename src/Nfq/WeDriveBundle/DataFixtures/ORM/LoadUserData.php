@@ -16,6 +16,12 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadUserData
+ * Loads fixtures for User in defined order
+ *
+ * @package Nfq\WeDriveBundle\DataFixtures\ORM
+ */
 class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
@@ -32,6 +38,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     }
 
     /**
+     * Loads fixtures for Passenger in defined order
+     *
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
