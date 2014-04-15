@@ -1,0 +1,13 @@
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" class="btn btn-primary" />
+        <a href="{{ path('nfq_wedrive_base') }}profile"
+           id="profile_view_btn"
+           type="button"
+           class="btn btn-primary btn-sm"
+           data-toggle="modal">
+            Cancel
+        </a>
+    </div>
+</form>

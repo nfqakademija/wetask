@@ -12,9 +12,17 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nfq\WeDriveBundle\Entity\Passenger;
 
+/**
+ * Class LoadPassengerData
+ * Loads fixtures for Passenger in defined order
+ *
+ * @package Nfq\WeDriveBundle\DataFixtures\ORM
+ */
 class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
+     * Loads fixtures
+     *
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
@@ -43,6 +51,7 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
     }
 
     /**
+     *
      * {@inheritDoc}
      */
     public function getOrder()

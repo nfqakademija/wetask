@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8"/>
-    <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
 
-    {% block stylesheets %}
-        {% stylesheets 'bundles/nfqwedrive/css/*' filter='cssrewrite' %}
-        <link rel="stylesheet" href="{{ asset_url }}"/>
-        {% endstylesheets %}
-    {% endblock %}
+        {% block stylesheets %}
+            {% stylesheets 'bundles/nfqwedrive/css/*' filter='cssrewrite' %}
+                <link rel="stylesheet" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+        {% endblock %}
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-</head>
-<body>
-{% block body %}{% endblock %}
-{% block fos_user_content %}{% endblock %}
-{% block javascripts %}
-    {% javascripts output='static/scripts.js'
-        'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
-        'bundles/nfqwedrive/js/bootstrap.min.js'
-        'bundles/nfqwedrive/js/maps.js'
-        'bundles/nfqwedrive/js/clock.js'%}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block fos_user_content %}{% endblock %}
 
-    {% endjavascripts %}
-    <script>
-        $( document ).ready(function() {
-            startTime()
-        });
-    </script>
-{% endblock %}
+        {% block javascripts %}
+            {% javascripts output='static/scripts.js'
+                'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
+                'bundles/nfqwedrive/js/bootstrap.min.js'
+                'bundles/nfqwedrive/js/maps.js'
+                'bundles/nfqwedrive/js/clock.js'%}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
 
-</body>
+        {% block clock_start %}
+            <script>
+                $( document ).ready(function() {
+                    Clock.startTime()
+                });
+            </script>
+        {% endblock %}
+    </body>
 </html>
