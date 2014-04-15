@@ -54,19 +54,6 @@ class TripType extends AbstractType
                 )
             )
             ->add(
-                'maxPassengers',
-                'integer',
-                array(
-                    'label' => 'Max seats',
-                    'label_attr' => array(
-                        'class' => 'control-label'
-                    ),
-                    'attr' => array(
-                        'class' => 'form-control'
-                    )
-                )
-            )
-            ->add(
                 'availableSeats',
                 'integer',
                 array(

@@ -4,6 +4,8 @@ namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Nfq\WeDriveBundle\Entity\Passenger;
+use Nfq\WeDriveBundle\Entity\Route;
 
 /**
  * Trip
@@ -36,13 +38,6 @@ class Trip
      * @ORM\Column(name="departure_time", type="datetime")
      */
     private $departureTime;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="max_passengers", type="integer")
-     */
-    private $maxPassengers;
 
     /**
      * @var string
@@ -83,29 +78,6 @@ class Trip
     }
 
     /**
-     * Set maxPassengers
-     *
-     * @param integer $maxPassengers
-     * @return Trip
-     */
-    public function setMaxPassengers($maxPassengers)
-    {
-        $this->maxPassengers = $maxPassengers;
-
-        return $this;
-    }
-
-    /**
-     * Get maxPassengers
-     *
-     * @return integer
-     */
-    public function getMaxPassengers()
-    {
-        return $this->maxPassengers;
-    }
-
-    /**
      * @param $description
      * @return $this
      */
@@ -131,16 +103,16 @@ class Trip
      */
     public function __construct()
     {
-        $this->passenger = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->passenger = new ArrayCollection();
     }
 
     /**
      * Set route
      *
-     * @param \Nfq\WeDriveBundle\Entity\Route $route
+     * @param Route $route
      * @return Trip
      */
-    public function setRoute(\Nfq\WeDriveBundle\Entity\Route $route)
+    public function setRoute(Route $route)
     {
         $this->route = $route;
 
@@ -150,7 +122,7 @@ class Trip
     /**
      * Get route
      *
-     * @return \Nfq\WeDriveBundle\Entity\Route
+     * @return Route
      */
     public function getRoute()
     {
@@ -160,10 +132,10 @@ class Trip
     /**
      * Add passenger
      *
-     * @param \Nfq\WeDriveBundle\Entity\Passenger $passenger
+     * @param Passenger $passenger
      * @return Trip
      */
-    public function addPassenger(\Nfq\WeDriveBundle\Entity\Passenger $passenger)
+    public function addPassenger(Passenger $passenger)
     {
         $this->passenger[] = $passenger;
 
@@ -173,9 +145,9 @@ class Trip
     /**
      * Remove passenger
      *
-     * @param \Nfq\WeDriveBundle\Entity\Passenger $passenger
+     * @param Passenger $passenger
      */
-    public function removePassenger(\Nfq\WeDriveBundle\Entity\Passenger $passenger)
+    public function removePassenger(Passenger $passenger)
     {
         $this->passenger->removeElement($passenger);
     }
@@ -236,7 +208,7 @@ class Trip
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Passenger[]
+     * @return ArrayCollection|Passenger[]
      */
     public function getPassengers()
     {
@@ -244,7 +216,7 @@ class Trip
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Passenger[] $passengers
+     * @param ArrayCollection|Passenger[] $passengers
      */
     public function setPassengers($passengers)
     {
