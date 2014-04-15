@@ -1,0 +1,56 @@
+{% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
+
+{% block panel_title %}
+    New trip
+{% endblock %}
+
+{% block panel_body %}
+    {#NEW FORM#}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    <div class="form-group">
+        {{ form_label(form.title) }}
+        {{ form_errors(form.title) }}
+        {{ form_widget(form.title) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.maxPassengers) }}
+        {{ form_errors(form.maxPassengers) }}
+        {{ form_widget(form.maxPassengers) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.availableSeats) }}
+        {{ form_errors(form.availableSeats) }}
+        {{ form_widget(form.availableSeats) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.departureTime) }}
+        {{ form_errors(form.departureTime) }}
+        {{ form_widget(form.departureTime) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.route) }}
+        {{ form_errors(form.route) }}
+        {{ form_widget(form.route) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.save) }}
+    </div>
+
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
