@@ -75,6 +75,7 @@ sonata_block:
             contexts:   [admin]
         sonata.block.service.text:
         sonata.block.service.rss:
+
 # app/config/config.yml
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
