@@ -1,5 +1,25 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
 
-{% block fos_user_content %}
-{% include "FOSUserBundle:Profile:show_content.html.twig" %}
-{% endblock fos_user_content %}
+{% block panel_title %}
+    Profile
+{% endblock %}
+
+{% block panel_body %}
+    {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    <a href="{{ path('nfq_wedrive_base') }}profile/edit"
+       id="profile_edit_btn"
+       type="button"
+       class="btn btn-primary btn-sm"
+       data-toggle="modal">
+        Edit profile
+    </a>
+    <a href="{{ path('nfq_wedrive_base') }}profile/change-password"
+       id="profile_change_pass_btn"
+       type="button"
+       class="btn btn-primary btn-sm"
+       data-toggle="modal">
+        Change password
+    </a>
+{% endblock %}
+
+{% block clock_start %}{% endblock %}

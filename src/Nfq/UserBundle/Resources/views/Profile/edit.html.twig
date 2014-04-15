@@ -1,5 +1,11 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
 
-{% block fos_user_content %}
-{% include "FOSUserBundle:Profile:edit_content.html.twig" %}
-{% endblock fos_user_content %}
+{% block panel_title %}
+    Profile edit
+{% endblock %}
+
+{% block panel_body %}
+    {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+{% endblock %}
+
+{% block clock_start %}{% endblock %}
