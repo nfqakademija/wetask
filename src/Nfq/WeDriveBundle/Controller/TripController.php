@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nfq\WeDriveBundle\Form\Type\TripType;
 use Symfony\Component\HttpFoundation\Request;
 
-
 class TripController extends Controller
 {
     public function listAction()
