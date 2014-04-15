@@ -106,10 +106,8 @@ class Trip
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     * @return Trip
+     * @param $description
+     * @return $this
      */
     public function setDescription($description)
     {
@@ -128,28 +126,6 @@ class Trip
         return $this->description;
     }
 
-    /**
-     * Set passenger
-     *
-     * @param integer $passenger
-     * @return Trip
-     */
-    public function setPassengers($passenger)
-    {
-        $this->passenger = $passenger;
-
-        return $this;
-    }
-
-    /**
-     * Get passenger
-     *
-     * @return ArrayCollection|Passenger[]
-     */
-    public function getPassengers()
-    {
-        return $this->passengers;
-    }
     /**
      * Constructor
      */
@@ -257,5 +233,21 @@ class Trip
     public function setDepartureTime($departureTime)
     {
         $this->departureTime = $departureTime;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Passenger[]
+     */
+    public function getPassengers()
+    {
+        return $this->passengers;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Passenger[] $passengers
+     */
+    public function setPassengers($passengers)
+    {
+        $this->passengers = $passengers;
     }
 }

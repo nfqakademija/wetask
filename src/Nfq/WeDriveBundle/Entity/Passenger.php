@@ -49,7 +49,7 @@ class Passenger
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -72,7 +72,7 @@ class Passenger
     /**
      * Get trip
      *
-     * @return integer 
+     * @return integer
      */
     public function getTrip()
     {
@@ -95,7 +95,7 @@ class Passenger
     /**
      * Get accepted
      *
-     * @return integer 
+     * @return integer
      */
     public function getAccepted()
     {
@@ -118,7 +118,7 @@ class Passenger
     /**
      * Get userID
      *
-     * @return integer 
+     * @return integer
      */
     public function getUser()
     {
