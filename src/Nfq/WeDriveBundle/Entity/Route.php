@@ -30,6 +30,12 @@ class Route
      */
     private $trips;
 
+    /**
+     * @var ArrayCollection|RoutePoint[]
+     *
+     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\RoutePoint", mappedBy="route")`
+     */
+    private $points;
 
     /**
      * @var string
@@ -116,6 +122,7 @@ class Route
     public function __construct()
     {
         $this->trip = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->points = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -171,5 +178,38 @@ class Route
     public function setTrips($trips)
     {
         $this->trips = $trips;
+    }
+
+    /**
+     * Add points
+     *
+     * @param \Nfq\WeDriveBundle\Entity\RoutePoint $points
+     * @return Route
+     */
+    public function addPoint(\Nfq\WeDriveBundle\Entity\RoutePoint $points)
+    {
+        $this->points[] = $points;
+
+        return $this;
+    }
+
+    /**
+     * Remove points
+     *
+     * @param \Nfq\WeDriveBundle\Entity\RoutePoint $points
+     */
+    public function removePoint(\Nfq\WeDriveBundle\Entity\RoutePoint $points)
+    {
+        $this->points->removeElement($points);
+    }
+
+    /**
+     * Get points
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPoints()
+    {
+        return $this->points;
     }
 }
