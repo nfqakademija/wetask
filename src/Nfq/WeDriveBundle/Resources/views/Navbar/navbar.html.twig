@@ -11,6 +11,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
+                    <a href={{ path('nfq_wedrive_trip_list') }}>
+                        <span class="glyphicon glyphicon-tasks"></span>
+                        Trips
+                    </a>
+                </li>
+                <li class="dropdown">
                     <a href="{{ path('nfq_wedrive_route_list') }}">
                         <span class="glyphicon glyphicon-th-list"></span>
                         My Routes
@@ -44,9 +50,6 @@
                     <ul class="dropdown-menu">
                         <li>
                             <a href="{{ path('nfq_wedrive_base') }}profile">Profile</a>
-                        </li>
-                        <li>
-                            <a href={{ path('nfq_wedrive_trip_list') }}>Trips</a>
                         </li>
                         <li>
                             <a href="{{ path('nfq_wedrive_base') }}logout">Log out</a>
