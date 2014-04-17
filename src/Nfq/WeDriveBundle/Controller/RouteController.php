@@ -5,7 +5,7 @@ namespace Nfq\WeDriveBundle\Controller;
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Exception\RouteException;
-use Nfq\WeDriveBundle\Form\RouteType;
+use Nfq\WeDriveBundle\Form\Type\RouteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,9 +24,10 @@ class RouteController extends Controller
     /**
      * Returns Routes list
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
-    public function listAction()
+    public function listAction(Request $request)
     {
         $user1 = $this->getUser();
 
@@ -40,6 +41,7 @@ class RouteController extends Controller
         if (!$routes) {
             //Throw exception
         }
+
         return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes));
     }
 
@@ -94,10 +96,11 @@ class RouteController extends Controller
     /**
      * Deletes Route by id
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param $routeId
      * @return RedirectResponse
      */
-    public function deleteAction($routeId)
+    public function deleteAction(Request $request, $routeId)
     {
         $user = $this->getUser();
         $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
@@ -116,7 +119,8 @@ class RouteController extends Controller
             $entityManager->remove($route);
             $entityManager->flush();
         } catch (RouteException $e) {
-            die($e->getMessage());
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            //TODO add a nice flashbox to the html
         }
 
         return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));

@@ -35,7 +35,6 @@ class RouteRepository extends EntityRepository
         $trips = $query->setParameter('routeId', $route->getId())->getResult();
 
         if ($trips[0][1] > 0){
-            print_r($trips);
             return true;
         }else{
             return false;

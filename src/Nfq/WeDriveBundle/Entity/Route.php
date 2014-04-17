@@ -34,7 +34,7 @@ class Route
     /**
      * @var ArrayCollection|RoutePoint[]
      *
-     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\RoutePoint", mappedBy="route")`
+     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\RoutePoint", mappedBy="route", cascade={"remove"})`
      */
     private $points;
 
@@ -220,7 +220,7 @@ class Route
     /**
      * Get points
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPoints()
     {
