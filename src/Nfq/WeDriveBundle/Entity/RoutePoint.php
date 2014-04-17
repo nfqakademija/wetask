@@ -3,6 +3,7 @@
 namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Nfq\WeDriveBundle\Entity\Route;
 
 /**
  * RoutePoint
@@ -54,7 +55,7 @@ class RoutePoint
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -77,7 +78,7 @@ class RoutePoint
     /**
      * Get latitude
      *
-     * @return string 
+     * @return string
      */
     public function getLatitude()
     {
@@ -100,7 +101,7 @@ class RoutePoint
     /**
      * Get longitude
      *
-     * @return string 
+     * @return string
      */
     public function getLongitude()
     {
@@ -123,7 +124,7 @@ class RoutePoint
     /**
      * Get pOrder
      *
-     * @return integer 
+     * @return integer
      */
     public function getPOrder()
     {
@@ -133,10 +134,10 @@ class RoutePoint
     /**
      * Set route
      *
-     * @param \Nfq\WeDriveBundle\Entity\Route $route
+     * @param Route $route
      * @return RoutePoint
      */
-    public function setRoute(\Nfq\WeDriveBundle\Entity\Route $route)
+    public function setRoute(Route $route)
     {
         $this->route = $route;
 
@@ -146,7 +147,7 @@ class RoutePoint
     /**
      * Get route
      *
-     * @return \Nfq\WeDriveBundle\Entity\Route 
+     * @return Route
      */
     public function getRoute()
     {
