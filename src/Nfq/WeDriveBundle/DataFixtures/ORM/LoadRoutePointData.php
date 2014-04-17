@@ -27,10 +27,10 @@ class LoadRoutePointData extends AbstractFixture implements OrderedFixtureInterf
     public function load(ObjectManager $manager)
     {
         $points = array(
-            array('route-1', 43.4595667, -79.4033500, 1),
-            array('route-1', 43.4595667, -79.4033500, 2),
-            array('route-2', 43.4595667, -79.4033500, 1),
-            array('route-2', 43.4595667, -79.4033500, 2),
+            array('route-1', 54.700804, 25.2218348, 1),
+            array('route-1', 54.7097894, 25.1871227, 2),
+            array('route-2', 54.6785165, 25.2674157, 1),
+            array('route-2', 54.65076, 25.27209, 2),
             array('route-3', 43.4595667, -79.4033500, 1),
             array('route-4', 43.4595667, -79.4033500, 1),
             array('route-5', 43.4595667, -79.4033500, 1),
