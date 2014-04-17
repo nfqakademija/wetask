@@ -3,8 +3,19 @@
     <head>
         <meta charset="UTF-8"/>
         <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
+        {% block javascripts_head %}
+            {% javascripts output='static/scripts_head.js'
+            'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
+            'bundles/nfqwedrive/js/bootstrap.min.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
 
         {% block stylesheets %}
+            {% stylesheets filter="compass"  "@NfqWeDriveBundle/Resources/assets/css/style.scss"  %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+
             {% stylesheets 'bundles/nfqwedrive/css/*' filter='cssrewrite' %}
                 <link rel="stylesheet" href="{{ asset_url }}"/>
             {% endstylesheets %}
@@ -18,11 +29,9 @@
 
         {% block javascripts %}
             {% javascripts output='static/scripts.js'
-                'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
-                'bundles/nfqwedrive/js/bootstrap.min.js'
-                'bundles/nfqwedrive/js/maps.js'
-                'bundles/nfqwedrive/js/clock.js'%}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
+            'bundles/nfqwedrive/js/maps.js'
+            'bundles/nfqwedrive/js/clock.js'%}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
 
