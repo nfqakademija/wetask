@@ -39,6 +39,13 @@ class User extends BaseUser
     protected $passengers;
 
     /**
+     * @var Invitation
+     * @ORM\OneToOne(targetEntity="Nfq\UserBundle\Entity\Invitation", inversedBy="user")
+     * @ORM\JoinColumn(referencedColumnName="code")
+     */
+    protected $invitation;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -85,7 +92,7 @@ class User extends BaseUser
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -118,10 +125,26 @@ class User extends BaseUser
     /**
      * Get passengers
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPassengers()
     {
         return $this->passengers;
+    }
+
+    /**
+     * @return \Nfq\UserBundle\Entity\Invitation
+     */
+    public function getInvitation()
+    {
+        return $this->invitation;
+    }
+
+    /**
+     * @param \Nfq\UserBundle\Entity\Invitation $invitation
+     */
+    public function setInvitation($invitation)
+    {
+        $this->invitation = $invitation;
     }
 }

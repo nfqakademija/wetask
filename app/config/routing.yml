@@ -30,3 +30,6 @@ nfq_wedrive:
     resource: "@NfqWeDriveBundle/Resources/config/routing.yml"
     prefix: /
 
+nfq_user:
+    resource: "@NfqUserBundle/Resources/config/routing.yml"
+    prefix: /
