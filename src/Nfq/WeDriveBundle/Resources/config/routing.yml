@@ -10,6 +10,10 @@ nfq_wedrive_route_add:
     pattern: /route/add
     defaults: { _controller: NfqWeDriveBundle:Route:add }
 
+nfq_wedrive_route_manage:
+    pattern:  /route/manage/{routeId}
+    defaults: { _controller: NfqWeDriveBundle:Route:manage }
+
 nfq_wedrive_route_delete:
     pattern:  /route/delete/{routeId}
     defaults: { _controller: NfqWeDriveBundle:Route:delete }

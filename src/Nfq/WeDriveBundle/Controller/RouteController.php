@@ -77,6 +77,21 @@ class RouteController extends Controller
     }
 
     /**
+     * Displays the route management page
+     *
+     * @param $routeId
+     * @return Response
+     */
+    public function manageAction($routeId)
+    {
+        $route = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findOneBy(
+            array('id' => $routeId)
+        );
+
+        return $this->render('NfqWeDriveBundle:Route:manage.html.twig', array('route' => $route));
+    }
+
+    /**
      * Deletes Route by id
      *
      * @param $routeId

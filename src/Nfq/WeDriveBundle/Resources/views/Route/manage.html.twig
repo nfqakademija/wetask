@@ -1,0 +1,15 @@
+{% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
+
+{% block panel_title %}
+    {{ route.name }}
+{% endblock %}
+
+{% block panel_title_button %}
+    <a href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}" id="new_btn" type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal">
+        <span class="glyphicon glyphicon-remove"></span>
+    </a>
+{% endblock %}
+
+{% block panel_body %}
+
+{% endblock %}
