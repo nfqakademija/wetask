@@ -33,7 +33,7 @@ class LoadRouteData extends AbstractFixture implements OrderedFixtureInterface
             array('Lazdynai', 'user-2', 'route-8', 'Pet store'),
             array('Kalnenai', 'user-2', 'route-9', 'Park'),
             array('Fabijoniskes', 'user-2', 'route-10', 'Perverted forest'),
-            array('Naujamestis', 'user-3', 'route-4', 'Work'),
+            array('Naujamiestis', 'user-3', 'route-4', 'Work'),
             array('Pilaite', 'user-8', 'route-5', 'Party'),
             array('Jeruzale', 'user-6', 'route-6', 'Hotel'),
             array('Lazdynai', 'user-4', 'route-7', 'Friends house'),
