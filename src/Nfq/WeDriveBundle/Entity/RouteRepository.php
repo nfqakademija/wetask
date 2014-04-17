@@ -3,6 +3,7 @@
 namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Nfq\WeDriveBundle\Exception\RouteException;
 use Symfony\Component\Validator\Constraints\Null;
 
 /**
@@ -24,7 +25,7 @@ class RouteRepository extends EntityRepository
         $em = $this->getEntityManager();
 
         $query = $em->createQuery("
-            SELECT r
+            SELECT COUNT (r)
             FROM Nfq\WeDriveBundle\Entity\Route r
             JOIN r.trips t
             WHERE r.id = :routeId
@@ -33,7 +34,8 @@ class RouteRepository extends EntityRepository
 
         $trips = $query->setParameter('routeId', $route->getId())->getResult();
 
-        if ($trips != Null){
+        if ($trips[0][1] > 0){
+            print_r($trips);
             return true;
         }else{
             return false;

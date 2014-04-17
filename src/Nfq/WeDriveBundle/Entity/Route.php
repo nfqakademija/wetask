@@ -5,6 +5,7 @@ namespace Nfq\WeDriveBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Nfq\UserBundle\Entity\User;
+use Nfq\WeDriveBundle\Entity\Trip;
 
 /**
  * Route
@@ -26,7 +27,7 @@ class Route
     /**
      * @var ArrayCollection|Trip[]
      *
-     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\Trip", mappedBy="route")`
+     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\Trip", mappedBy="route", orphanRemoval=true)
      */
     private $trips;
 
@@ -121,10 +122,10 @@ class Route
     /**
      * Add trip
      *
-     * @param \Nfq\WeDriveBundle\Entity\Trip $trip
+     * @param Trip $trip
      * @return Route
      */
-    public function addTrip(\Nfq\WeDriveBundle\Entity\Trip $trip)
+    public function addTrip(Trip $trip)
     {
         $this->trip[] = $trip;
 
@@ -134,11 +135,24 @@ class Route
     /**
      * Remove trip
      *
-     * @param \Nfq\WeDriveBundle\Entity\Trip $trip
+     * @param Trip $trip
      */
-    public function removeTrip(\Nfq\WeDriveBundle\Entity\Trip $trip)
+    public function removeTrip(Trip $trip)
     {
         $this->trip->removeElement($trip);
+    }
+
+    /**
+     * @return $this
+     */
+    public function unsetAllTrips()
+    {
+        foreach ($this->trips AS $trip)
+        {
+            unset($trip);
+        }
+
+        return $this;
     }
 
     /**
@@ -158,7 +172,7 @@ class Route
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Trip[]
+     * @return \Doctrine\Common\Collections\ArrayCollection|Trip[]
      */
     public function getTrips()
     {
@@ -166,7 +180,7 @@ class Route
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection|\Nfq\WeDriveBundle\Entity\Trip[] $trips
+     * @param \Doctrine\Common\Collections\ArrayCollection|Trip[] $trips
      */
     public function setTrips($trips)
     {

@@ -28,7 +28,7 @@ class Trip
      * @var Route
      *
      * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="trip")
-     * @ORM\JoinColumn(name="route_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="route_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $route;
 
