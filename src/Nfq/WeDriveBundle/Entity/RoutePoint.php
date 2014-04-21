@@ -23,14 +23,6 @@ class RoutePoint
     private $id;
 
     /**
-     * @var Route
-     *
-     * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="rotePoints")
-     * @ORM\JoinColumn(name="route_id", referencedColumnName="id", nullable=false)
-     */
-    private $route;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="latitude", type="decimal", precision=10, scale=7)
@@ -50,6 +42,14 @@ class RoutePoint
      * @ORM\Column(name="pOrder", type="integer")
      */
     private $pOrder;
+
+    /**
+     * @var Route
+     *
+     * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="rotePoints")
+     * @ORM\JoinColumn(name="route_id", referencedColumnName="id", nullable=false)
+     */
+    private $route;
 
 
     /**

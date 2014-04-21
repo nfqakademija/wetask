@@ -32,27 +32,11 @@ class Route
     private $trips;
 
     /**
-     * @var ArrayCollection|RoutePoint[]
-     *
-     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\RoutePoint", mappedBy="route", cascade={"remove"})`
-     */
-    private $points;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="destination", type="string", length=255)
      */
     private $destination;
-
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="Nfq\UserBundle\Entity\User", inversedBy="routes")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-     */
-    private $user;
-
 
     /**
      * @var string
@@ -70,6 +54,21 @@ class Route
     {
         return $this->id;
     }
+
+    /**
+     * @var ArrayCollection|RoutePoint[]
+     *
+     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\RoutePoint", mappedBy="route", cascade={"remove"})`
+     */
+    private $points;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="Nfq\UserBundle\Entity\User", inversedBy="routes")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     */
+    private $user;
 
     /**
      * Set destination
