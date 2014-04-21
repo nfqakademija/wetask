@@ -41,7 +41,7 @@ class Route
     /**
      * @var string
      *
-     * @ORM\Column(name="Destination", type="string", length=255)
+     * @ORM\Column(name="destination", type="string", length=255)
      */
     private $destination;
 
@@ -57,7 +57,7 @@ class Route
     /**
      * @var string
      *
-     * @ORM\Column(name="Name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
