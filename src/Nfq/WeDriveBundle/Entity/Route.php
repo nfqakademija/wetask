@@ -60,7 +60,7 @@ class Route
      *
      * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\RoutePoint", mappedBy="route", cascade={"remove"})`
      */
-    private $points;
+    private $routePoints;
 
     /**
      * @var User
@@ -69,6 +69,17 @@ class Route
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->trips = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->routePoints = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
     /**
      * Set destination
@@ -86,7 +97,7 @@ class Route
     /**
      * Get destination
      *
-     * @return string
+     * @return string 
      */
     public function getDestination()
     {
@@ -94,12 +105,101 @@ class Route
     }
 
     /**
-     * Set user
+     * Set name
      *
-     * @param User $user
+     * @param string $name
      * @return Route
      */
-    public function setUser(User $user)
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add trips
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Trip $trips
+     * @return Route
+     */
+    public function addTrip(\Nfq\WeDriveBundle\Entity\Trip $trips)
+    {
+        $this->trips[] = $trips;
+
+        return $this;
+    }
+
+    /**
+     * Remove trips
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Trip $trips
+     */
+    public function removeTrip(\Nfq\WeDriveBundle\Entity\Trip $trips)
+    {
+        $this->trips->removeElement($trips);
+    }
+
+    /**
+     * Get trips
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTrips()
+    {
+        return $this->trips;
+    }
+
+    /**
+     * Add routePoints
+     *
+     * @param \Nfq\WeDriveBundle\Entity\RoutePoint $routePoints
+     * @return Route
+     */
+    public function addRoutePoint(\Nfq\WeDriveBundle\Entity\RoutePoint $routePoints)
+    {
+        $this->routePoints[] = $routePoints;
+
+        return $this;
+    }
+
+    /**
+     * Remove routePoints
+     *
+     * @param \Nfq\WeDriveBundle\Entity\RoutePoint $routePoints
+     */
+    public function removeRoutePoint(\Nfq\WeDriveBundle\Entity\RoutePoint $routePoints)
+    {
+        $this->routePoints->removeElement($routePoints);
+    }
+
+    /**
+     * Get routePoints
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRoutePoints()
+    {
+        return $this->routePoints;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Nfq\UserBundle\Entity\User $user
+     * @return Route
+     */
+    public function setUser(\Nfq\UserBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -109,120 +209,10 @@ class Route
     /**
      * Get user
      *
-     * @return User
+     * @return \Nfq\UserBundle\Entity\User 
      */
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->trip = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->points = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add trip
-     *
-     * @param Trip $trip
-     * @return Route
-     */
-    public function addTrip(Trip $trip)
-    {
-        $this->trip[] = $trip;
-
-        return $this;
-    }
-
-    /**
-     * Remove trip
-     *
-     * @param Trip $trip
-     */
-    public function removeTrip(Trip $trip)
-    {
-        $this->trip->removeElement($trip);
-    }
-
-    /**
-     * @return $this
-     */
-    public function unsetAllTrips()
-    {
-        foreach ($this->trips AS $trip)
-        {
-            unset($trip);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\ArrayCollection|Trip[]
-     */
-    public function getTrips()
-    {
-        return $this->trips;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\ArrayCollection|Trip[] $trips
-     */
-    public function setTrips($trips)
-    {
-        $this->trips = $trips;
-    }
-
-    /**
-     * Add points
-     *
-     * @param \Nfq\WeDriveBundle\Entity\RoutePoint $points
-     * @return Route
-     */
-    public function addPoint(\Nfq\WeDriveBundle\Entity\RoutePoint $points)
-    {
-        $this->points[] = $points;
-
-        return $this;
-    }
-
-    /**
-     * Remove points
-     *
-     * @param \Nfq\WeDriveBundle\Entity\RoutePoint $points
-     */
-    public function removePoint(\Nfq\WeDriveBundle\Entity\RoutePoint $points)
-    {
-        $this->points->removeElement($points);
-    }
-
-    /**
-     * Get points
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPoints()
-    {
-        return $this->points;
     }
 }

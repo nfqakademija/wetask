@@ -25,7 +25,7 @@ class Passenger
     /**
      * @var Trip
      *
-     * @ORM\ManyToOne(targetEntity="Trip", inversedBy="passenger")
+     * @ORM\ManyToOne(targetEntity="Trip", inversedBy="passengers")
      * @ORM\JoinColumn(name="trip_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $trip;

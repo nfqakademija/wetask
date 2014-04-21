@@ -46,16 +46,18 @@ class RoutePoint
     /**
      * @var Route
      *
-     * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="rotePoints")
+     * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="routePoints")
      * @ORM\JoinColumn(name="route_id", referencedColumnName="id", nullable=false)
      */
     private $route;
 
 
+
+
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -78,7 +80,7 @@ class RoutePoint
     /**
      * Get latitude
      *
-     * @return string
+     * @return string 
      */
     public function getLatitude()
     {
@@ -101,7 +103,7 @@ class RoutePoint
     /**
      * Get longitude
      *
-     * @return string
+     * @return string 
      */
     public function getLongitude()
     {
@@ -124,7 +126,7 @@ class RoutePoint
     /**
      * Get pOrder
      *
-     * @return integer
+     * @return integer 
      */
     public function getPOrder()
     {
@@ -134,10 +136,10 @@ class RoutePoint
     /**
      * Set route
      *
-     * @param Route $route
+     * @param \Nfq\WeDriveBundle\Entity\Route $route
      * @return RoutePoint
      */
-    public function setRoute(Route $route)
+    public function setRoute(\Nfq\WeDriveBundle\Entity\Route $route)
     {
         $this->route = $route;
 
@@ -147,7 +149,7 @@ class RoutePoint
     /**
      * Get route
      *
-     * @return Route
+     * @return \Nfq\WeDriveBundle\Entity\Route 
      */
     public function getRoute()
     {

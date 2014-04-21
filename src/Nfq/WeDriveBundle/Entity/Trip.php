@@ -27,7 +27,7 @@ class Trip
     /**
      * @var Route
      *
-     * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="trip")
+     * @ORM\ManyToOne(targetEntity="Nfq\WeDriveBundle\Entity\Route", inversedBy="trips")
      * @ORM\JoinColumn(name="route_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */
     private $route;
@@ -103,7 +103,7 @@ class Trip
      */
     public function __construct()
     {
-        $this->passenger = new ArrayCollection();
+        $this->passengers = new ArrayCollection();
     }
 
     /**
@@ -137,7 +137,7 @@ class Trip
      */
     public function addPassenger(Passenger $passenger)
     {
-        $this->passenger[] = $passenger;
+        $this->passengers[] = $passenger;
 
         return $this;
     }
@@ -149,7 +149,7 @@ class Trip
      */
     public function removePassenger(Passenger $passenger)
     {
-        $this->passenger->removeElement($passenger);
+        $this->passengers->removeElement($passenger);
     }
 
     /**
