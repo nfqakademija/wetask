@@ -1,14 +1,23 @@
 {% extends '::layout.html.twig' %}
 
+{% block errors %}
+<div id="flash_container" class="container" >
+    {% set errors = app.request.session.flashBag.get('error') %}
+    {% for error in errors %}
+        <div class="row">
+            <div id="flashbag" class="bg-danger col-md-4 col-md-offset-4">
+                {% block flasherror %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
 {% block content %}
     {{ parent() }}
     {% include 'NfqWeDriveBundle:Navbar:navbar.html.twig' %}
-    {% set errors = app.request.session.flashBag.get('error') %}
-    {% for error in errors %}
-            <p id="flashbag" class="bg-danger">
-            {{ error }}
-            </p>
-    {% endfor %}
+
     <div id="contentHolder">
         <div class=" main_info">
             {% block time %}

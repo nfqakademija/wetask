@@ -4,6 +4,11 @@
     My routes
 {% endblock %}
 
+{% block flasherror %}
+    {{ parent() }}
+    {{ error }}
+{% endblock %}
+
 {% block panel_title_button %}
 <a href = "{{ path('nfq_wedrive_route_add') }}" id="new_btn" type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal">
         <span class="glyphicon glyphicon-plus"></span>
