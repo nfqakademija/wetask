@@ -5,3 +5,16 @@ services:
 #    nfq_user.example:
 #        class: %nfq_user.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
+    nfq.registration.form.type:
+        class: Nfq\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags: [{ name: "form.type", alias: "nfq_user_registration" }]
+
+    nfq.invitation.form.type:
+            class: Nfq\UserBundle\Form\Type\InvitationFormType
+            arguments: [@nfq.invitation.form.data_transformer]
+            tags: [{ name: "form.type", alias: "nfq_invitation_type" }]
+
+    nfq.invitation.form.data_transformer:
+        class: Nfq\UserBundle\Form\DataTransformer\InvitationToCodeTransformer
+        arguments: [@doctrine.orm.entity_manager]

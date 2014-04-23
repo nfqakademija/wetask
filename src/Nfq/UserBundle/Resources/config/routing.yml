@@ -1,3 +1,7 @@
 nfq_user_invitation:
     pattern: /invite
     defaults: { _controller: NfqUserBundle:User:invite }
+
+nfq_user_registration:
+    pattern: /register
+    defaults: { _controller: NfqUserBundle:User:register }

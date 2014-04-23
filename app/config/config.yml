@@ -83,3 +83,6 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Nfq\UserBundle\Entity\User
+    registration:
+        form:
+            type: nfq_user_registration
