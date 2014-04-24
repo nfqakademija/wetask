@@ -97,7 +97,7 @@ class Route
     /**
      * Get destination
      *
-     * @return string 
+     * @return string
      */
     public function getDestination()
     {
@@ -120,7 +120,7 @@ class Route
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -153,7 +153,7 @@ class Route
     /**
      * Get trips
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTrips()
     {
@@ -186,7 +186,7 @@ class Route
     /**
      * Get routePoints
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRoutePoints()
     {
@@ -209,7 +209,7 @@ class Route
     /**
      * Get user
      *
-     * @return \Nfq\UserBundle\Entity\User 
+     * @return \Nfq\UserBundle\Entity\User
      */
     public function getUser()
     {

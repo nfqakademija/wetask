@@ -6,9 +6,9 @@ nfq_wedrive_route_list:
     pattern:  /route/list
     defaults: { _controller: NfqWeDriveBundle:Route:list }
 
-nfq_wedrive_route_add:
-    pattern: /route/add
-    defaults: { _controller: NfqWeDriveBundle:Route:add }
+nfq_wedrive_route_new:
+    pattern: /route/new
+    defaults: { _controller: NfqWeDriveBundle:Route:newRoute }
 
 nfq_wedrive_route_manage:
     pattern:  /route/manage/{routeId}
@@ -25,5 +25,15 @@ nfq_wedrive_trip_list:
     defaults: { _controller: NfqWeDriveBundle:Trip:list }
 
 nfq_wedrive_trip_new:
-    pattern:  /trip/new
-    defaults:  { _controller: NfqWeDriveBundle:Trip:new }
+    pattern:  /trip/new/{routeId}
+    defaults:  { _controller: NfqWeDriveBundle:Trip:newTrip }
+    requirements:
+        routeId: \d+
+
+nfq_wedrive_route_trip_new:
+    pattern:  /route/trip/new
+    defaults:   { _controller: NfqWeDriveBundle:Trip:newRouteTrip }
+
+nfq_wedrive_trip_manage:
+    pattern:  /trip/manage/{tripId}
+    defaults:   { _controller: NfqWeDriveBundle:Trip:manageTrip }

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block panel_title_button %}
-    <a href="{{ path('nfq_wedrive_trip_new') }}" id="new_btn" type="button" class="btn btn-primary btn-sm"
+    <a href="{{ path('nfq_wedrive_route_trip_new') }}" id="new_btn" type="button" class="btn btn-primary btn-sm"
            id="btn_new_trip" data-toggle="modal">
     <span class="glyphicon glyphicon-plus"></span>
 </a>
@@ -16,7 +16,8 @@
         <thead>
         <tr>
             <th>Departure</th>
-            <th>Destination</th>
+            <th>Title</th>
+            <th>Description</th>
             <th id="join_column"></th>
             <th>Free</th>
         </tr>
@@ -28,8 +29,9 @@
                 <tr>
                     <td> {{ trip.departureTime.date|date('m-d H:i') }} </td>
                     <td> {{ trip.title }}</td>
+                    <td> {{ trip.description }}</td>
                     <td>
-                        <button type="button" class="btn btn-warning btn-xs">&nbsp;Manage&nbsp;</button>
+                        <a href = "{{ path('nfq_wedrive_trip_manage', {'tripId':trip.id }) }}" type="button" class="btn btn-warning btn-xs">&nbsp;Manage&nbsp;</a>
                     </td>
                     <td> {{ trip.availableSeats }} </td>
                 </tr>

@@ -14,32 +14,44 @@ use Symfony\Component\HttpKernel\Tests\Controller;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
-class TripType extends AbstractType
+class TripRouteType extends AbstractType
 {
 
-//    protected $routes;
+//    protected $route;
 //
-//    public function __construct($routes)
+//    public function __construct($route)
 //    {
-//        $this->routes = $routes;
+//        $this->route = $route;
 //    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+//            ->add(
+//                'title',
+//                'text',
+//                array(
+//                    'label' => 'Title',
+//                    'label_attr' => array(
+//                        'class' => 'control-label'
+//                    ),
+//                    'attr' => array(
+//                        'class' => 'form-control'
+//                    )
+//                )
+//            )
             ->add(
-                'title',
-                'text',
-                array(
-                    'attr' => array(
-                        'class' => 'form-control'
-                    )
-                )
+                'route',
+                new RouteType('trip')
             )
             ->add(
                 'description',
                 'text',
                 array(
+                    'label' => 'Description',
+                    'label_attr' => array(
+                        'class' => 'control-label'
+                    ),
                     'attr' => array(
                         'class' => 'form-control'
                     )
@@ -66,8 +78,8 @@ class TripType extends AbstractType
                     'label_attr' => array(
                         'class' => 'control-label'
                     ),
-//                    'data'  =>  new \DateTime("+3 hours"),
-                    'input' =>  'datetime',
+                    'data'  =>  new \DateTime("+3 hours"),
+                    'input' =>  'datetime'
                 )
             )
 //            ->add(
@@ -95,6 +107,11 @@ class TripType extends AbstractType
                     )
                 )
             );
+
+//        unset($this['route.save']);
+//        $builder->remove(
+//
+//            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

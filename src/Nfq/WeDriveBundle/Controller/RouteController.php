@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\Null;
 
 /**
  * Manage route
@@ -51,7 +50,7 @@ class RouteController extends Controller
      * @param \Symfony\Component\BrowserKit\Request|\Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
-    public function addAction(Request $request)
+    public function newRouteAction(Request $request)
     {
         $user = $this->getUser();
 
@@ -73,7 +72,7 @@ class RouteController extends Controller
         }
 
         return $this->render(
-            'NfqWeDriveBundle:Route:add.html.twig',
+            'NfqWeDriveBundle:Route:newRoute.html.twig',
             array('form' => $form->createView())
         );
     }
@@ -81,16 +80,30 @@ class RouteController extends Controller
     /**
      * Displays the route management page
      *
+     * @param Request $request
      * @param $routeId
-     * @return Response
+     * @return RedirectResponse|Response
      */
-    public function manageAction($routeId)
+    public function manageAction($routeId, Request $request)
     {
+        $user = $this->getUser();
+
         $route = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findOneBy(
             array('id' => $routeId)
         );
 
-        return $this->render('NfqWeDriveBundle:Route:manage.html.twig', array('route' => $route));
+        $form = $this->createForm(new RouteType(), $route);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($route);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('nfq_wedrive_route_list'));
+        }
+
+        return $this->render('NfqWeDriveBundle:Route:manage.html.twig', array('route' => $route, 'form' => $form->createView()));
     }
 
     /**

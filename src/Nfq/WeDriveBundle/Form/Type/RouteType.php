@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Edvinas
+ * Date: 14.4.17
+ * Time: 18.51
+ */
 
 namespace Nfq\WeDriveBundle\Form\Type;
 
@@ -8,34 +14,62 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RouteType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
+
+    protected $entity;
+
+    public function __construct($entity = 'route')
+    {
+        $this->entity = $entity;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('destination')
-            ->add('name')
-            ->add('submit','submit')
-        ;
+            ->add(
+                'name',
+                'text',
+                array(
+                    'attr' => array(
+                        'class' => 'form-control'
+                    )
+                )
+
+            )
+            ->add(
+                'destination',
+                'text',
+                array(
+                    'attr' => array(
+                        'class' => 'form-control'
+                    )
+                )
+            );
+
+        if ($this->entity == 'route')
+        {
+            $builder->add(
+                'save',
+                'submit',
+                array(
+                    'attr' => array(
+                        'class' => 'btn btn-lg btn-success',
+                    )
+                )
+            );
+        }
     }
 
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Nfq\WeDriveBundle\Entity\Route'
-        ));
+        $resolver->setDefaults(
+            array(
+                'data_class' => 'Nfq\WeDriveBundle\Entity\Route',
+            )
+        );
     }
 
-    /**
-     * @return string
-     */
     public function getName()
     {
-        return 'nfq_wedrivebundle_route';
+        return 'route';
     }
 }

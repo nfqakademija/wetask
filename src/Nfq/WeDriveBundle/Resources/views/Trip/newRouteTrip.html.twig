@@ -8,10 +8,21 @@
     {{ form_start(form) }}
     {{ form_errors(form) }}
 
+    {#<div class="form-group">#}
+        {#{{ form_label(form.title) }}#}
+        {#{{ form_errors(form.title) }}#}
+        {#{{ form_widget(form.title) }}#}
+    {#</div>#}
     <div class="form-group">
-        {{ form_label(form.title) }}
-        {{ form_errors(form.title) }}
-        {{ form_widget(form.title) }}
+        {{ form_label(form.route.name) }}
+        {{ form_errors(form.route.name) }}
+        {{ form_widget(form.route.name) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.route.destination) }}
+        {{ form_errors(form.route.destination) }}
+        {{ form_widget(form.route.destination) }}
     </div>
 
     <div class="form-group">
@@ -32,11 +43,11 @@
         {{ form_widget(form.departureTime) }}
     </div>
 
-    <div class="form-group">
-        {{ form_label(form.route) }}
-        {{ form_errors(form.route) }}
-        {{ form_widget(form.route) }}
-    </div>
+    {#<div class="form-group">#}
+        {#{{ form_label(form.route) }}#}
+        {#{{ form_errors(form.route) }}#}
+        {#{{ form_widget(form.route) }}#}
+    {#</div>#}
 
     <div class="form-group">
         {{ form_widget(form.save) }}

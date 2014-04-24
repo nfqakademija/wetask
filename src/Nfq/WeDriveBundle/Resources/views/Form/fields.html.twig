@@ -1,0 +1,31 @@
+{% block form_row %}
+    {% spaceless %}
+        <div class="form_row">
+            {{ form_label(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block text_widget %}
+    <div class="form-control">
+        {% set type = type|default('text') %}
+        {#{% set attr = array("class" => "form-control") %}#}
+        {{ block('form_widget_simple', {'attr':{'class' : 'form-control'}}) }}
+    </div>
+{% endblock %}
+
+{% block integer_widget %}
+    <div class="form-control">
+        {% set type = type|default('number') %}
+        {{ block('form_widget_simple') }}
+    </div>
+{% endblock %}
+
+{#{% block datetime_widget %}#}
+    {#<div class="form-control" >#}
+        {#{% set type = type|default('\DateTime') %}#}
+        {#{{ block('form_widget_simple') }}#}
+    {#</div>#}
+{#{% endblock %}#}
