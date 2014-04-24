@@ -126,7 +126,8 @@ class TripController extends Controller
         return $this->render(
             'NfqWeDriveBundle:Trip:newTrip.html.twig',
             array(
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'routeName' => $trip->getTitle()
             )
         );
     }
