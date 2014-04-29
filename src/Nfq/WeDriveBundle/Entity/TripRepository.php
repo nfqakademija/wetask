@@ -37,9 +37,16 @@ class TripRepository extends EntityRepository
 
         return $trips;
     }
-
+    /**
+     * getOtherTrips
+     *
+     * @param User
+     * @return array
+     */
     public function getOtherTrips($user)
     {
+
+
         $em = $this->getEntityManager();
 
         $query = $em->createQuery(
@@ -49,6 +56,7 @@ class TripRepository extends EntityRepository
                             JOIN t.route r
                             JOIN r.user u
                             WHERE u.username != :username
+                            ORDER BY t.departureTime
                         "
         )->setParameter('username', $user->getUsername());
 
@@ -59,6 +67,7 @@ class TripRepository extends EntityRepository
 //            );
         }
 
-        return $trips;
+       return $trips;
     }
+
 }
