@@ -17,6 +17,7 @@ nfq_wedrive_route_manage:
 nfq_wedrive_route_delete:
     pattern:  /route/delete/{routeId}
     defaults: { _controller: NfqWeDriveBundle:Route:delete }
+    methods: [POST]
     requirements:
         routeId: \d+
 

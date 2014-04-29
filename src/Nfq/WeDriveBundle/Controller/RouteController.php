@@ -128,7 +128,7 @@ class RouteController extends Controller
 
         try {
             $this->checkIfRouteIsDeleteable($route, $user);
-            $route->unsetAllTrips();
+//            $route->unsetAllTrips();
             $entityManager->remove($route);
             $entityManager->flush();
         } catch (RouteException $e) {
