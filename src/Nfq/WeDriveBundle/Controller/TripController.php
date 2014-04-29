@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Form\Type\TripRouteType;
 use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
@@ -50,6 +51,7 @@ class TripController extends Controller
     /**
      *
      * @param Request $request
+     * @param $routeId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newTripAction(Request $request, $routeId)
@@ -130,6 +132,30 @@ class TripController extends Controller
                 'routeName' => $trip->getTitle()
             )
         );
+    }
+
+    public function joinTripAction(Request $request, $tripId) {
+        $em = $this->getDoctrine()->getManager();
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+
+        $trip = $tripRepository->findOneBy(array('id' => $tripId));
+
+        $passenger = new Passenger();
+        $user = $this->getUser();
+
+        $passenger->setUser($user);
+        $passenger->setTrip($trip);
+        $passenger->setAccepted(0);
+
+        $trip->addPassenger($passenger);
+
+        $em->persist($passenger);
+        $em->persist($trip);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('error',"Join successful");
+
+        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
 
 }

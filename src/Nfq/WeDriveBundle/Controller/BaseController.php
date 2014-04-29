@@ -35,7 +35,12 @@ class BaseController extends Controller
             else $tripRow['availableSeats']['type'] = $elementType[0];
 
             $buttonName = $buttonNames[0];
-            if($sCount == 0) $buttonName = "No seats";
+            if($sCount <= 0) {
+                $buttonName = "No seats";
+                $tripRow['buttonDisabled'] = true;
+            }else{
+            $tripRow['buttonDisabled'] = false;
+            }
             foreach ($trip->getPassengers() as $passenger) {
                 if ($passenger->getUser()->getUsername() == $user->getUsername())
                 {

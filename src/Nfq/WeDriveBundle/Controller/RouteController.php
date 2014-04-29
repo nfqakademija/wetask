@@ -133,7 +133,6 @@ class RouteController extends Controller
             $entityManager->flush();
         } catch (RouteException $e) {
             $request->getSession()->getFlashBag()->add('error', $e->getMessage());
-            //TODO add a nice flashbox to the html
         }
 
         return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));

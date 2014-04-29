@@ -38,3 +38,7 @@ nfq_wedrive_route_trip_new:
 nfq_wedrive_trip_manage:
     pattern:  /trip/manage/{tripId}
     defaults:   { _controller: NfqWeDriveBundle:Trip:manageTrip }
+
+nfq_wedrive_trip_join:
+    pattern:  /trip/join/{tripId}
+    defaults:   { _controller: NfqWeDriveBundle:Trip:joinTrip }
