@@ -25,7 +25,7 @@ class BaseController extends Controller
         $elementType = array('danger','warning','success','success','success','success','success','success');
         $buttonNames = array('Join', 'Waiting..', 'Joined' );
 
-        foreach ($otherTrips as &$trip) {
+        foreach ($otherTrips as $trip) {
             $tripRow['trip'] = $trip;
 
             $sCount =$trip->getAvailableSeats() - count($trip->getPassengers());
