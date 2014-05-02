@@ -23,7 +23,7 @@ class BaseController extends Controller
 
         $tripsList = array();
         $elementType = array('danger','warning','success','success','success','success','success','success');
-        $buttonNames = array('Join', 'Waiting..', 'Joined' );
+        $buttonNames = array('Join', 'Waiting..', 'Joined', 'Rejected' );
 
         foreach ($otherTrips as $trip) {
             $tripRow['trip'] = $trip;
@@ -61,14 +61,6 @@ class BaseController extends Controller
             )
         );
 
-//        return $this->render(
-//            'NfqWeDriveBundle:Default:index.html.twig',
-//            array(
-//                'otherTrips' => $otherTrips,
-//                'buttonName' => 'Join',
-//                'buttonType' => 'success'
-//            )
-//        );
     }
 
     /**

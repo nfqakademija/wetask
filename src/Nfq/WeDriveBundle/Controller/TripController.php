@@ -145,7 +145,9 @@ class TripController extends Controller
 
         $passenger->setUser($user);
         $passenger->setTrip($trip);
-        $passenger->setAccepted(0);
+        $passenger->setAccepted(1);
+
+
 
         $trip->addPassenger($passenger);
 
