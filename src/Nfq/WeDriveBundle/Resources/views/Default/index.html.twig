@@ -19,7 +19,7 @@
         <tbody>
 
         {% for tripRow in tripsList %}
-            {% if (tripRow.trip.departureTime.date|date('YmdHis') > "+3 hours"|date('YmdHis')) %}
+            {#{% if (tripRow.trip.departureTime.date|date('YmdHis') < "+3 hours"|date('YmdHis')) %}#}
                 <tr>
                     <td> {{ tripRow.trip.departureTime.date|date('m-d H:i') }} </td>
                     <td> {{ tripRow.trip.title }}</td>
@@ -29,16 +29,13 @@
                         </span>
                     </td>
                     <td>
-                        <a {% if tripRow.buttonDisabled %} disabled="disabled" {% endif %}
-                                href="{{ path('nfq_wedrive_trip_join',{'tripId':tripRow.trip.id}) }}"
-                                type="button" class="btn btn-{{ tripRow.availableSeats.type }} btn-xs">
+                        <button type="button" class="btn btn-{{ tripRow.availableSeats.type }} btn-xs">
                             &nbsp;&nbsp;&nbsp;{{ tripRow.buttonName }}
-                            &nbsp;&nbsp;&nbsp;
-                        </a>
+                            &nbsp;&nbsp;&nbsp;</button>
                     </td>
                     {% set buttonName = 'Join' %}
                 </tr>
-            {% endif %}
+            {#{% endif %}#}
         {% endfor %}
         </tbody>
     </table>
