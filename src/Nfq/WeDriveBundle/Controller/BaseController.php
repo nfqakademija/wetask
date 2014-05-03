@@ -53,11 +53,34 @@ class BaseController extends Controller
             $tripsList[] = $tripRow;
         }
 
+        $notifications = array();
+        $requestsList = array();
+
+        $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
+        $passengers = $passengerRepository->getPassengersWithRequest($user);
+
+        foreach ($passengers as $passenger) {
+            $message = $passenger ->getUser()->getUsername() .' wants to join you.';
+            $request = array('message' =>$message, 'passengerId' =>$passenger->getId());
+            $requestsList[] = $request;
+        }
+
+        $notifications['requests'] = $requestsList;
+
+        $messagesList = array(
+            array('message' => 'Jane accepted you request',
+                'passengerId' => 1),
+            array('message' => 'Peter rejected your request)',
+                'passengerId' => 3));
+        $notifications['messages'] = $messagesList;
+
+        $notifications['count'] = count($notifications['requests']) + count($notifications['messages']);
 
         return $this->render(
             'NfqWeDriveBundle:Default:index.html.twig',
             array(
-                'tripsList' => $tripsList
+                'tripsList' => $tripsList,
+                'notifications' => $notifications
             )
         );
 

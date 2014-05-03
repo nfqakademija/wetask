@@ -12,4 +12,35 @@ use Doctrine\ORM\EntityRepository;
  */
 class PassengerRepository extends EntityRepository
 {
+    /**
+     * @param User
+     * @return array
+     */
+    public function getPassengersWithRequest($user)
+    {
+//        SELECT p.*
+//        FROM Trip t
+//        JOIN Route r ON t.route_id = r.id
+//        JOIN fos_user u ON r.user_id = u.id
+//        JOIN Passenger p ON t.id = p.trip_id
+//        WHERE u.username = 'Daiva'
+//            and p.accepted = 1
+
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "
+                            SELECT p
+                            FROM Nfq\WeDriveBundle\Entity\Passenger p
+                            JOIN p.trip t
+                            JOIN t.route r
+                            JOIN r.user u
+                            WHERE u.username = :username and p.accepted = 1
+                        "
+        )->setParameter('username', $user->getUsername());
+
+        $passengers = $query->getResult();
+
+        return $passengers;
+    }
 }
