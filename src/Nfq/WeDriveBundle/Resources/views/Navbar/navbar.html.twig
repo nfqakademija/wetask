@@ -30,10 +30,19 @@
                         <ul class="dropdown-menu">
                             {% for request in notifications.requests %}
                             <li>
-                                <a href="#" class="nav_bar_notification">{{ request.message }}
+                                <a href="#" >{{ request.message }}
+
                                     <div class="btn-group btn-group-xs this">
-                                        <button type="button" class="btn btn-success">Accept</button>
-                                        <button type="button" class="btn btn-danger">Decline</button>
+                                        <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':request.passengerId}) }}"
+                                           type="button" class="btn btn-success">
+                                            Accept
+                                        </a>
+                                        <a href="{{ path('nfq_wedrive_passenger_join_reject',{'passengerId':request.passengerId}) }}"
+                                           type="button" class="btn btn-danger">
+                                            Reject
+                                        </a>
+                                        {#<button type="button" class="btn btn-success">Accept</button>#}
+                                        {#<button type="button" class="btn btn-danger">Decline</button>#}
                                     </div>
                                 </a>
                             </li>

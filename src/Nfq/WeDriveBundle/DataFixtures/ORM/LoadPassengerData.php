@@ -29,14 +29,14 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
     {
 
         $passengers = array(
-            array('trip-1', '2', 'user-2'),
-            array('trip-2', '1', 'user-2'),
-            array('trip-3', '0', 'user-2'),
-            array('trip-4', '0', 'user-1'),
-            array('trip-5', '1', 'user-2'),
-            array('trip-6', '1', 'user-3'),
-            array('trip-7', '1', 'user-2'),
-            array('trip-8', '2', 'user-3')
+            array('trip-1', '2', 'user-4'),
+            array('trip-2', '1', 'user-5'),
+            array('trip-3', '0', 'user-10'),
+            array('trip-4', '0', 'user-11'),
+            array('trip-5', '1', 'user-7'),
+            array('trip-6', '1', 'user-8'),
+            array('trip-7', '1', 'user-12'),
+            array('trip-8', '2', 'user-5')
         );
 
         foreach ($passengers as $passengerData) {

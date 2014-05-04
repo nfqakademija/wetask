@@ -70,4 +70,27 @@ class TripRepository extends EntityRepository
        return $trips;
     }
 
+    /**
+     * getAcceptedPassengersCount
+     *
+     * @param Trip trip
+     * @return Integer
+     */
+    public function getAcceptedPassengersCount($trip)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "
+                            SELECT count(p)
+                            FROM Nfq\WeDriveBundle\Entity\Passenger p
+                            JOIN p.trip t
+                            WHERE t.id = :tripId and p.accepted = 2
+                        "
+        )->setParameter('tripId', $trip->getId());
+
+        $pCount = $query->getSingleScalarResult();
+
+        return $pCount;
+    }
 }

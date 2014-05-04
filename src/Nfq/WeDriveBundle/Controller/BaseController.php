@@ -28,7 +28,7 @@ class BaseController extends Controller
         foreach ($otherTrips as $trip) {
             $tripRow['trip'] = $trip;
 
-            $sCount =$trip->getAvailableSeats() - count($trip->getPassengers());
+            $sCount =$trip->getAvailableSeats() - $tripRepository->getAcceptedPassengersCount($trip);
             $tripRow['availableSeats']['count'] =  $sCount;
 
             if($sCount >= 0) $tripRow['availableSeats']['type'] = $elementType[$sCount];
@@ -68,9 +68,9 @@ class BaseController extends Controller
         $notifications['requests'] = $requestsList;
 
         $messagesList = array(
-            array('message' => 'Jane accepted you request',
+            array('message' => 'Jane accepted you request (test message)',
                 'passengerId' => 1),
-            array('message' => 'Peter rejected your request)',
+            array('message' => 'Peter rejected your request (test message)',
                 'passengerId' => 3));
         $notifications['messages'] = $messagesList;
 

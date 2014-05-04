@@ -42,3 +42,11 @@ nfq_wedrive_trip_manage:
 nfq_wedrive_trip_join:
     pattern:  /trip/join/{tripId}
     defaults:   { _controller: NfqWeDriveBundle:Trip:joinTrip }
+
+nfq_wedrive_passenger_join_accept:
+    pattern:  /passenger/accept/{passengerId}
+    defaults:   { _controller: NfqWeDriveBundle:Passenger:acceptPassenger }
+
+nfq_wedrive_passenger_join_reject:
+    pattern:  /passenger/reject/{passengerId}
+    defaults:   { _controller: NfqWeDriveBundle:Passenger:rejectPassenger }
