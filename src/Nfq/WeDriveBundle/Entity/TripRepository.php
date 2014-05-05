@@ -24,6 +24,7 @@ class TripRepository extends EntityRepository
                             JOIN t.route r
                             JOIN r.user u
                             WHERE u.username = :username
+                            ORDER BY t.departureTime ASC
                         "
         )->setParameter('username', $user->getUsername());
 

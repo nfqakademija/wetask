@@ -75,6 +75,8 @@ class TripRouteType extends AbstractType
                 'datetime',
                 array(
                     'label' => 'Departure time',
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
                     'label_attr' => array(
                         'class' => 'control-label'
                     ),
@@ -112,6 +114,7 @@ class TripRouteType extends AbstractType
 //        $builder->remove(
 //
 //            );
+
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

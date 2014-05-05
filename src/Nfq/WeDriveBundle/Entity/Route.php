@@ -10,7 +10,7 @@ use Nfq\WeDriveBundle\Entity\Trip;
 /**
  * Route
  *
- * @ORM\Table()
+ * @ORM\Table(name = "route")
  * @ORM\Entity(repositoryClass="Nfq\WeDriveBundle\Entity\RouteRepository")
  */
 class Route

@@ -8,7 +8,7 @@ use Nfq\UserBundle\Entity\User;
 /**
  * Passenger
  *
- * @ORM\Table()
+ * @ORM\Table(name = "passenger")
  * @ORM\Entity(repositoryClass="Nfq\WeDriveBundle\Entity\PassengerRepository")
  */
 class Passenger

@@ -8,7 +8,7 @@ use Nfq\WeDriveBundle\Entity\Route;
 /**
  * RoutePoint
  *
- * @ORM\Table()
+ * @ORM\Table(name = "route_point")
  * @ORM\Entity(repositoryClass="Nfq\WeDriveBundle\Entity\RoutePointRepository")
  */
 class RoutePoint
@@ -57,7 +57,7 @@ class RoutePoint
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -80,7 +80,7 @@ class RoutePoint
     /**
      * Get latitude
      *
-     * @return string 
+     * @return string
      */
     public function getLatitude()
     {
@@ -103,7 +103,7 @@ class RoutePoint
     /**
      * Get longitude
      *
-     * @return string 
+     * @return string
      */
     public function getLongitude()
     {
@@ -126,7 +126,7 @@ class RoutePoint
     /**
      * Get pOrder
      *
-     * @return integer 
+     * @return integer
      */
     public function getPOrder()
     {
@@ -149,7 +149,7 @@ class RoutePoint
     /**
      * Get route
      *
-     * @return \Nfq\WeDriveBundle\Entity\Route 
+     * @return \Nfq\WeDriveBundle\Entity\Route
      */
     public function getRoute()
     {

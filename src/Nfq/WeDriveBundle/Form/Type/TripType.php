@@ -63,11 +63,18 @@ class TripType extends AbstractType
                 'datetime',
                 array(
                     'label' => 'Departure time',
+
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
+
                     'label_attr' => array(
                         'class' => 'control-label'
                     ),
 //                    'data'  =>  new \DateTime("+3 hours"),
-                    'input' =>  'datetime',
+//                    'attr' => array(
+//                        'id'    =>   'datepicker'
+//                    ),
+//                    'input' =>  'datetime',
                 )
             )
 //            ->add(

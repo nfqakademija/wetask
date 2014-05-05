@@ -27,3 +27,10 @@ var Clock = {
         return i;
     }
 }
+
+//$(function() {
+//    $( "#datepicker" ).datepicker({
+//        timeFormat: 'hh:mm:ss',
+//        dateFormat: 'yy-mm-dd'
+//    });
+//});

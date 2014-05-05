@@ -46,6 +46,7 @@ class TripController extends Controller
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $entityManager = $this->getDoctrine()->getManager();
+//        TODO:
     }
 
     /**
@@ -56,7 +57,6 @@ class TripController extends Controller
      */
     public function newTripAction(Request $request, $routeId)
     {
-//        $user = $this->getUser();
 
         $route = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findOneBy(
             array('id' => $routeId)
