@@ -27,26 +27,42 @@
         </tr>
         </thead>
         <tbody id="RouteBody">
-        {% for route in routes %}
-            <tr>
-                <td>{{ route.name }}</td>
-                <td>{{ route.destination }}</td>
+        <script type="text/javascript">
+            var routePoints = new Array();
+        </script>
+        {% for routeObj in routes %}
+            <tr class="routeRow" id="{{ routeObj.route.id }}">
+                <td>{{ routeObj.route.name }}</td>
+                <td>{{ routeObj.route.destination }}</td>
                 <td>
                     {#<button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>#}
-                    <a href="{{ path('nfq_wedrive_route_manage',{'routeId':route.id}) }}"
+                    <a href="{{ path('nfq_wedrive_route_manage',{'routeId':routeObj.route.id}) }}"
                        class="btn btn-warning btn-xs">
                         Manage
                     </a>
                 </td>
                 <td>
-                    <a href = "{{ path('nfq_wedrive_trip_new',{'routeId':route.id}) }}" type="button" class="btn btn-success btn-xs">
+                    <a href="{{ path('nfq_wedrive_trip_new',{'routeId':routeObj.route.id}) }}" type="button"
+                       class="btn btn-success btn-xs">
                         <span
                                 class="glyphicon glyphicon-chevron-right">
                         </span>
                     </a>
                 </td>
+                <script type="text/javascript">
+                    routePoints[{{ routeObj.route.id }}] = new Array();
+                    {% for routePoint in routeObj.routePoints %}
+                    routePoints[{{ routeObj.route.id }}].push({
+                        'lat': {{ routePoint.latitude }},
+                        'lng': {{ routePoint.longitude }}
+                    });
+                    {% endfor %}
+                </script>
             </tr>
         {% endfor %}
+        <script type="text/javascript">
+            console.log(routePoints);
+        </script>
         </tbody>
     </table>
 {% endblock %}

@@ -41,7 +41,20 @@ class RouteController extends Controller
             //Throw exception
         }
 
-        return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $routes));
+        $return;
+
+        foreach ($routes as $route) {
+            $routePoints = $route->getRoutePoints();
+
+            $routeobj = array(
+                'route' => $route,
+                'routePoints' => $routePoints
+            );
+
+            $return[] = $routeobj;
+        }
+
+        return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $return));
     }
 
     /**
@@ -103,7 +116,10 @@ class RouteController extends Controller
             return $this->redirect($this->generateUrl('nfq_wedrive_route_list'));
         }
 
-        return $this->render('NfqWeDriveBundle:Route:manage.html.twig', array('route' => $route, 'form' => $form->createView()));
+        return $this->render(
+            'NfqWeDriveBundle:Route:manage.html.twig',
+            array('route' => $route, 'form' => $form->createView())
+        );
     }
 
     /**

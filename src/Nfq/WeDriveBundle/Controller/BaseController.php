@@ -60,8 +60,8 @@ class BaseController extends Controller
         $passengers = $passengerRepository->getPassengersWithRequest($user);
 
         foreach ($passengers as $passenger) {
-            $message = $passenger ->getUser()->getUsername() .' wants to join you.';
-            $request = array('message' =>$message, 'passengerId' =>$passenger->getId());
+            $message = $passenger->getUser()->getUsername() . ' wants to join you.';
+            $request = array('message' => $message, 'passengerId' => $passenger->getId());
             $requestsList[] = $request;
         }
 

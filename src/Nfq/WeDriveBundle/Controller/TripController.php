@@ -117,11 +117,10 @@ class TripController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid())
-        {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($trip);
-            $em ->flush();
+            $em->flush();
             return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
 
@@ -134,7 +133,8 @@ class TripController extends Controller
         );
     }
 
-    public function joinTripAction(Request $request, $tripId) {
+    public function joinTripAction(Request $request, $tripId)
+    {
         $em = $this->getDoctrine()->getManager();
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
 
@@ -148,14 +148,13 @@ class TripController extends Controller
         $passenger->setAccepted(1);
 
 
-
         $trip->addPassenger($passenger);
 
         $em->persist($passenger);
         $em->persist($trip);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('error',"Join successful");
+        $request->getSession()->getFlashBag()->add('error', "Join successful");
 
         return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }

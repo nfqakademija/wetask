@@ -7,28 +7,23 @@ var map;
 var waypoints = new Array();
 var waypointlim = 8;
 
-var routeWaypoints = new Array();
-
-var elemAvailableTrips = $("");
-var elemRoutePlanner = $("");
-
 function Initialise() {
     directionsService = new google.maps.DirectionsService();
     directionsDisplay = new google.maps.DirectionsRenderer({
-        'draggable':true,
-        'suppressMarkers':true,
+        'draggable': true,
+        'suppressMarkers': true,
 //        'markerOptions':{
 //            animation: google.maps.Animation.DROP,
 //            flat:false,
 //            raiseOnDrag:true
 //        },
-        'polylineOptions':{
-            editable:false,
-            draggable:false,
-            clickable:false,
-            strokeColor:'#736AFF',
-            strokeWeight:5,
-            strokeOpacity:0.9
+        'polylineOptions': {
+            editable: false,
+            draggable: false,
+            clickable: false,
+            strokeColor: '#736AFF',
+            strokeWeight: 5,
+            strokeOpacity: 0.9
         },
         'preserveViewport': true
     });
@@ -69,44 +64,52 @@ function Initialise() {
         if (waypoints.length == 0) {
             startRoutePlan();
         }
-        addWaypoint(event);
-        plotRoute();
+        addWaypoint(event.latLng);
+        var coords = markerLatLng(waypoints)
+        plotRoute(coords);
     });
 
     function startRoutePlan() {
-        hideAvailableTrips();
-        showRoutePlanner();
-    }
-
-    function finishRoutePlan() {
-        hideRoutePlanner();
-        showAvailableTrips();
-        waypoints.length = 0;
     }
 }
 
-function plotRoute(){
-    var routeOrigin = currentLocation;
-    var routeDestinationWaypoint = waypoints[waypoints.length-1];
-
-    var routeDestination = routeDestinationWaypoint.getPosition();
-
-    var routeWaypoints =[];
-
-    if (waypoints.length > 1){
-        for (var i = 0,n = waypoints.length;i<n;i++){
-            routeWaypoints[i] = {location:waypoints[i].getPosition(),
-                stopover:true}
-        }
-        routeWaypoints.pop();
+function markerLatLng(markers) {
+    var coords = new Array();
+    for (var i = 0, n = markers.length; i < n; i++) {
+//        coords[i] = new google.maps.LatLng(
+//            markers[i].getPosition().lat(),
+//            markers[i].getPosition().lng()
+//        )
+        coords[i] = markers[i].getPosition();
     }
-    console.log(routeWaypoints);
+    return coords;
+}
+
+function plotRoute(coords) {
+    var routeOrigin = currentLocation;
+    var routeDestination = coords[coords.length - 1];
+
+    var routeWaypoints = Array();
+
+    coords.pop();
+
+    var fixedcoords = new Array();
+
+    for (var i = 0, n = coords.length; i < n; i++) {
+        fixedcoords[i] = {
+            location: coords[i],
+            stopover: true
+        }
+    }
+
+    console.log(coords);
+    console.log(routeDestination);
 
     var request = {
         origin: routeOrigin,
         destination: routeDestination,
         travelMode: google.maps.TravelMode.DRIVING,
-        waypoints:routeWaypoints,
+        waypoints: fixedcoords,
         //provideRouteAlternatives: Boolean,
         region: 'lt'
     };
@@ -118,38 +121,24 @@ function plotRoute(){
     });
 };
 
-function addWaypoint(event) {
+function addWaypoint(latlng) {
     if (!(waypoints.length > waypointlim)) {
 
         var waypoint = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
-            position: event.latLng,
+            position: latlng,
             map: map,
-            draggable:true
+            draggable: true
         });
 
         waypoints.push(waypoint);
 
-        google.maps.event.addListener(waypoint,'dragend',function() {
-            plotRoute();
+        google.maps.event.addListener(waypoint, 'dragend', function () {
+            var coords = markerLatLng(waypoints)
+            plotRoute(coords);
         });
     } else {
     }
 };
 
-function hideAvailableTrips() {
-}
-function showAvailableTrips() {
-}
-function showRoutePlanner() {
-    //Add event listeners like added marker or something
-    //Initialise variables
-    //Initialise form
-}
-function hideRoutePlanner() {
-    //Remove event listeners
-    //Clear form variables
-    //Hide form
-    //recenter the map
-}
 google.maps.event.addDomListener(window, 'load', Initialise);
