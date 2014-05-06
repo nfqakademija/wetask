@@ -15,7 +15,7 @@ var Clock = {
 
         m=this.checkTime(m);
         s=this.checkTime(s);
-        document.getElementById('txt').innerHTML=Y+"-"+M+"-"+d+" "+h+":"+m+":"+s;
+        document.getElementById('current_time').innerHTML=Y+"-"+M+"-"+d+" "+h+":"+m+":"+s;
         t=setTimeout(function(){Clock.startTime()},500);
     },
 
