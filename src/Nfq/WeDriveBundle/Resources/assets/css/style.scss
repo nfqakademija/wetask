@@ -57,7 +57,7 @@ div #fos_user_change_password_form input{
 }
 #contentHolder{
   position: absolute;
-  top:54px;
+  top:64px;
   width: 35%;
   min-width: 430px;
 }
@@ -126,4 +126,11 @@ $inputFormRadius: 0;
   position: absolute;
   top:20px;
   z-index: 1;
+}
+#current_time {
+  color:#ffffff;
+  float: left;
+  font-size: 18px;
+  height: 50px;
+  padding: 12px 15px 15px;
 }
