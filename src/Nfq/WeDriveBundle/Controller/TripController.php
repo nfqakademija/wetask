@@ -64,6 +64,7 @@ class TripController extends Controller
 
         $trip = new Trip();
         $trip->setDepartureTime(new \DateTime("+3 hours"));
+        $trip->setTitle($route->getDestination());
         $form = $this->createForm(new TripType(), $trip);
         $form->handleRequest($request);
 
@@ -79,7 +80,8 @@ class TripController extends Controller
             'NfqWeDriveBundle:Trip:newTrip.html.twig',
             array(
                 'form' => $form->createView(),
-                'routeName' => $route->getName()
+                'routeName' => $route->getName(),
+                'option' => 'New trip'
             )
         );
     }
@@ -129,7 +131,8 @@ class TripController extends Controller
             'NfqWeDriveBundle:Trip:newTrip.html.twig',
             array(
                 'form' => $form->createView(),
-                'routeName' => $trip->getTitle()
+                'routeName' => $trip->getTitle(),
+                'option' => 'Manage trip '
             )
         );
     }
@@ -145,7 +148,7 @@ class TripController extends Controller
 
         $passenger->setUser($user);
         $passenger->setTrip($trip);
-        $passenger->setAccepted(1);
+        $passenger->setAccepted(2);
 
 
 
