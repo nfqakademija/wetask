@@ -3,6 +3,7 @@
 namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Nfq\UserBundle\Entity\User;
 
 /**
  * PassengerRepository
@@ -13,10 +14,10 @@ use Doctrine\ORM\EntityRepository;
 class PassengerRepository extends EntityRepository
 {
     /**
-     * @param User
-     * @return array
+     * @param User $user
+     * @return array|Passenger[]
      */
-    public function getPassengersWithRequest($user)
+    public function getPassengersWithRequest(User $user)
     {
 //        SELECT p.*
 //        FROM Trip t

@@ -56,14 +56,10 @@ div #fos_user_change_password_form input{
   height: 100%;
 }
 #contentHolder{
-  position: absolute;
-  top:64px;
   width: 35%;
   min-width: 430px;
 }
 #user_bar{
-  position: absolute;
-  top: 8px;
   width: 98%;
   left: 1%;
 }
@@ -94,9 +90,8 @@ div #fos_user_change_password_form input{
 
 //$inputFormRadius: 0;
 
-#login_form_container{
-  max-width: 300px;
-  margin: 0 auto;
+#login_form{
+ max-width: 300px;
 }
 #login_form_error{
   color: red;

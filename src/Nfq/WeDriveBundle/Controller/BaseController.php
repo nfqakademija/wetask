@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Nfq\WeDriveBundle\Entity\PassengerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -59,6 +60,7 @@ class BaseController extends Controller
         $notifications = array();
         $requestsList = array();
 
+        /** @var PassengerRepository  $passengerRepository */
         $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
         $passengers = $passengerRepository->getPassengersWithRequest($user);
 
