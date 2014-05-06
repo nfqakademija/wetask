@@ -49,11 +49,12 @@ class TripRouteType extends AbstractType
                 'text',
                 array(
                     'label' => 'Description',
+                    'required' => false,
                     'label_attr' => array(
                         'class' => 'control-label'
                     ),
                     'attr' => array(
-                        'class' => 'form-control'
+                        'class' => 'form-control',
                     )
                 )
             )
@@ -80,8 +81,8 @@ class TripRouteType extends AbstractType
                     'label_attr' => array(
                         'class' => 'control-label'
                     ),
-                    'data'  =>  new \DateTime("+3 hours"),
-                    'input' =>  'datetime'
+                    'data' => new \DateTime("+3 hours"),
+                    'input' => 'datetime'
                 )
             )
 //            ->add(
@@ -119,9 +120,11 @@ class TripRouteType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults(
+            array(
                 'data_class' => 'Nfq\WeDriveBundle\Entity\Trip',
-            ));
+            )
+        );
     }
 
     public function getName()

@@ -40,43 +40,42 @@ class TripType extends AbstractType
                 'description',
                 'text',
                 array(
+                    'required' => false,
                     'attr' => array(
-                        'class' => 'form-control'
+                        'class' => 'form-control',
                     )
                 )
             )
             ->add(
-                'availableSeats',
-                'integer',
-                array(
-                    'label' => 'Available seats',
-                    'label_attr' => array(
-                        'class' => 'control-label'
-                    ),
-                    'attr' => array(
-                        'class' => 'form-control'
-                    )
-                )
+        'availableSeats',
+        'integer',
+        array(
+            'label' => 'Available seats',
+            'label_attr' => array(
+                'class' => 'control-label'
+            ),
+            'attr' => array(
+                'class' => 'form-control'
             )
-            ->add(
-                'departureTime',
-                'datetime',
-                array(
-                    'label' => 'Departure time',
-
-                    'date_widget' => 'single_text',
-                    'time_widget' => 'single_text',
-
-                    'label_attr' => array(
-                        'class' => 'control-label'
-                    ),
+        )
+    )
+        ->add(
+            'departureTime',
+            'datetime',
+            array(
+                'label' => 'Departure time',
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                'label_attr' => array(
+                    'class' => 'control-label'
+                ),
 //                    'data'  =>  new \DateTime("+3 hours"),
 //                    'attr' => array(
 //                        'id'    =>   'datepicker'
 //                    ),
 //                    'input' =>  'datetime',
-                )
             )
+        )
 //            ->add(
 //                'route',
 //                'entity',
@@ -93,22 +92,24 @@ class TripType extends AbstractType
 //                    'property'  => 'name'
 //                )
 //            )
-            ->add(
-                'save',
-                'submit',
-                array(
-                    'attr' => array(
-                        'class' => 'btn btn-lg btn-success col-lg-2'
-                    )
+        ->add(
+            'save',
+            'submit',
+            array(
+                'attr' => array(
+                    'class' => 'btn btn-lg btn-success col-lg-2'
                 )
-            );
+            )
+        );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults(
+            array(
                 'data_class' => 'Nfq\WeDriveBundle\Entity\Trip',
-            ));
+            )
+        );
     }
 
     public function getName()
