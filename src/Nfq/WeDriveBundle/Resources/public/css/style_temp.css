@@ -1,0 +1,93 @@
+html {
+    height: 100%
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+#list_title{
+    display: inline-block;
+}
+#new_btn{
+    position: absolute;
+    right: 29px;
+    top: 7px;
+    display: inline-block;
+}
+
+#profile_edit_btn{
+    width: 120px;
+}
+
+#profile_change_pass_btn{
+    margin-left: 10px;
+    width: 120px;
+}
+#profile_view_btn{
+    margin-left: 10px;
+    width: 80px;
+}
+
+.table-profile-fieldname{
+    font-weight: bold;
+}
+
+div #fos_user_profile_form label{
+    width: 150px;
+}
+div #fos_user_profile_form input{
+    width: 200px;
+}
+
+div #fos_user_change_password_form label{
+    width: 150px;
+}
+div #fos_user_change_password_form input{
+    width: 200px;
+}
+
+#RouteBody{
+    overflow: scroll;
+}
+#map-canvas {
+    height: 100%;
+}
+#contentHolder{
+    position: absolute;
+    top:54px;
+    width: 35%;
+    min-width: 430px;
+}
+#user_bar{
+    position: absolute;
+    top: 8px;
+    width: 98%;
+    left: 1%;
+}
+.container
+{
+    display:table;
+    width: 100%;
+    padding: 0 0 0 0; /*set left/right padding according to needs*/
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.row
+{
+    height: 100%;
+    display: table-row;
+}
+#join_column{
+    width: 80px;
+}
+#btn_new_trip{
+    margin: 20px 10px 0 0;
+}
+
+.asd{
+    text-align:left;
+}
