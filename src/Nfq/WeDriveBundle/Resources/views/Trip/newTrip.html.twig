@@ -2,7 +2,11 @@
 
 {#{% form_theme form 'NfqWeDriveBundle:Form:fields.html.twig' %}#}
 {% block panel_title %}
-    {{ option }}({{ routeName }})
+    {% if form.vars.value.id is defined and form.vars.value.id is not empty %}
+        Manage trip
+    {% else %}
+        New trip
+    {% endif %}
 {% endblock %}
 
 {% block panel_body %}

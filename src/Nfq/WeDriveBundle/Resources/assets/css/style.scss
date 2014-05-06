@@ -92,7 +92,7 @@ div #fos_user_change_password_form input{
   text-align:left;
 }
 
-$inputFormRadius: 0;
+//$inputFormRadius: 0;
 
 #login_form_container{
   max-width: 300px;
@@ -104,13 +104,13 @@ $inputFormRadius: 0;
 }
 .form-login input[type="text"] {
   margin-bottom: -1px;
-  border-bottom-right-radius: $inputFormRadius;
-  border-bottom-left-radius: $inputFormRadius;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 .form-login input[type="password"] {
   margin-bottom: 10px;
-  border-top-left-radius: $inputFormRadius;
-  border-top-right-radius: $inputFormRadius;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .nav_bar_notification{
