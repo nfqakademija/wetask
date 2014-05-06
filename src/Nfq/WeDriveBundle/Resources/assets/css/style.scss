@@ -98,6 +98,10 @@ $inputFormRadius: 0;
   max-width: 300px;
   margin: 0 auto;
 }
+#login_form_error{
+  color: red;
+  padding: 0px 10px 10px;
+}
 .form-login input[type="text"] {
   margin-bottom: -1px;
   border-bottom-right-radius: $inputFormRadius;
