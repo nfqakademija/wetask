@@ -4,7 +4,7 @@
 var currentLocation = new google.maps.LatLng(54.696164, 25.277769);
 var idleCenter = new google.maps.LatLng(54.68901487769897, 25.227699279785);
 var map;
-var waypoints = new Array();
+var waypoints = [];
 var waypointlim = 8;
 
 function Initialise() {
@@ -60,21 +60,46 @@ function Initialise() {
     map = new google.maps.Map(mapElement, mapOptions);
     directionsDisplay.setMap(map);
 
-    google.maps.event.addListener(map, 'click', function (event) {
-        if (waypoints.length == 0) {
-            startRoutePlan();
-        }
-        addWaypoint(event.latLng);
-        var coords = markerLatLng(waypoints)
-        plotRoute(coords);
-    });
+//    google.maps.event.addListener(map, 'click', function (event) {
+//        if (waypoints.length == 0) {
+//            startRoutePlan();
+//        }
+//        addWaypoint(event.latLng);
+//        var coords = markerLatLng(waypoints)
+//        plotRoute(coords);
+//    });
+}
 
-    function startRoutePlan() {
+function clearMarkers() {
+    if (waypoints.length > 0) {
+        for (var i = 0; i < waypoints.length; i++) {
+            waypoints[i].setMap(null);
+        }
+        waypoints = [];
+    }
+}
+function arrayLatLng(array) {
+    var coords = [];
+    for (var i = 0, n = array.length; i < n; i++) {
+        coords[i] = new google.maps.LatLng(
+            array[i]['lat'],
+            array[i]['lng']
+        )
+    }
+    return coords;
+}
+
+function coordMarkers(coords) {
+    clearMarkers();
+
+    for (var i = 0, n = coords.length; i < n; i++) {
+        var coord = new google.maps.LatLng(coords[i]['lat'], coords[i]['lng']);
+        addWaypoint(coord);
     }
 }
 
 function markerLatLng(markers) {
-    var coords = new Array();
+    var coords = [];
     for (var i = 0, n = markers.length; i < n; i++) {
 //        coords[i] = new google.maps.LatLng(
 //            markers[i].getPosition().lat(),
@@ -86,14 +111,11 @@ function markerLatLng(markers) {
 }
 
 function plotRoute(coords) {
-    var routeOrigin = currentLocation;
     var routeDestination = coords[coords.length - 1];
-
-    var routeWaypoints = Array();
 
     coords.pop();
 
-    var fixedcoords = new Array();
+    var fixedcoords = [];
 
     for (var i = 0, n = coords.length; i < n; i++) {
         fixedcoords[i] = {
@@ -106,7 +128,7 @@ function plotRoute(coords) {
     console.log(routeDestination);
 
     var request = {
-        origin: routeOrigin,
+        origin: currentLocation,
         destination: routeDestination,
         travelMode: google.maps.TravelMode.DRIVING,
         waypoints: fixedcoords,
@@ -119,7 +141,7 @@ function plotRoute(coords) {
             directionsDisplay.setDirections(response);
         }
     });
-};
+}
 
 function addWaypoint(latlng) {
     if (!(waypoints.length > waypointlim)) {
@@ -134,11 +156,11 @@ function addWaypoint(latlng) {
         waypoints.push(waypoint);
 
         google.maps.event.addListener(waypoint, 'dragend', function () {
-            var coords = markerLatLng(waypoints)
+            var coords = markerLatLng(waypoints);
             plotRoute(coords);
         });
     } else {
     }
-};
+}
 
 google.maps.event.addDomListener(window, 'load', Initialise);
