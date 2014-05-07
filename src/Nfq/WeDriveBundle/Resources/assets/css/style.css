@@ -48,14 +48,10 @@ div #fos_user_change_password_form input {
   height: 100%; }
 
 #contentHolder {
-  position: absolute;
-  top: 64px;
   width: 35%;
   min-width: 430px; }
 
 #user_bar {
-  position: absolute;
-  top: 8px;
   width: 98%;
   left: 1%; }
 
@@ -80,9 +76,8 @@ div #fos_user_change_password_form input {
 .asd {
   text-align: left; }
 
-#login_form_container {
-  max-width: 300px;
-  margin: 0 auto; }
+#login_form {
+  max-width: 300px; }
 
 #login_form_error {
   color: red;
@@ -117,3 +112,6 @@ div #fos_user_change_password_form input {
   font-size: 18px;
   height: 50px;
   padding: 12px 15px 15px; }
+
+#navbar_menu_button {
+  color: #f7f7f7; }

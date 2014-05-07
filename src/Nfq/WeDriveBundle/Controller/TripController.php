@@ -64,6 +64,7 @@ class TripController extends Controller
 
         $trip = new Trip();
         $trip->setDepartureTime(new \DateTime("+3 hours"));
+        $trip->setTitle($route->getDestination());
         $form = $this->createForm(new TripType(), $trip);
         $form->handleRequest($request);
 
@@ -79,7 +80,8 @@ class TripController extends Controller
             'NfqWeDriveBundle:Trip:newTrip.html.twig',
             array(
                 'form' => $form->createView(),
-                'routeName' => $route->getName()
+                'routeName' => $route->getName(),
+                'option' => 'New trip'
             )
         );
     }
@@ -117,7 +119,8 @@ class TripController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid())
+        {
             $em = $this->getDoctrine()->getManager();
             $em->persist($trip);
             $em->flush();
@@ -133,8 +136,7 @@ class TripController extends Controller
         );
     }
 
-    public function joinTripAction(Request $request, $tripId)
-    {
+    public function joinTripAction(Request $request, $tripId) {
         $em = $this->getDoctrine()->getManager();
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
 
@@ -145,8 +147,7 @@ class TripController extends Controller
 
         $passenger->setUser($user);
         $passenger->setTrip($trip);
-        $passenger->setAccepted(1);
-
+        $passenger->setAccepted(2);
 
         $trip->addPassenger($passenger);
 
@@ -154,7 +155,7 @@ class TripController extends Controller
         $em->persist($trip);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('error', "Join successful");
+        $request->getSession()->getFlashBag()->add('error',"Join successful");
 
         return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }

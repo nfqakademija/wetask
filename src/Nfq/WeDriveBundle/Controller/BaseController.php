@@ -59,11 +59,10 @@ class BaseController extends Controller
         $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
         $passengers = $passengerRepository->getPassengersWithRequest($user);
 
-        foreach ($passengers as $passenger) {
-            $message = $passenger->getUser()->getUsername() . ' wants to join you.';
-            $request = array('message' => $message, 'passengerId' => $passenger->getId());
-            $requestsList[] = $request;
-        }
+    public function getNotificationList()
+    {
+        $notificationList = array();
+        $requestList = array();
 
         $notifications['requests'] = $requestsList;
 

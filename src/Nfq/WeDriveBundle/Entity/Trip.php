@@ -10,7 +10,7 @@ use Nfq\WeDriveBundle\Entity\Route;
 /**
  * Trip
  *
- * @ORM\Table()
+ * @ORM\Table(name = "trip")
  * @ORM\Entity(repositoryClass="Nfq\WeDriveBundle\Entity\TripRepository")
  */
 class Trip
@@ -42,7 +42,7 @@ class Trip
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable = true)
      */
     private $description;
 

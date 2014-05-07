@@ -2,7 +2,9 @@
 
 namespace Nfq\WeDriveBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
+use Nfq\UserBundle\Entity\User;
 
 /**
  * TripRepository
@@ -13,19 +15,26 @@ use Doctrine\ORM\EntityRepository;
 class TripRepository extends EntityRepository
 {
 
-    public function getUserTrips($user)
+
+    public function getUserTrips(User $user)
     {
         $em = $this->getEntityManager();
+
+        $parameters = array(
+            'userId' => $user->getId(),
+            'departureTime' => date('Y-m-d H:i:s')
+        );
 
         $query = $em->createQuery(
             "
                             SELECT t
                             FROM Nfq\WeDriveBundle\Entity\Trip t
                             JOIN t.route r
-                            JOIN r.user u
-                            WHERE u.username = :username
+                            WHERE r.user = :userId
+                            AND t.departureTime > :departureTime
+                            ORDER BY t.departureTime ASC
                         "
-        )->setParameter('username', $user->getUsername());
+        )->setParameters($parameters);
 
         $trips = $query->getResult();
 
@@ -37,15 +46,21 @@ class TripRepository extends EntityRepository
 
         return $trips;
     }
+
     /**
      * getOtherTrips
      *
      * @param User
-     * @return array
+     * @return ArrayCollection|Trip[]
      */
-    public function getOtherTrips($user)
+    public function getOtherTrips(User $user)
     {
 
+//        echo mktime(0,5,0,0,0,0,0);
+//        echo date('Y-m-d H:i:s');
+//        echo '<br>';
+//        echo date('Y-m-d H:i:s', strtotime('+' . $time . 'hours'));
+//        die();
 
         $em = $this->getEntityManager();
 
@@ -54,20 +69,25 @@ class TripRepository extends EntityRepository
                             SELECT t
                             FROM Nfq\WeDriveBundle\Entity\Trip t
                             JOIN t.route r
-                            JOIN r.user u
-                            WHERE u.username != :username
+                            WHERE r.user != :userId
+                            AND t.departureTime > :departureTime
                             ORDER BY t.departureTime
                         "
-        )->setParameter('username', $user->getUsername());
+        )->setParameters(
+                array(
+                    'userId' => $user->getId(),
+                    'departureTime' => date('Y-m-d H:i:s')
+                )
+            );
 
         $trips = $query->getResult();
-        if (!$trips) {
+//        if (!$trips) {
 //            throw $this->createNotFoundException(
 //                'No trips found'
 //            );
-        }
+//        }
 
-       return $trips;
+        return $trips;
     }
 
     /**
