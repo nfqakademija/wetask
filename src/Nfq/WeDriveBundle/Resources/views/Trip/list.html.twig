@@ -25,7 +25,7 @@
 
         <tbody>
         {% for trip in userTrips %}
-            {% if (trip.departureTime.date|date('YmdHis') > "+3 hours"|date('YmdHis')) %}
+            {#{% if (trip.departureTime.date|date('YmdHis') > "+3 hours"|date('YmdHis')) %}#}
                 <tr>
                     <td> {{ trip.departureTime.date|date('m-d H:i') }} </td>
                     <td> {{ trip.title }}</td>
@@ -35,7 +35,7 @@
                     </td>
                     <td> {{ trip.availableSeats }} </td>
                 </tr>
-            {% endif %}
+            {#{% endif %}#}
         {% endfor %}
         </tbody>
     </table>

@@ -41,7 +41,7 @@
                             </td>
                             <td>
 
-                                <a {% if tripRow.buttonDisabled or tripRow.buttonName == "Joined" %} disabled="disabled" {% endif %}
+                                <a
                                         href="{{ path('nfq_wedrive_trip_join',{'tripId':tripRow.trip.id}) }}"
                                         type="button" class="btn btn-{{ tripRow.availableSeats.type }} btn-xs">
                                     &nbsp;&nbsp;&nbsp;{{ tripRow.buttonName }}
@@ -82,7 +82,7 @@
                             </td>
                             <td>
 
-                                <a  type="button" class="btn btn-warning btn-xs">
+                                <a type="button" class="btn btn-warning btn-xs">
                                     &nbsp;&nbsp;&nbsp;Leave
                                     &nbsp;&nbsp;&nbsp;
                                 </a>
@@ -96,4 +96,4 @@
         </div>
     </div>
 
-{% endblock %}
+    {% endblock %}

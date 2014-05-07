@@ -3,6 +3,7 @@
 namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Nfq\UserBundle\Entity\User;
 
 /**
  * TripRepository
@@ -13,20 +14,26 @@ use Doctrine\ORM\EntityRepository;
 class TripRepository extends EntityRepository
 {
 
-    public function getUserTrips($user)
+
+    public function getUserTrips(User $user)
     {
         $em = $this->getEntityManager();
+
+        $parameters = array(
+            'userId' => $user->getId(),
+            'departureTime' => date('Y-m-d H:i:s')
+        );
 
         $query = $em->createQuery(
             "
                             SELECT t
                             FROM Nfq\WeDriveBundle\Entity\Trip t
                             JOIN t.route r
-                            JOIN r.user u
-                            WHERE u.username = :username
+                            WHERE r.user = :userId
+                            AND t.departureTime > :departureTime
                             ORDER BY t.departureTime ASC
                         "
-        )->setParameter('username', $user->getUsername());
+        )->setParameters($parameters);
 
         $trips = $query->getResult();
 
@@ -44,7 +51,7 @@ class TripRepository extends EntityRepository
      * @param User
      * @return array
      */
-    public function getOtherTrips($user)
+    public function getOtherTrips(User $user)
     {
 
 

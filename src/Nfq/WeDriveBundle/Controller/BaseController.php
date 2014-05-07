@@ -18,51 +18,46 @@ class BaseController extends Controller
      */
     public function indexAction()
     {
-        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-        $user = $this->getUser();
-        $otherTrips = $tripRepository->getOtherTrips($user);
+//        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+//        $user = $this->getUser();
+//        $otherTrips = $tripRepository->getOtherTrips();
 
-        $tripsList = array();
-        $elementType = array('danger', 'warning', 'success', 'success', 'success', 'success', 'success', 'success');
-        $buttonNames = array('Join', 'Waiting..', 'Joined', 'Rejected');
 
-        foreach ($otherTrips as $trip) {
-            $tripRow['trip'] = $trip;
+//        $elementType = array('danger', 'warning', 'success', 'success', 'success', 'success', 'success', 'success');
+//        $buttonNames = array('Join', 'Waiting..', 'Joined', 'Rejected');
 
-            $sCount = $trip->getAvailableSeats() - $tripRepository->getAcceptedPassengersCount($trip);
-            $tripRow['availableSeats']['count'] = $sCount;
 
-            if ($sCount >= 0) {
-                $tripRow['availableSeats']['type'] = $elementType[$sCount];
-            } else {
-                $tripRow['availableSeats']['type'] = $elementType[0];
-            }
 
-            $buttonName = $buttonNames[0];
-            if ($sCount <= 0) {
-                $buttonName = "No seats";
-                $tripRow['buttonDisabled'] = true;
-            } else {
-                $tripRow['buttonDisabled'] = false;
-            }
-            foreach ($trip->getPassengers() as $passenger) {
-                if ($passenger->getUser()->getUsername() == $user->getUsername()) {
-                    if ($passenger->getAccepted() >= 0 && $passenger->getAccepted() < 3) {
-                        $buttonName = $buttonNames[$passenger->getAccepted()];
-                    }
-                }
-            }
-            $tripRow['buttonName'] = $buttonName;
+//        foreach ($otherTrips as $trip) {
+//
+//            $sCount = $trip->getAvailableSeats() - $tripRepository->getAcceptedPassengersCount($trip);
+//            if ($sCount > 0)
+//            {
+//                $tripRow['trip'] = $trip;
+//                $tripRow['availableSeats']['count'] = $sCount;
+//                $tripRow['availableSeats']['type'] = $elementType[$sCount];
+//
+//
+//                $buttonName = $buttonNames[0];
+//
+//                foreach ($trip->getPassengers() as $passenger) {
+//                    if ($passenger->getUser() == $user) {
+//                            $buttonName = $buttonNames[2];
+//                    }
+//                }
+//
+//                $tripRow['buttonName'] = $buttonName;
+//                $tripsList[] = $tripRow;
+//            }
+//        }
+        $tripsList = $this->getTripList();
 
-            $tripsList[] = $tripRow;
-        }
-
-        $notifications = array();
-        $requestsList = array();
+//        $notifications = array();
+//        $requestsList = array();
 
         /** @var PassengerRepository  $passengerRepository */
         $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
-        $passengers = $passengerRepository->getPassengersWithRequest($user);
+        $passengers = $passengerRepository->getPassengersWithRequest($this->getUser());
 
         foreach ($passengers as $passenger) {
             $message = $passenger->getUser()->getUsername() . ' wants to join you.';
@@ -103,5 +98,55 @@ class BaseController extends Controller
     {
         return $this->render('NfqWeDriveBundle:Map:map.html.twig');
     }
+
+    public function getTripList()
+    {
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+        $user = $this->getUser();
+        $otherTrips = $tripRepository->getOtherTrips($user);
+
+        $elementType = array('danger', 'warning', 'success', 'success', 'success', 'success', 'success', 'success');
+        $buttonNames = array('Join', 'Waiting..', 'Joined', 'Rejected');
+
+        $tripList = array();
+
+        foreach ($otherTrips as $trip) {
+
+            $sCount = $trip->getAvailableSeats() - $tripRepository->getAcceptedPassengersCount($trip);
+            if ($sCount > 0)
+            {
+                $tripRow['trip'] = $trip;
+                $tripRow['availableSeats']['count'] = $sCount;
+                $tripRow['availableSeats']['type'] = $elementType[$sCount];
+
+
+                $buttonName = $buttonNames[0];
+
+                foreach ($trip->getPassengers() as $passenger) {
+                    if ($passenger->getUser() == $user) {
+                        $buttonName = $buttonNames[2];
+                    }
+                }
+
+                $tripRow['buttonName'] = $buttonName;
+                $tripList[] = $tripRow;
+            }
+        }
+
+        return $tripList;
+
+    }
+
+    public function getNotificationList()
+    {
+        $notifications = array();
+        $requestsList = array();
+
+        $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
+
+
+
+    }
+
 
 }
