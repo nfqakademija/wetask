@@ -148,8 +148,6 @@ class TripController extends Controller
         $passenger->setTrip($trip);
         $passenger->setAccepted(2);
 
-
-
         $trip->addPassenger($passenger);
 
         $em->persist($passenger);

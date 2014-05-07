@@ -37,7 +37,7 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
             array('route-1', strtotime('+3 hours 25 minutes'), 'Nothing to see here', 'trip-8', 1),
             array('route-3', strtotime('+3 hours 25 minutes'), 'Nothing to see here', 'trip-9', 1),
             array('route-4', strtotime('+3 hours 5125 minutes'), 'Nothing to see here', 'trip-10', 1),
-            array('route-4', strtotime('+3 hours 225 minutes'), 'Nothing to see here', 'trip-11', 2),
+            array('route-4', strtotime('+3 hours 225 minutes'), 'Nothing to see here', 'trip-11', 6),
             array('route-5', strtotime('+3 hours 325 minutes'), 'Nothing to see here', 'trip-12', 1),
             array('route-6', strtotime('+3 hours 425 minutes'), 'Nothing to see here', 'trip-13', 1)
         );
