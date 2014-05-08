@@ -4,6 +4,7 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\UserBundle\Entity\User;
+use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\PassengerRepository;
 use Nfq\WeDriveBundle\Entity\Trip;
@@ -109,19 +110,58 @@ class BaseController extends Controller
     {
         $notificationList = array();
         $requestList = array();
+        $messageList = array();
 
         /** @var PassengerRepository $passengerRepository */
         $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
 
+        //check for messages and request for user as driver
         $passengerList = $passengerRepository->getPassengersWithRequest($this->getUser());
 
         foreach ($passengerList as $passenger) {
-            $message = $passenger->getUser()->getUsername() . ' wants to join you.';
-            $request = array('message' => $message, 'passengerId' => $passenger->getId());
-            $requestList[] = $request;
+            switch ($passenger->getAccepted()){
+                case PassengerState::ST_JOINED:
+                    $message = str_replace('##PASSENGER_NAME##',
+                        $passenger->getUser()->getUsername(),
+                        PassengerState::MSG_JOINED);
+                    $request = array('message' => $message, 'passengerId' => $passenger->getId());
+                    $requestList[] = $request;
+                    break;
+
+                case PassengerState::ST_CANCELED_BY_PASSENGER:
+                    $message = str_replace('##PASSENGER_NAME##',
+                        $passenger->getUser()->getUsername(),
+                        PassengerState::MSG_CANCELED_BY_PASSENGER);
+                    $msg = array('message' => $message, 'passengerId' => $passenger->getId());
+                    $messageList[] = $msg;
+                    break;
+            }
         }
 
-        $messageList = array();
+        //check messages and request for user as passenger
+        $passengerList = $passengerRepository->getUserAsPassengerListWithRequest($this->getUser());
+
+        foreach ($passengerList as $passenger) {
+            switch ($passenger->getAccepted()){
+                case PassengerState::ST_CANCELED_BY_DRIVER:
+                    $message = str_replace('##DRIVER_NAME##',
+                        $passenger->getTrip()->getRoute()->getUser()->getUsername(),
+                        PassengerState::MSG_CANCELED_BY_DRIVER);
+                    $msg = array('message' => $message, 'passengerId' => $passenger->getId());
+                    $messageList[] = $msg;
+                    break;
+
+                case PassengerState::ST_REJECTED_BY_DRIVER:
+                    $message = str_replace('##DRIVER_NAME##',
+                        $passenger->getTrip()->getRoute()->getUser()->getUsername(),
+                        PassengerState::MSG_REJECTED_BY_DRIVER);
+                    $msg = array('message' => $message, 'passengerId' => $passenger->getId());
+                    $messageList[] = $msg;
+                    break;
+            }
+
+        }
+
         $notificationList['requests'] = $requestList;
 
         $notificationList['messages'] = $messageList;

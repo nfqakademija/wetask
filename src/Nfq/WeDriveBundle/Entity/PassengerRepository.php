@@ -29,9 +29,36 @@ class PassengerRepository extends EntityRepository
                             JOIN p.trip t
                             JOIN t.route r
                             JOIN r.user u
-                            WHERE u.username = :username and p.accepted = :accepted
-                        "
-        )->setParameters(array('username'=>$user->getUsername(), 'accepted'=>PassengerState::ST_JOINED));
+                            WHERE u.username = :username and
+                            (p.accepted = :state1 or p.accepted = :state2)
+                            ORDER BY p.accepted"
+        )->setParameters(array('username'=>$user->getUsername(),
+                'state1'=>PassengerState::ST_JOINED,
+                'state2'=>PassengerState::ST_CANCELED_BY_PASSENGER));
+
+        $passengers = $query->getResult();
+
+        return $passengers;
+    }
+
+    /**
+     * @param User $user
+     * @return array|Passenger[]
+     */
+    public function getUserAsPassengerListWithRequest(User $user)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "
+                            SELECT p
+                            FROM Nfq\WeDriveBundle\Entity\Passenger p
+                            WHERE p.user = :user_id and
+                            (p.accepted = :state1 or p.accepted = :state2)
+                            ORDER BY p.accepted"
+        )->setParameters(array('user_id'=>$user->getId(),
+                'state1'=>PassengerState::ST_CANCELED_BY_DRIVER,
+                'state2'=>PassengerState::ST_REJECTED_BY_DRIVER));
 
         $passengers = $query->getResult();
 
