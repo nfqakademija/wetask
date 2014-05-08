@@ -124,7 +124,10 @@ class BaseController extends Controller
                     $message = str_replace('##PASSENGER_NAME##',
                         $passenger->getUser()->getUsername(),
                         PassengerState::MSG_JOINED);
-                    $request = array('message' => $message, 'passengerId' => $passenger->getId());
+                    $request = array(
+                        'message' => $message,
+                        'passengerId' => $passenger->getId(),
+                        'form' => $this->getRequestFormView($passenger->getId()));
                     $requestList[] = $request;
                     break;
 
@@ -169,6 +172,22 @@ class BaseController extends Controller
         $notificationList['count'] = count($notificationList['requests']) + count($notificationList['messages']);
 
         return $notificationList;
+    }
+
+    /**
+     * @return \Symfony\Component\Form\Form
+     */
+    private function getRequestFormView($passengerId)
+    {
+//        'form' =>$form->createView(),
+        $defaultData = array();
+        $form = $this->createFormBuilder($defaultData)
+            ->setAction($this->generateUrl('nfq_wedrive_passenger_join_accept',
+                array('passengerId'=>$passengerId)))
+            ->add('Accept', 'submit')
+            ->add('Reject', 'submit')
+            ->getForm();
+        return $form->createView();
     }
 
 }

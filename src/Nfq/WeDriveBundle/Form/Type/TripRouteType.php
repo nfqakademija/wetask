@@ -59,7 +59,7 @@ class TripRouteType extends AbstractType
                 )
             )
             ->add(
-                'availableSeats',
+                'maxPassengers',
                 'integer',
                 array(
                     'label' => 'Available seats',
