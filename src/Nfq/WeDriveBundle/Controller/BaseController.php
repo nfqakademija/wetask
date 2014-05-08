@@ -26,13 +26,10 @@ class BaseController extends Controller
         $tripsList = $this->getTripList();
         $time = 5;
 
-        $notifications = $this->getNotificationList();
-
         return $this->render(
             'NfqWeDriveBundle:Default:index.html.twig',
             array(
                 'tripsList' => $tripsList,
-                'notifications' => $notifications,
                 'time' => $time
             )
         );
@@ -45,6 +42,19 @@ class BaseController extends Controller
     public function showMapAction()
     {
         return $this->render('NfqWeDriveBundle:Map:map.html.twig');
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showNotificationsAction()
+    {
+        $notifications = $this->getNotificationList();
+
+        return $this->render('NfqWeDriveBundle:Navbar:notifications.html.twig',
+            array(
+                'notifications' => $notifications,
+            ));
     }
 
     public function getTripList()

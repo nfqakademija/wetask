@@ -29,67 +29,7 @@
                         My Routes
                     </a>
                 </li>
-                {% if notifications is defined %}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                                    class="glyphicon glyphicon-envelope"></span>&nbsp; Notifications
-                            <span class="badge">{{ notifications.count }}</span></a>
-                        <ul class="dropdown-menu">
-                            {% for request in notifications.requests %}
-                            <li>
-                                <a href="#" >{{ request.message }}
-
-                                    <div class="btn-group btn-group-xs this">
-                                        <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':request.passengerId}) }}"
-                                           type="button" class="btn btn-success">
-                                            Accept
-                                        </a>
-                                        <a href="{{ path('nfq_wedrive_passenger_join_reject',{'passengerId':request.passengerId}) }}"
-                                           type="button" class="btn btn-danger">
-                                            Reject
-                                        </a>
-                                        {#<button type="button" class="btn btn-success">Accept</button>#}
-                                        {#<button type="button" class="btn btn-danger">Decline</button>#}
-                                    </div>
-                                </a>
-                            </li>
-                            {% endfor %}
-                            {% for message in notifications.messages %}
-                            <li>
-                                <a href="#">{{ message.message }}
-                                    <div class="btn-group btn-group-xs this">
-                                        <button type="button" class="btn btn-info">Okay</button>
-                                    </div>
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                                    class="glyphicon glyphicon-envelope"></span>&nbsp; Notifications
-                            <span class="badge">2</span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">Jane wants to join you <br/>(2014-04-02, Antakalnis)
-                                    <div class="btn-group btn-group-xs this">
-                                        <button type="button" class="btn btn-success">Accept</button>
-                                        <button type="button" class="btn btn-danger">Decline</button>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">Peter is searching same route like yours
-                                    <div class="btn-group btn-group-xs this">
-                                        <button type="button" class="btn btn-info">Okay</button>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                {% endif %}
-
+                {{ render(controller('NfqWeDriveBundle:Base:showNotifications')) }}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                                 class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username }}</a>
