@@ -71,12 +71,11 @@ class BaseController extends Controller
         $elementType = array('danger', 'warning', 'success');
         $buttonNames = array('Join', 'Leave');
 
-        /** @var ArrayCollection|Trip[] $tripList */
         $tripList = array();
 
         foreach ($otherTrips as $trip) {
 
-            $sCount = $trip->getAvailableSeats() - $tripRepository->getJoinedPassengersCount($trip);
+            $sCount = $tripRepository->getAvailableSeatsCount($trip);
             if ($sCount >= 0) {
                 $buttonName = $buttonNames[0];
                 $passengers = $tripRepository->getJoinedPassengersList($trip);

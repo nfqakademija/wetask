@@ -32,9 +32,21 @@ class TripController extends Controller
         $user = $this->getUser();
         $userTrips = $tripRepository->getUserTrips($user);
 
+        $tripList = array();
+
+        foreach ($userTrips as $trip) {
+
+            $sCount = $tripRepository->getAvailableSeatsCount($trip);
+
+            $tripRow['availableSeatsCount'] = $sCount;
+            $tripRow['trip'] = $trip;
+            $tripList[] = $tripRow;
+
+        }
+
         return $this->render(
             'NfqWeDriveBundle:Trip:list.html.twig',
-            array('userTrips' => $userTrips)
+            array('userTrips' => $tripList)
         );
     }
 

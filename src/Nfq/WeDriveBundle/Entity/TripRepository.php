@@ -89,9 +89,9 @@ class TripRepository extends EntityRepository
      * getJoinedPassengersCount
      *
      * @param Trip trip
-     * @return Integer
+     * @return integer
      */
-    public function getJoinedPassengersCount($trip)
+    public function getJoinedPassengersCount(Trip $trip)
     {
         $em = $this->getEntityManager();
 
@@ -110,6 +110,17 @@ class TripRepository extends EntityRepository
         $pCount = $query->getSingleScalarResult();
 
         return $pCount;
+    }
+
+    /**
+     * getAvailableSeatsCount
+     *
+     * @param Trip trip
+     * @return integer
+     */
+    public function getAvailableSeatsCount(Trip $trip)
+    {
+        return $trip->getMaxPassengers() - $this->getJoinedPassengersCount($trip);
     }
 
     /**
@@ -137,4 +148,5 @@ class TripRepository extends EntityRepository
 
         return $passengers;
     }
+
 }

@@ -52,7 +52,7 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
             $trip->setDepartureTime($tmpDT);
             $trip->setDescription($tripData[2]);
             $trip->setTitle($route->getDestination());
-            $trip->setAvailableSeats($tripData[4]);
+            $trip->setMaxPassengers($tripData[4]);
 
             $manager->persist($trip);
             $this->addReference($tripData[3], $trip);

@@ -63,9 +63,9 @@ class Trip
     /**
      * @var integer
      *
-     * @ORM\Column(name="available_seats", type="integer")
+     * @ORM\Column(name="max_passengers", type="integer")
      */
-    private $availableSeats;
+    private $maxPassengers;
 
     /**
      * Get id
@@ -175,21 +175,6 @@ class Trip
         return $this->title;
     }
 
-    /**
-     * @return int
-     */
-    public function getAvailableSeats()
-    {
-        return $this->availableSeats;
-    }
-
-    /**
-     * @param int $availableSeats
-     */
-    public function setAvailableSeats($availableSeats)
-    {
-        $this->availableSeats = $availableSeats;
-    }
 
     /**
      * @return \DateTime
@@ -221,5 +206,28 @@ class Trip
     public function setPassengers($passengers)
     {
         $this->passengers = $passengers;
+    }
+
+    /**
+     * Set maxPassengers
+     *
+     * @param integer $maxPassengers
+     * @return Trip
+     */
+    public function setMaxPassengers($maxPassengers)
+    {
+        $this->maxPassengers = $maxPassengers;
+
+        return $this;
+    }
+
+    /**
+     * Get maxPassengers
+     *
+     * @return integer 
+     */
+    public function getMaxPassengers()
+    {
+        return $this->maxPassengers;
     }
 }
