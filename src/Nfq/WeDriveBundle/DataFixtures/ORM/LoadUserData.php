@@ -59,8 +59,15 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
             array('Domas', 'test', 'domas@wedrive.dev', 'ROLE_USER', 'user-10',true),
             array('Tomas', 'test', 'tomas@wedrive.dev', 'ROLE_USER', 'user-11',true),
             array('Markas', 'test', 'markas@wedrive.dev', 'ROLE_USER', 'user-12',true),
+            array('Olga', 'test', 'olga@wedrive.dev', 'ROLE_USER', 'user-13',true),
+            array('Asta', 'test', 'asta@wedrive.dev', 'ROLE_USER', 'user-14',true),
+            array('Gintas', 'test', 'gintas@wedrive.dev', 'ROLE_USER', 'user-15',true),
+            array('Aiste', 'test', 'aiste@wedrive.dev', 'ROLE_USER', 'user-16',true),
+            array('Justas', 'test', 'justas@wedrive.dev', 'ROLE_USER', 'user-17',true),
+            array('Titas', 'test', 'titas@wedrive.dev', 'ROLE_USER', 'user-18',true),
+            array('Mantas', 'test', 'mantas@wedrive.dev', 'ROLE_USER', 'user-19',true),
+            array('Mikolas', 'test', 'mikolas@wedrive.dev', 'ROLE_USER', 'user-20',true),
         );
-
         $userManager = $this->container->get('fos_user.user_manager');
 
         foreach ($users as $userData) {

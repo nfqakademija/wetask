@@ -29,10 +29,11 @@ class LoadRouteData extends AbstractFixture implements OrderedFixtureInterface
         $routes = array(
             array('Antakalnis', 'user-1', 'route-1', 'Home'),
             array('Zirmunai', 'user-1', 'route-3', 'Home'),
-            array('Antakalnis', 'user-2', 'route-2', 'Work'),
+            array('Antakalnis', 'user-6', 'route-2', 'Work'),
             array('Lazdynai', 'user-2', 'route-8', 'Pet store'),
+            array('Karoliniskes', 'user-2', 'route-14', 'Maxima'),
             array('Kalnenai', 'user-2', 'route-9', 'Park'),
-            array('Fabijoniskes', 'user-2', 'route-10', 'Perverted forest'),
+            array('Fabijoniskes', 'user-8', 'route-10', 'Perverted forest'),
             array('Naujamiestis', 'user-3', 'route-4', 'Work'),
             array('Pilaite', 'user-8', 'route-5', 'Party'),
             array('Jeruzale', 'user-6', 'route-6', 'Hotel'),
