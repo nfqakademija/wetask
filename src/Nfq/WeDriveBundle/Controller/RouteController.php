@@ -37,12 +37,13 @@ class RouteController extends Controller
         $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findBy(
             array('user' => $user->getId())
         );
+
         if (!$routes) {
             //Throw exception
+
         }
 
-        $return;
-
+        $return = array();
         foreach ($routes as $route) {
             $routePoints = $route->getRoutePoints();
 

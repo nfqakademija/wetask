@@ -111,4 +111,30 @@ class TripRepository extends EntityRepository
 
         return $pCount;
     }
+
+    /**
+     * getJoinedPassengersList
+     *
+     * @param Trip trip
+     * @return ArrayCollection|Passengers[]
+     */
+    public function getJoinedPassengersList($trip)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "
+                            SELECT p
+                            FROM Nfq\WeDriveBundle\Entity\Passenger p
+                            WHERE p.trip = :tripId and
+                            (p.accepted = :state1 or p.accepted = :state2)
+                        "
+        )->setParameters(array('tripId'=>$trip->getId(),
+                'state1'=>PassengerState::ST_JOINED,
+                'state2'=>PassengerState::ST_JOINED_DRIVER_ACCEPTED));
+
+        $passengers = $query->getResult();
+
+        return $passengers;
+    }
 }
