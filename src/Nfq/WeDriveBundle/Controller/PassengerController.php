@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
@@ -24,7 +25,7 @@ class PassengerController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function acceptPassengerAction(Request $request, $passengerId) {
-        $this->setPassengerState($passengerId, 2);
+        $this->setPassengerState($passengerId, PassengerState::ST_JOINED_DRIVER_ACCEPTED);
         return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
 
@@ -35,7 +36,7 @@ class PassengerController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function rejectPassengerAction(Request $request, $passengerId) {
-        $this->setPassengerState($passengerId, 3);
+        $this->setPassengerState($passengerId, PassengerState::ST_REJECTED_BY_DRIVER);
         return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
 

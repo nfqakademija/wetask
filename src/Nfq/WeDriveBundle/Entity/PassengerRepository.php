@@ -4,6 +4,7 @@ namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Nfq\UserBundle\Entity\User;
+use Nfq\WeDriveBundle\Constants\PassengerState;
 
 /**
  * PassengerRepository
@@ -19,14 +20,6 @@ class PassengerRepository extends EntityRepository
      */
     public function getPassengersWithRequest(User $user)
     {
-//        SELECT p.*
-//        FROM Trip t
-//        JOIN Route r ON t.route_id = r.id
-//        JOIN fos_user u ON r.user_id = u.id
-//        JOIN Passenger p ON t.id = p.trip_id
-//        WHERE u.username = 'Daiva'
-//            and p.accepted = 1
-
         $em = $this->getEntityManager();
 
         $query = $em->createQuery(
@@ -36,9 +29,9 @@ class PassengerRepository extends EntityRepository
                             JOIN p.trip t
                             JOIN t.route r
                             JOIN r.user u
-                            WHERE u.username = :username and p.accepted = 1
+                            WHERE u.username = :username and p.accepted = :accepted
                         "
-        )->setParameter('username', $user->getUsername());
+        )->setParameters(array('username'=>$user->getUsername(), 'accepted'=>PassengerState::ST_JOINED));
 
         $passengers = $query->getResult();
 

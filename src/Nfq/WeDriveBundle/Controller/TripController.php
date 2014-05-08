@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Form\Type\TripRouteType;
@@ -146,7 +147,7 @@ class TripController extends Controller
 
         $passenger->setUser($user);
         $passenger->setTrip($trip);
-        $passenger->setAccepted(2);
+        $passenger->setAccepted(PassengerState::ST_JOINED);
 
         $trip->addPassenger($passenger);
 

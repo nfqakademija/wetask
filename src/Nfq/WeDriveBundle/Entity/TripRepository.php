@@ -5,6 +5,7 @@ namespace Nfq\WeDriveBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Nfq\UserBundle\Entity\User;
+use Nfq\WeDriveBundle\Constants\PassengerState;
 
 /**
  * TripRepository
@@ -50,17 +51,11 @@ class TripRepository extends EntityRepository
     /**
      * getOtherTrips
      *
-     * @param User
+     * @param User $user
      * @return ArrayCollection|Trip[]
      */
     public function getOtherTrips(User $user)
     {
-
-//        echo mktime(0,5,0,0,0,0,0);
-//        echo date('Y-m-d H:i:s');
-//        echo '<br>';
-//        echo date('Y-m-d H:i:s', strtotime('+' . $time . 'hours'));
-//        die();
 
         $em = $this->getEntityManager();
 
@@ -91,12 +86,12 @@ class TripRepository extends EntityRepository
     }
 
     /**
-     * getAcceptedPassengersCount
+     * getJoinedPassengersCount
      *
      * @param Trip trip
      * @return Integer
      */
-    public function getAcceptedPassengersCount($trip)
+    public function getJoinedPassengersCount($trip)
     {
         $em = $this->getEntityManager();
 
@@ -105,9 +100,12 @@ class TripRepository extends EntityRepository
                             SELECT count(p)
                             FROM Nfq\WeDriveBundle\Entity\Passenger p
                             JOIN p.trip t
-                            WHERE t.id = :tripId and p.accepted = 2
+                            WHERE t.id = :tripId and
+                            (p.accepted = :state1 or p.accepted = :state2)
                         "
-        )->setParameter('tripId', $trip->getId());
+        )->setParameters(array('tripId'=>$trip->getId(),
+                        'state1'=>PassengerState::ST_JOINED,
+                        'state2'=>PassengerState::ST_JOINED_DRIVER_ACCEPTED));
 
         $pCount = $query->getSingleScalarResult();
 

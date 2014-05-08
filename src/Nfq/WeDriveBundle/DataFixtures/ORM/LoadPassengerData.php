@@ -11,6 +11,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nfq\WeDriveBundle\Entity\Passenger;
+use Nfq\WeDriveBundle\Constants\PassengerState;
 
 /**
  * Class LoadPassengerData
@@ -29,20 +30,20 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
     {
 
         $passengers = array(
-            array('trip-1', '2', 'user-11'),
-            array('trip-2', '1', 'user-5'),
-            array('trip-3', '2', 'user-10'),
-            array('trip-4', '2', 'user-11'),
-            array('trip-5', '1', 'user-7'),
-            array('trip-10', '1', 'user-8'),
-            array('trip-7', '1', 'user-12'),
-            array('trip-11', '2', 'user-2'),
-            array('trip-8', '2', 'user-5'),
-            array('trip-9', '2', 'user-9'),
-            array('trip-12', '2', 'user-13'),
-            array('trip-12', '2', 'user-14'),
-            array('trip-12', '2', 'user-15'),
-            array('trip-12', '2', 'user-16')
+            array('trip-1', PassengerState::ST_JOINED, 'user-11'),
+            array('trip-2', PassengerState::ST_JOINED, 'user-5'),
+            array('trip-3', PassengerState::ST_JOINED_DRIVER_ACCEPTED, 'user-10'),
+            array('trip-4', PassengerState::ST_JOINED, 'user-11'),
+            array('trip-5', PassengerState::ST_JOINED, 'user-7'),
+            array('trip-10', PassengerState::ST_JOINED, 'user-8'),
+            array('trip-7', PassengerState::ST_JOINED, 'user-12'),
+            array('trip-11', PassengerState::ST_JOINED, 'user-2'),
+            array('trip-8', PassengerState::ST_JOINED, 'user-5'),
+            array('trip-9', PassengerState::ST_JOINED, 'user-9'),
+            array('trip-12', PassengerState::ST_JOINED, 'user-13'),
+            array('trip-12', PassengerState::ST_JOINED, 'user-14'),
+            array('trip-12', PassengerState::ST_JOINED, 'user-15'),
+            array('trip-12', PassengerState::ST_JOINED, 'user-16')
         );
 
         foreach ($passengers as $passengerData) {
