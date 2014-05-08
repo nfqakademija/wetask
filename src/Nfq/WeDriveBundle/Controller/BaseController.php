@@ -66,7 +66,7 @@ class BaseController extends Controller
 
         foreach ($otherTrips as $trip) {
 
-            $sCount = $trip->getAvailableSeats() - $tripRepository->getAcceptedPassengersCount($trip);
+            $sCount = $trip->getAvailableSeats() - $tripRepository->getJoinedPassengersCount($trip);
             if ($sCount >= 0) {
                 $buttonName = $buttonNames[0];
 
