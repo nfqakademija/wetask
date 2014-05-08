@@ -46,6 +46,7 @@ class TripController extends Controller
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $entityManager = $this->getDoctrine()->getManager();
+//        TODO:
     }
 
     /**
@@ -56,7 +57,6 @@ class TripController extends Controller
      */
     public function newTripAction(Request $request, $routeId)
     {
-//        $user = $this->getUser();
 
         $route = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findOneBy(
             array('id' => $routeId)
@@ -123,7 +123,7 @@ class TripController extends Controller
         {
             $em = $this->getDoctrine()->getManager();
             $em->persist($trip);
-            $em->flush();
+            $em ->flush();
             return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
 
@@ -131,7 +131,6 @@ class TripController extends Controller
             'NfqWeDriveBundle:Trip:newTrip.html.twig',
             array(
                 'form' => $form->createView(),
-                'routeName' => $trip->getTitle()
             )
         );
     }
