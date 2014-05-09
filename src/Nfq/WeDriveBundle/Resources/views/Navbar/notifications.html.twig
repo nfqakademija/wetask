@@ -5,32 +5,30 @@
             <span class="badge">{{ notifications.count }}</span></a>
         <ul class="dropdown-menu">
             {% for request in notifications.requests %}
-                <li>
-                    <a href="#" >{{ request.message }}
-
-                        <div class="btn-group btn-group-xs this">
-                            <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':request.passengerId}) }}"
-                               type="button" class="btn btn-success">
-                                Accept
-                            </a>
-                            <a href="{{ path('nfq_wedrive_passenger_join_reject',{'passengerId':request.passengerId}) }}"
-                               type="button" class="btn btn-danger">
-                                Reject
-                            </a>
-                            {#<button type="button" class="btn btn-success">Accept</button>#}
-                            {#<button type="button" class="btn btn-danger">Decline</button>#}
-
-                        </div>
-                    </a>
+                <li >
+                    {{ request.message }}
+                    <div class="btn-group btn-group-xs this">
+                        <a href="{{ path('nfq_wedrive_passenger_join_reject',{'passengerId':request.passengerId}) }}"
+                           type="button" class="btn btn-danger">
+                            Reject
+                        </a>
+                        <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':request.passengerId}) }}"
+                           type="button" class="btn btn-success">
+                            Accept
+                        </a>
+                    </div>
                 </li>
+
             {% endfor %}
             {% for message in notifications.messages %}
-                <li>
-                    <a href="#">{{ message.message }}
-                        <div class="btn-group btn-group-xs this">
-                            <button type="button" class="btn btn-info">Okay</button>
-                        </div>
-                    </a>
+                <li >
+                    {{ message.message }}
+                    <div class="btn-group btn-group-xs this">
+                        <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':message.passengerId}) }}"
+                           type="button" class="btn btn-info btn-xs">
+                            Okay
+                        </a>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
