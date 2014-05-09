@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Trip;
@@ -42,6 +43,7 @@ class TripController extends Controller
 
             $tripRow['availableSeatsCount'] = $sCount;
             $tripRow['trip'] = $trip;
+            $tripRow['routePoints'] = $trip->getRoute()->getRoutePoints();
 
             $tripList[] = $tripRow;
 

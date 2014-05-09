@@ -21,19 +21,19 @@ use Symfony\Component\HttpFoundation\Response;
 class RouteController extends Controller
 {
     /**
-     * Returns Routes list
+     * Lists saved routes for user
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @internal param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
         $user1 = $this->getUser();
-
+        /** @var  $userRepository */
         $userRepository = $this->getDoctrine()->getRepository('NfqUserBundle:User');
-        /** @var User $user */
+        /** @var  $user */
         $user = $userRepository->findOneBy(array('username' => $user1->getUsername()));
-
+        /** @var  $routes */
         $routes = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findBy(
             array('user' => $user->getId())
         );
@@ -42,17 +42,17 @@ class RouteController extends Controller
             //Throw exception
 
         }
-
+        /** @var  $return */
         $return = array();
         foreach ($routes as $route) {
             $routePoints = $route->getRoutePoints();
 
-            $routeobj = array(
+            $routeRow = array(
                 'route' => $route,
                 'routePoints' => $routePoints
             );
 
-            $return[] = $routeobj;
+            $return[] = $routeRow;
         }
 
         return $this->render('NfqWeDriveBundle:Route:list.html.twig', array('routes' => $return));
@@ -124,7 +124,7 @@ class RouteController extends Controller
     }
 
     /**
-     * Deletes Route by id
+     * Deletes route by id
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param $routeId
@@ -156,6 +156,8 @@ class RouteController extends Controller
     }
 
     /**
+     *
+     * Checks if user owns the route and if it's not used in future trips
      *
      * @param Route $route
      * @param User $user

@@ -107,6 +107,9 @@ class BaseController extends Controller
                         $sCount = 2;
                     }
                     $tripRow['availableSeats']['type'] = $elementType[$sCount];
+
+                    $tripRow['routePoints'] = $trip->getRoute()->getRoutePoints();
+
                     $tripList[] = $tripRow;
                 }
             }

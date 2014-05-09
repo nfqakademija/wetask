@@ -6,17 +6,13 @@ var idleCenter = new google.maps.LatLng(54.68901487769897, 25.227699279785);
 var map;
 var waypoints = [];
 var waypointlim = 8;
+var overlay;
 
 function Initialise() {
     directionsService = new google.maps.DirectionsService();
     directionsDisplay = new google.maps.DirectionsRenderer({
         'draggable': true,
         'suppressMarkers': true,
-//        'markerOptions':{
-//            animation: google.maps.Animation.DROP,
-//            flat:false,
-//            raiseOnDrag:true
-//        },
         'polylineOptions': {
             editable: false,
             draggable: false,
@@ -60,6 +56,11 @@ function Initialise() {
     map = new google.maps.Map(mapElement, mapOptions);
     directionsDisplay.setMap(map);
 
+    overlay = new google.maps.OverlayView();
+    overlay.draw = function () {
+    };
+    overlay.setMap(map);
+
 //    google.maps.event.addListener(map, 'click', function (event) {
 //        if (waypoints.length == 0) {
 //            startRoutePlan();
@@ -101,10 +102,6 @@ function coordMarkers(coords) {
 function markerLatLng(markers) {
     var coords = [];
     for (var i = 0, n = markers.length; i < n; i++) {
-//        coords[i] = new google.maps.LatLng(
-//            markers[i].getPosition().lat(),
-//            markers[i].getPosition().lng()
-//        )
         coords[i] = markers[i].getPosition();
     }
     return coords;
@@ -123,9 +120,6 @@ function plotRoute(coords) {
             stopover: true
         }
     }
-
-    console.log(coords);
-    console.log(routeDestination);
 
     var request = {
         origin: currentLocation,
@@ -161,6 +155,27 @@ function addWaypoint(latlng) {
         });
     } else {
     }
+}
+
+
+function refitMap(points) {
+    function marginExtend(point) {
+        var marginPoint = overlay.getProjection().fromLatLngToContainerPixel(point);
+        var margin1 = new google.maps.Point(marginPoint.x - 300, marginPoint.y - 120);
+        var adjCoord1 = overlay.getProjection().fromContainerPixelToLatLng(margin1);
+        bounds.extend(adjCoord1);
+        var margin2 = new google.maps.Point(marginPoint.x + 50, marginPoint.y + 50);
+        var adjCoord2 = overlay.getProjection().fromContainerPixelToLatLng(margin2);
+        bounds.extend(adjCoord2);
+    }
+
+    var bounds = new google.maps.LatLngBounds();
+    marginExtend(currentLocation);
+    points.forEach(function (point) {
+        marginExtend(point);
+    })
+
+    map.fitBounds(bounds);
 }
 
 google.maps.event.addDomListener(window, 'load', Initialise);
