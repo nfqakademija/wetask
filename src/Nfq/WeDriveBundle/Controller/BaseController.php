@@ -126,8 +126,7 @@ class BaseController extends Controller
                         PassengerState::MSG_JOINED);
                     $request = array(
                         'message' => $message,
-                        'passengerId' => $passenger->getId(),
-                        'form' => $this->getRequestFormView($passenger->getId()));
+                        'passengerId' => $passenger->getId());
                     $requestList[] = $request;
                     break;
 
@@ -135,7 +134,9 @@ class BaseController extends Controller
                     $message = str_replace('##PASSENGER_NAME##',
                         $passenger->getUser()->getUsername(),
                         PassengerState::MSG_CANCELED_BY_PASSENGER);
-                    $msg = array('message' => $message, 'passengerId' => $passenger->getId());
+                    $msg = array(
+                        'message' => $message,
+                        'passengerId' => $passenger->getId());
                     $messageList[] = $msg;
                     break;
             }
@@ -173,21 +174,4 @@ class BaseController extends Controller
 
         return $notificationList;
     }
-
-    /**
-     * @return \Symfony\Component\Form\Form
-     */
-    private function getRequestFormView($passengerId)
-    {
-//        'form' =>$form->createView(),
-        $defaultData = array();
-        $form = $this->createFormBuilder($defaultData)
-            ->setAction($this->generateUrl('nfq_wedrive_passenger_join_accept',
-                array('passengerId'=>$passengerId)))
-            ->add('Accept', 'submit')
-            ->add('Reject', 'submit')
-            ->getForm();
-        return $form->createView();
-    }
-
 }
