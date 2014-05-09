@@ -50,3 +50,11 @@ nfq_wedrive_passenger_join_accept:
 nfq_wedrive_passenger_join_reject:
     pattern:  /passenger/reject/{passengerId}
     defaults:   { _controller: NfqWeDriveBundle:Passenger:rejectPassenger }
+
+nfq_wedrive_passenger_join_leave:
+    pattern:  /passenger/leave/{passengerId}
+    defaults:   { _controller: NfqWeDriveBundle:Passenger:leaveTrip }
+
+nfq_wedrive_passenger_join_cancellation:
+    pattern:  /passenger/cancellation/{passengerId}
+    defaults:   { _controller: NfqWeDriveBundle:Passenger:cancellationSeen }

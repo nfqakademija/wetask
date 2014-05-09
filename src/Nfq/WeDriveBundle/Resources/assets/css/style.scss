@@ -133,16 +133,19 @@ div #fos_user_change_password_form input{
   color: #f7f7f7;
 }
 
-.dropdown-menu > li {
+.notif-menu > li {
   padding: 3px 10px 3px 10px;
-  width: 300px;
+  width: 330px;
   color: #555;
 
 }
-.dropdown-menu > li:hover,
-.dropdown-menu > li:focus {
+.notif-menu > li:hover,
+.notif-menu > li:focus {
   color: #262626;
   text-decoration: none;
   background-color: #f5f5f5;
 
+}
+.trip-btn {
+  min-width: 50px;
 }

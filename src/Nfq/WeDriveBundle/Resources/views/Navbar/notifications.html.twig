@@ -3,7 +3,7 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                     class="glyphicon glyphicon-envelope"></span>&nbsp; Notifications
             <span class="badge">{{ notifications.count }}</span></a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu notif-menu">
             {% for request in notifications.requests %}
                 <li >
                     {{ request.message }}
@@ -24,7 +24,7 @@
                 <li >
                     {{ message.message }}
                     <div class="btn-group btn-group-xs this">
-                        <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':message.passengerId}) }}"
+                        <a href="{{ path('nfq_wedrive_passenger_join_cancellation',{'passengerId':message.passengerId}) }}"
                            type="button" class="btn btn-info btn-xs">
                             Okay
                         </a>

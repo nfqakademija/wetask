@@ -40,12 +40,10 @@
                                     </span>
                                 </td>
                                 <td>
-
-                                    <a
-                                            href="{{ path('nfq_wedrive_trip_join',{'tripId':tripRow.trip.id}) }}"
-                                            type="button" class="btn btn-{{ tripRow.availableSeats.type }} btn-xs">
-                                        &nbsp;&nbsp;&nbsp;{{ tripRow.buttonName }}
-                                        &nbsp;&nbsp;&nbsp;
+                                    <a href="{{ tripRow.buttonUrl }}"
+                                       type="button"
+                                       class="btn btn-{{ tripRow.availableSeats.type }} btn-xs trip-btn">
+                                       {{ tripRow.buttonName }}
                                     </a>
                                 </td>
                             </tr>
@@ -81,9 +79,10 @@
                                 </td>
                                 <td>
 
-                                    <a type="button" class="btn btn-warning btn-xs">
-                                        &nbsp;&nbsp;&nbsp;Leave
-                                        &nbsp;&nbsp;&nbsp;
+                                    <a href="{{ tripRow.buttonUrl }}"
+                                       type="button"
+                                       class="btn btn-warning btn-xs trip-btn">
+                                        {{ tripRow.buttonName }}
                                     </a>
                                 </td>
                             </tr>

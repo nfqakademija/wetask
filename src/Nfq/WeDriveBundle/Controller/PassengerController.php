@@ -42,6 +42,28 @@ class PassengerController extends Controller
 
     /**
      *
+     * @param Request $request
+     * @param Passenger $passengerId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function cancellationSeenAction(Request $request, $passengerId) {
+        $this->setPassengerState($passengerId, PassengerState::ST_CANCELED);
+        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @param Passenger $passengerId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function leaveTripAction(Request $request, $passengerId) {
+        $this->setPassengerState($passengerId, PassengerState::ST_CANCELED_BY_PASSENGER);
+        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+    }
+
+    /**
+     *
      * @param Passenger $passengerId
      * @param Integer $state
      */

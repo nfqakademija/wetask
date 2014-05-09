@@ -71,6 +71,7 @@ class BaseController extends Controller
 
         $elementType = array('danger', 'warning', 'success');
         $buttonNames = array('Join', 'Leave');
+       // $buttonRoutes = array('nfq_wedrive_trip_join','nfq_wedrive_passenger_join_cancel');
 
         $tripList = array();
 
@@ -79,11 +80,19 @@ class BaseController extends Controller
             $sCount = $tripRepository->getAvailableSeatsCount($trip);
             if ($sCount >= 0) {
                 $buttonName = $buttonNames[0];
+                $buttonUrl =$this->generateUrl(
+                    'nfq_wedrive_trip_join',
+                    array('tripId' => $trip->getId()));
+
+                /** @var ArrayCollection|Passenger[] $passengers */
                 $passengers = $tripRepository->getJoinedPassengersList($trip);
 
                 foreach ($passengers as $passenger) {
                     if ($passenger->getUser() == $user) {
                         $buttonName = $buttonNames[1];
+                        $buttonUrl =$this->generateUrl(
+                            'nfq_wedrive_passenger_join_leave',
+                            array('passengerId' => $passenger->getId()));
                         break;
                     }
                 }
@@ -91,6 +100,7 @@ class BaseController extends Controller
                 if ($sCount != 0 || $buttonName == $buttonNames[1]) {
 
                     $tripRow['buttonName'] = $buttonName;
+                    $tripRow['buttonUrl'] = $buttonUrl;
                     $tripRow['trip'] = $trip;
                     $tripRow['availableSeats']['count'] = $sCount;
                     if ($sCount > 2) {

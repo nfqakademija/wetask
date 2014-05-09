@@ -43,6 +43,8 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
             array('trip-12', PassengerState::ST_JOINED, 'user-13'),
             array('trip-12', PassengerState::ST_JOINED, 'user-14'),
             array('trip-12', PassengerState::ST_JOINED, 'user-15'),
+            array('trip-3', PassengerState::ST_CANCELED_BY_PASSENGER, 'user-15'),
+            array('trip-3', PassengerState::ST_CANCELED_BY_DRIVER, 'user-18'),
             array('trip-12', PassengerState::ST_JOINED, 'user-16')
         );
 
