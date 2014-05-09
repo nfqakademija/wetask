@@ -31,10 +31,15 @@
                     <td> {{ trip.trip.title }}</td>
                     <td> {{ trip.trip.description }}</td>
                     <td>
+                        <a href="{{ path('nfq_wedrive_passenger_list', {'tripId':trip.trip.id }) }}">
+                            <span class="badge alert-warning">
+                                          {{ trip.availableSeatsCount }}/{{ trip.trip.maxPassengers }}
+                            </span>
+                        </a>
+                    </td>
+                    <td>
                         <a href = "{{ path('nfq_wedrive_trip_manage', {'tripId':trip.trip.id }) }}" type="button" class="btn btn-warning btn-xs">&nbsp;Manage&nbsp;</a>
                     </td>
-
-                    <td> {{ trip.availableSeatsCount }} </td>
                 </tr>
             {#{% endif %}#}
         {% endfor %}

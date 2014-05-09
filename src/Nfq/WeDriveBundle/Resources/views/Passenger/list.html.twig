@@ -1,0 +1,33 @@
+{% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
+
+{% block panel_title %}
+    My trip to {{ trip.title }} on {{ trip.departureTime.date|date('m-d H:i') }}, passengers
+{% endblock %}
+
+{% block panel_body %}
+    <table class="table table-hover table-striped order-table table-green">
+        <thead>
+        <tr>
+            <th>Passenger</th>
+            <th>State</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for passenger in tripPassengers %}
+            <tr>
+                <td> {{ passenger.name }} </td>
+                <td> {{ passenger.state }}</td>
+                <td>
+                    <a href = "{{ path('nfq_wedrive_passenger_join_reject', {'passengerId':passenger.id }) }}"
+                       type="button"
+                       class="btn btn-danger btn-xs">
+                        Reject
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

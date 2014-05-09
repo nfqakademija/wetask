@@ -3,8 +3,11 @@
 namespace Nfq\WeDriveBundle\Controller;
 
 use Nfq\WeDriveBundle\Constants\PassengerState;
+use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Entity\Passenger;
+use Nfq\WeDriveBundle\Entity\PassengerRepository;
 use Nfq\WeDriveBundle\Entity\Trip;
+use Nfq\WeDriveBundle\Entity\TripRepository;
 use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +21,37 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PassengerController extends Controller
 {
+    /**
+     *
+     * @param integer $tripId
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction(Request $request, $tripId)
+    {
+        /** @var TripRepository $tripRepository */
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+
+        /** @var Trip $trip */
+        $trip = $tripRepository->findOneBy(array('id' => $tripId));
+
+        /** @var ArrayCollection|Passenger[] $passengers */
+        $passengers = $tripRepository->getJoinedPassengersList($trip);
+
+        foreach ($passengers as $passenger) {
+            $passengerRow['name'] = $passenger->getUser()->getUsername();
+            $passengerRow['state'] = 'Joined';
+            $passengerRow['id'] = $passenger->getId();
+
+            $passengerList[] = $passengerRow;
+        }
+
+        return $this->render(
+            'NfqWeDriveBundle:Passenger:list.html.twig',
+            array('tripPassengers' =>$passengerList, 'trip' => $trip)
+        );
+    }
+
     /**
      *
      * @param Request $request

@@ -5,6 +5,7 @@ namespace Nfq\WeDriveBundle\Controller;
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Trip;
+use Nfq\WeDriveBundle\Entity\TripRepository;
 use Nfq\WeDriveBundle\Form\Type\TripRouteType;
 use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,9 +28,10 @@ class TripController extends Controller
      */
     public function listAction()
     {
-        /** @var  $trips */
+        /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $user = $this->getUser();
+        /** @var  ArrayCollection|Trip[] $userTrips */
         $userTrips = $tripRepository->getUserTrips($user);
 
         $tripList = array();
@@ -40,6 +42,7 @@ class TripController extends Controller
 
             $tripRow['availableSeatsCount'] = $sCount;
             $tripRow['trip'] = $trip;
+
             $tripList[] = $tripRow;
 
         }
