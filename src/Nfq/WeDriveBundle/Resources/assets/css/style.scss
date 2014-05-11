@@ -149,3 +149,18 @@ div #fos_user_change_password_form input{
 .trip-btn {
   min-width: 50px;
 }
+
+#routeDrawerPanel {
+  vertical-align: middle;
+  position: absolute;
+  right: 15px;
+  min-height: 50px;
+  min-width: 50px;
+}
+#routeDrawerPanel > li{
+  vertical-align: middle;
+}
+#routeDrawerPanel .btn{
+  width: 60px;
+  height: 35px;
+}

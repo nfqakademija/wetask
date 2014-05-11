@@ -6,6 +6,7 @@
         {% block javascripts_head %}
             {% javascripts output='static/scripts_head.js'
             'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
+            'bundles/nfqwedrive/js/jquery-ui-1.10.4.custom.min.js'
             'bundles/nfqwedrive/js/bootstrap.min.js' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
@@ -32,7 +33,9 @@
             'bundles/nfqwedrive/js/maps.js'
             'bundles/nfqwedrive/js/routePicker.js'
             'bundles/nfqwedrive/js/clock.js'
-            'bundles/nfqwedrive/js/flashbag.js'%}
+            'bundles/nfqwedrive/js/flashbag.js'
+            'bundles/nfqwedrive/js/routeDrawer.js'
+            %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}

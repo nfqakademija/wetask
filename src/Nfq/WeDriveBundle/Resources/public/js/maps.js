@@ -61,14 +61,16 @@ function Initialise() {
     };
     overlay.setMap(map);
 
-//    google.maps.event.addListener(map, 'click', function (event) {
-//        if (waypoints.length == 0) {
-//            startRoutePlan();
-//        }
-//        addWaypoint(event.latLng);
-//        var coords = markerLatLng(waypoints)
-//        plotRoute(coords);
-//    });
+    google.maps.event.addListener(map, 'click', function (event) {
+        if (routeDraw) {
+            if (waypoints.length == 0) {
+                routeDrawer.init();
+            }
+            routeDrawer.Add(event);
+            var coords = markerLatLng(waypoints);
+            plotRoute(coords);
+        }
+    });
 }
 
 function clearMarkers() {
@@ -156,7 +158,6 @@ function addWaypoint(latlng, draggable) {
         google.maps.event.addListener(waypoint, 'dragend', function () {
             var coords = markerLatLng(waypoints);
             plotRoute(coords);
-            console.log(this.getPosition().lng())
         });
     } else {
     }
