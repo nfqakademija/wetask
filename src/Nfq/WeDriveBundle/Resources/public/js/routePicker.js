@@ -28,9 +28,7 @@ $(".tripRow").each(function () {
 
 function displayRoute(coords) {
     var latLngPoints = arrayLatLng(coords);
-    for (var i = 0; i < 4; i++) {
-        refitMap(latLngPoints);
-    }
+    refitMap(latLngPoints);
     clearMarkers();
     coordMarkers(coords);
     plotRoute(latLngPoints);

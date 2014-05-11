@@ -95,7 +95,11 @@ function coordMarkers(coords) {
 
     for (var i = 0, n = coords.length; i < n; i++) {
         var coord = new google.maps.LatLng(coords[i]['lat'], coords[i]['lng']);
-        addWaypoint(coord);
+        (function(n){
+            setTimeout(function () {
+                addWaypoint(n, false);
+            }, i * 50);
+        }(coord));
     }
 }
 
@@ -137,14 +141,14 @@ function plotRoute(coords) {
     });
 }
 
-function addWaypoint(latlng) {
+function addWaypoint(latlng, draggable) {
     if (!(waypoints.length > waypointlim)) {
 
         var waypoint = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
             position: latlng,
             map: map,
-            draggable: true
+            draggable: draggable
         });
 
         waypoints.push(waypoint);
@@ -152,6 +156,7 @@ function addWaypoint(latlng) {
         google.maps.event.addListener(waypoint, 'dragend', function () {
             var coords = markerLatLng(waypoints);
             plotRoute(coords);
+            console.log(this.getPosition().lng())
         });
     } else {
     }
@@ -159,23 +164,33 @@ function addWaypoint(latlng) {
 
 
 function refitMap(points) {
-    function marginExtend(point) {
-        var marginPoint = overlay.getProjection().fromLatLngToContainerPixel(point);
-        var margin1 = new google.maps.Point(marginPoint.x - 300, marginPoint.y - 120);
-        var adjCoord1 = overlay.getProjection().fromContainerPixelToLatLng(margin1);
-        bounds.extend(adjCoord1);
-        var margin2 = new google.maps.Point(marginPoint.x + 50, marginPoint.y + 50);
-        var adjCoord2 = overlay.getProjection().fromContainerPixelToLatLng(margin2);
-        bounds.extend(adjCoord2);
-    }
-
     var bounds = new google.maps.LatLngBounds();
-    marginExtend(currentLocation);
+
+    bounds.extend(currentLocation);
+
     points.forEach(function (point) {
-        marginExtend(point);
-    })
+        bounds.extend(point);
+    });
 
     map.fitBounds(bounds);
+
+    var topRight = bounds.getNorthEast();
+    var botLeft = bounds.getSouthWest();
+
+    var topMarginx = overlay.getProjection().fromLatLngToContainerPixel(topRight);
+    var topMarginPoint = new google.maps.Point(topMarginx.x, topMarginx.y - 50);
+    var topMargin = overlay.getProjection().fromContainerPixelToLatLng(topMarginPoint);
+
+    var botMarginx = overlay.getProjection().fromLatLngToContainerPixel(botLeft);
+    var botMarginPoint = new google.maps.Point(botMarginx.x - 420, botMarginx.y);
+    var botMargin = overlay.getProjection().fromContainerPixelToLatLng(botMarginPoint);
+
+    var marginBounds = new google.maps.LatLngBounds();
+
+    marginBounds.extend(topMargin);
+    marginBounds.extend(botMargin);
+
+    map.fitBounds(marginBounds);
 }
 
 google.maps.event.addDomListener(window, 'load', Initialise);
