@@ -21,7 +21,7 @@ var routeDrawer = {
             $(cell).addClass('cell').addClass('btn').addClass('btn-default');
             $(cell).attr('type', 'button');
             $(cell).append($('<span class="glyphicon glyphicon-map-marker"></span>'));
-            $("#routeDrawerPanel").child('ul').append(cell);
+            $("#routeDrawerPanel").find('ul').append(cell);
             addWaypoint(event.latLng, true);
         }
     }
