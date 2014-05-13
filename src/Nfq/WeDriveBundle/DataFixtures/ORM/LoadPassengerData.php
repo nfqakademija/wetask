@@ -45,24 +45,25 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
             array('trip-12', PassengerState::ST_JOINED, 'user-15'),
             array('trip-3', PassengerState::ST_CANCELED_BY_PASSENGER, 'user-15'),
             array('trip-12', PassengerState::ST_CANCELED_BY_DRIVER, 'user-18'),
-            array('trip-12', PassengerState::ST_JOINED, 'user-16'),
-
-            array('trip-15', PassengerState::ST_JOINED_DRIVER_ACCEPTED, 'user-10'),
-            array('trip-15', PassengerState::ST_CANCELED_BY_PASSENGER, 'user-15'),
-            array('trip-16', PassengerState::ST_JOINED, 'user-7'),
-            array('trip-17', PassengerState::ST_JOINED, 'user-9'),
-            array('trip-18', PassengerState::ST_JOINED, 'user-11'),
-            array('trip-19', PassengerState::ST_JOINED, 'user-5'),
-
-            array('trip-20', PassengerState::ST_JOINED, 'user-13'),
-            array('trip-20', PassengerState::ST_JOINED, 'user-14'),
-            array('trip-20', PassengerState::ST_JOINED, 'user-15'),
-            array('trip-20', PassengerState::ST_CANCELED_BY_DRIVER, 'user-18'),
-            array('trip-20', PassengerState::ST_JOINED, 'user-16'),
-
-            array('trip-21', PassengerState::ST_JOINED, 'user-8'),
-            array('trip-22', PassengerState::ST_JOINED, 'user-11')
-
+            array('trip-12', PassengerState::ST_JOINED, 'user-16')
+//        ,
+//
+//            array('trip-15', PassengerState::ST_JOINED_DRIVER_ACCEPTED, 'user-10'),
+//            array('trip-15', PassengerState::ST_CANCELED_BY_PASSENGER, 'user-15'),
+//            array('trip-16', PassengerState::ST_JOINED, 'user-7'),
+//            array('trip-17', PassengerState::ST_JOINED, 'user-9'),
+//            array('trip-18', PassengerState::ST_JOINED, 'user-11'),
+//            array('trip-19', PassengerState::ST_JOINED, 'user-5'),
+//
+//            array('trip-20', PassengerState::ST_JOINED, 'user-13'),
+//            array('trip-20', PassengerState::ST_JOINED, 'user-14'),
+//            array('trip-20', PassengerState::ST_JOINED, 'user-15'),
+//            array('trip-20', PassengerState::ST_CANCELED_BY_DRIVER, 'user-18'),
+//            array('trip-20', PassengerState::ST_JOINED, 'user-16'),
+//
+//            array('trip-21', PassengerState::ST_JOINED, 'user-8'),
+//            array('trip-22', PassengerState::ST_JOINED, 'user-11')
+//
 
         );
 
