@@ -38,18 +38,22 @@ class PassengerController extends Controller
         /** @var ArrayCollection|Passenger[] $passengers */
         $passengers = $tripRepository->getJoinedPassengersList($trip);
 
-        foreach ($passengers as $passenger) {
-            $passengerRow['name'] = $passenger->getUser()->getUsername();
-            $passengerRow['state'] = 'Joined';
-            $passengerRow['id'] = $passenger->getId();
+        if(count($passengers)){
+            foreach ($passengers as $passenger) {
+                $passengerRow['name'] = $passenger->getUser()->getUsername();
+                $passengerRow['state'] = 'Joined';
+                $passengerRow['id'] = $passenger->getId();
 
-            $passengerList[] = $passengerRow;
+                $passengerList[] = $passengerRow;
+            }
+
+            return $this->render(
+                'NfqWeDriveBundle:Passenger:list.html.twig',
+                array('tripPassengers' =>$passengerList, 'trip' => $trip)
+            );
         }
 
-        return $this->render(
-            'NfqWeDriveBundle:Passenger:list.html.twig',
-            array('tripPassengers' =>$passengerList, 'trip' => $trip)
-        );
+        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
 
     /**

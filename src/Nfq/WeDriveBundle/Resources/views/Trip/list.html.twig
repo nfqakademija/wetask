@@ -28,7 +28,6 @@
             var tripPoints = [];
         </script>
         {% for trip in userTrips %}
-            {#{% if (trip.departureTime.date|date('YmdHis') > "+3 hours"|date('YmdHis')) %}#}
             <tr class="tripRow" id="{{ trip.trip.id }}">
                 <td> {{ trip.trip.departureTime.date|date('m-d H:i') }} </td>
                 <td> {{ trip.trip.title }}</td>
@@ -51,11 +50,13 @@
                                     Trip data
                                 </a>
                             </li>
+                            {% if (trip.trip.maxPassengers - trip.availableSeatsCount)>0  %}
                             <li>
                                 <a href="{{ path('nfq_wedrive_passenger_list', {'tripId':trip.trip.id }) }}">
                                     Passengers
                                 </a>
                             </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </td>
@@ -69,7 +70,6 @@
                     {% endfor %}
                 </script>
             </tr>
-            {#{% endif %}#}
         {% endfor %}
         </tbody>
     </table>
