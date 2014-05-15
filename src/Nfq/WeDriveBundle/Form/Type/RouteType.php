@@ -33,7 +33,6 @@ class RouteType extends AbstractType
                         'class' => 'form-control'
                     )
                 )
-
             )
             ->add(
                 'destination',
@@ -43,10 +42,19 @@ class RouteType extends AbstractType
                         'class' => 'form-control'
                     )
                 )
-            );
+            )
+            ->add(
+                'routePoints',
+                'hidden',
+                array(
+                    'mapped' => false,
+                    'required' => false,
+                    'property_path' => null,
+                )
+            )
+        ;
 
-        if ($this->entity == 'route')
-        {
+        if ($this->entity == 'route') {
             $builder->add(
                 'save',
                 'submit',

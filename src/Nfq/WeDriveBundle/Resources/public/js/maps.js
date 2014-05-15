@@ -100,7 +100,7 @@ function coordMarkers(coords) {
         (function(n){
             setTimeout(function () {
                 addWaypoint(n, false);
-            }, i * 50);
+            }, i * 80);
         }(coord));
     }
 }

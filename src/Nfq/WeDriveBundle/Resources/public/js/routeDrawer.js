@@ -1,13 +1,7 @@
 var routeDrawer = {
     init: function init() {
         var drawer = $('<div></div>');
-//        var cell = $('<div></div>');
-//        $(drawer).addClass('btn-group');
         $(drawer).attr('id', 'routeDrawerPanel');
-//        $(cell).addClass('cell').addClass('btn').addClass('btn-primary').addClass('no-sort');
-//        $(cell).attr('type', 'button');
-//        $(cell).append($('<span class="glyphicon glyphicon-home"></span> '))
-//        $(drawer).append(cell);
         var list = $('<ul class="btn-group-vertical"></ul>');
         $(drawer).append(list);
         $("#contentHolder").append(drawer);
@@ -24,5 +18,13 @@ var routeDrawer = {
             $("#routeDrawerPanel").find('ul').append(cell);
             addWaypoint(event.latLng, true);
         }
+    },
+    FetchJSON: function FetchJSON() {
+        var latlngs = markerLatLng(waypoints);
+        if (latlngs.length > 0) {
+            var json = JSON.stringify(latlngs);
+            console.log(json);
+        }
+        return json;
     }
 };

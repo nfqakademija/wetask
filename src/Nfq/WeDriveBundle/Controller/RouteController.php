@@ -2,9 +2,10 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Entity\Route;
-use Nfq\WeDriveBundle\Exception\RouteException;
+use Nfq\WeDriveBundle\Entity\RoutePoint;
 use Nfq\WeDriveBundle\Form\Type\RouteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +40,7 @@ class RouteController extends Controller
         );
 
         if (!$routes) {
-            //Throw exception
+            //Throw exception for no routes
 
         }
         /** @var  $return */
@@ -59,6 +60,17 @@ class RouteController extends Controller
     }
 
     /**
+     * Response for calling a new route with ajax
+     *
+     * @internal param $request
+     * @return Response
+     */
+    public function newRouteAjaxAction()
+    {
+        return new Response($this->generateUrl('nfq_wedrive_route_list'));
+    }
+
+    /**
      * Adds new Route for logged in user
      *
      * @param \Symfony\Component\BrowserKit\Request|\Symfony\Component\HttpFoundation\Request $request
@@ -68,26 +80,44 @@ class RouteController extends Controller
     {
         $user = $this->getUser();
 
-        $form = $this->createForm(new RouteType());
+        $routeForm = $this->createForm(new RouteType());
 
-        $form->handleRequest($request);
+        $routeForm->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($routeForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $route = $form->getData();
+            $route = $routeForm->getData();
 
             $route->setUser($user);
 
+            $pointsJson = $routeForm->get('routePoints')->getData();
+            $routePoints = json_decode($pointsJson, true);
+
+            foreach ($routePoints as $key => $routePointData) {
+                $routePoint = new RoutePoint();
+                $routePoint->setLatitude($routePointData['k'])
+                    ->setLongitude($routePointData['A'])
+                    ->setRoute($route)
+                    ->setPOrder($key);
+                $em->persist($routePoint);
+            }
+
             $em->persist($route);
             $em->flush();
+
+            if ($request->isXmlHttpRequest()) {
+                return $this->newRouteAjaxAction();
+            }
 
             return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));
         }
 
         return $this->render(
             'NfqWeDriveBundle:Route:newRoute.html.twig',
-            array('form' => $form->createView())
+            array(
+                'routeForm' => $routeForm->createView(),
+            )
         );
     }
 
@@ -139,7 +169,6 @@ class RouteController extends Controller
 
         /** @var Route $route */
         $route = $routeRepository->findOneBy(array('id' => $routeId));
-
         /** @var User $user */
         $user = $userRepository->findOneBy(array('username' => $user->getUsername()));
 
@@ -161,8 +190,7 @@ class RouteController extends Controller
      *
      * @param Route $route
      * @param User $user
-     * @throws \Nfq\WeDriveBundle\Exception\RouteException
-     * @throws \Nfq\WeDriveBundle\Exception\UserException
+     * @throws RouteException
      * @return bool
      */
     public function checkIfRouteIsDeleteable(Route $route, User $user)
