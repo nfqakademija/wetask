@@ -6,9 +6,9 @@
 
 {% block panel_title_button %}
     <a href="{{ path('nfq_wedrive_route_trip_new') }}" id="new_btn" type="button" class="btn btn-primary btn-sm"
-           id="btn_new_trip" data-toggle="modal">
-    <span class="glyphicon glyphicon-plus"></span>
-</a>
+       id="btn_new_trip" data-toggle="modal">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
 {% endblock %}
 
 {% block panel_body %}
@@ -29,30 +29,46 @@
         </script>
         {% for trip in userTrips %}
             {#{% if (trip.departureTime.date|date('YmdHis') > "+3 hours"|date('YmdHis')) %}#}
-                <tr class="tripRow" id="{{ trip.trip.id }}">
-                    <td> {{ trip.trip.departureTime.date|date('m-d H:i') }} </td>
-                    <td> {{ trip.trip.title }}</td>
-                    <td> {{ trip.trip.description }}</td>
-                    <td>
-                        <a href="{{ path('nfq_wedrive_passenger_list', {'tripId':trip.trip.id }) }}">
-                            <span class="badge alert-warning">
-                                          {{ trip.availableSeatsCount }}/{{ trip.trip.maxPassengers }}
-                            </span>
-                        </a>
-                    </td>
-                    <td>
-                        <a href = "{{ path('nfq_wedrive_trip_manage', {'tripId':trip.trip.id }) }}" type="button" class="btn btn-warning btn-xs">&nbsp;Manage&nbsp;</a>
-                    </td>
-                    <script type="text/javascript">
-                        tripPoints[{{ trip.trip.id }}] = [];
-                        {% for routePoint in trip.routePoints %}
-                        tripPoints[{{ trip.trip.id }}].push({
-                            'lat': {{ routePoint.latitude }},
-                            'lng': {{ routePoint.longitude }}
-                        });
-                        {% endfor %}
-                    </script>
-                </tr>
+            <tr class="tripRow" id="{{ trip.trip.id }}">
+                <td> {{ trip.trip.departureTime.date|date('m-d H:i') }} </td>
+                <td> {{ trip.trip.title }}</td>
+                <td> {{ trip.trip.description }}</td>
+                <td>
+                    <span class="badge alert-warning">
+                        {{ trip.availableSeatsCount }}/{{ trip.trip.maxPassengers }}
+                    </span>
+                </td>
+
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle btn-sm btn-warning"
+                                data-toggle="dropdown">
+                            Manage <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ path('nfq_wedrive_trip_manage', {'tripId':trip.trip.id }) }}">
+                                    Trip data
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('nfq_wedrive_passenger_list', {'tripId':trip.trip.id }) }}">
+                                    Passengers
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <script type="text/javascript">
+                    tripPoints[{{ trip.trip.id }}] = [];
+                    {% for routePoint in trip.routePoints %}
+                    tripPoints[{{ trip.trip.id }}].push({
+                        'lat': {{ routePoint.latitude }},
+                        'lng': {{ routePoint.longitude }}
+                    });
+                    {% endfor %}
+                </script>
+            </tr>
             {#{% endif %}#}
         {% endfor %}
         </tbody>
