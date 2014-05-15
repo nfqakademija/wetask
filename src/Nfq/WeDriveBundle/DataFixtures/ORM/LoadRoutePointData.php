@@ -44,6 +44,7 @@ class LoadRoutePointData extends AbstractFixture implements OrderedFixtureInterf
             array('route-11', 54.459568, 25.48754, 1),
             array('route-12', 54.654667, 25.03566, 1),
             array('route-13', 53.655667, 25.78522, 1),
+            array('route-14', 53.685667, 25.78522, 1),
         );
 
         foreach ($points as $pointData) {
