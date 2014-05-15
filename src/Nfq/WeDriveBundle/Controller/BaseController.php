@@ -2,14 +2,11 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Constants\PassengerState;
-use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\PassengerRepository;
-use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Shows main window
@@ -24,14 +21,15 @@ class BaseController extends Controller
      */
     public function indexAction()
     {
-        $tripsList = $this->getTripList();
-        $time = 5;
+        /** @var TripRepository $tripRepository */
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+        $tripList = $tripRepository->prepareTripList($this);
 
         return $this->render(
             'NfqWeDriveBundle:Default:index.html.twig',
             array(
-                'tripsList' => $tripsList,
-                'time' => $time
+                'availableTripList' => $tripList['available'],
+                'joinedTripList' => $tripList['joined']
             )
         );
 
@@ -57,67 +55,6 @@ class BaseController extends Controller
                 'notifications' => $notifications,
             ));
     }
-
-    public function getTripList()
-    {
-        /** @var TripRepository $tripRepository */
-        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-
-        /** @var User $user */
-        $user = $this->getUser();
-
-        /** @var ArrayCollection|Trip[] $otherTrips */
-        $otherTrips = $tripRepository->getOtherTrips($user);
-
-        $elementType = array('danger', 'warning', 'success');
-        $buttonNames = array('Join', 'Leave');
-       // $buttonRoutes = array('nfq_wedrive_trip_join','nfq_wedrive_passenger_join_cancel');
-
-        $tripList = array();
-
-        foreach ($otherTrips as $trip) {
-
-            $sCount = $tripRepository->getAvailableSeatsCount($trip);
-            if ($sCount >= 0) {
-                $buttonName = $buttonNames[0];
-                $buttonUrl =$this->generateUrl(
-                    'nfq_wedrive_trip_join',
-                    array('tripId' => $trip->getId()));
-
-                /** @var ArrayCollection|Passenger[] $passengers */
-                $passengers = $tripRepository->getJoinedPassengersList($trip);
-
-                foreach ($passengers as $passenger) {
-                    if ($passenger->getUser() == $user) {
-                        $buttonName = $buttonNames[1];
-                        $buttonUrl =$this->generateUrl(
-                            'nfq_wedrive_passenger_join_leave',
-                            array('passengerId' => $passenger->getId()));
-                        break;
-                    }
-                }
-
-                if ($sCount != 0 || $buttonName == $buttonNames[1]) {
-
-                    $tripRow['buttonName'] = $buttonName;
-                    $tripRow['buttonUrl'] = $buttonUrl;
-                    $tripRow['trip'] = $trip;
-                    $tripRow['availableSeats']['count'] = $sCount;
-                    if ($sCount > 2) {
-                        $sCount = 2;
-                    }
-                    $tripRow['availableSeats']['type'] = $elementType[$sCount];
-
-                    $tripRow['routePoints'] = $trip->getRoute()->getRoutePoints();
-
-                    $tripList[] = $tripRow;
-                }
-            }
-        }
-
-        return $tripList;
-    }
-
 
     public function getNotificationList()
     {

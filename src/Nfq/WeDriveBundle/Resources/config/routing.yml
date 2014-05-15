@@ -23,7 +23,7 @@ nfq_wedrive_route_delete:
 
 nfq_wedrive_trip_list:
     pattern:  /trip/list
-    defaults: { _controller: NfqWeDriveBundle:Trip:list }
+    defaults: { _controller: NfqWeDriveBundle:Trip:userTripList }
 
 nfq_wedrive_trip_new:
     pattern:  /trip/new/{routeId}
@@ -62,4 +62,17 @@ nfq_wedrive_passenger_join_leave:
 nfq_wedrive_passenger_join_cancellation:
     pattern:  /passenger/cancellation/{passengerId}
     defaults:   { _controller: NfqWeDriveBundle:Passenger:cancellationSeen }
+
+nfq_wedrive_ajax_trip_join:
+    pattern:  /ajax/trip/join/{tripId}
+    defaults: { _controller: NfqWeDriveBundle:Trip:joinTrip }
+
+nfq_wedrive_ajax_availableTrip_list:
+    pattern:  /ajax/trip/available
+    defaults: { _controller: NfqWeDriveBundle:Trip:availableTripList }
+
+nfq_wedrive_ajax_joinedTrip_list:
+    pattern:  /ajax/trip/joined
+    defaults: { _controller: NfqWeDriveBundle:Trip:joinedTripList }
+
 

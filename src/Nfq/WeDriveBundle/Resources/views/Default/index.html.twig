@@ -1,9 +1,5 @@
 {% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
 
-{#{% block panel_title %}#}
-    {#Available trips#}
-{#{% endblock %}#}
-
 {% block panel %}
     <div class="panel panel-primary">
 
@@ -14,105 +10,39 @@
 
         <!-- Tab panes -->
         <div class="tab-content">
+
             <script type="text/javascript">
                 tripPoints = [];
             </script>
+
             <div class="tab-pane fade in active" id="available_trips">
-                <table class="table table-hover table-striped order-table table-green"
-                       id="tasktable">
-                    <thead>
-                    <tr>
-                        <th>Departure</th>
-                        <th>Destination</th>
-                        <th>Driver</th>
-                        <th></th>
-                        <th id="join_column"> Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    {% for tripRow in tripsList %}
-                        {% if (tripRow.trip.departureTime.date|date('YmdHis') > "now"|date('YmdHis')) and
-                        (tripRow.trip.departureTime.date|date('YmdHis') <  "+5 hours" |date('YmdHis')) %}
-                            <tr class="tripRow" id="{{ tripRow.trip.id }}">
-                                <td> {{ tripRow.trip.departureTime.date|date('H:i') }} </td>
-                                <td> {{ tripRow.trip.title }}</td>
-                                <td> {{ tripRow.trip.route.user.username }}</td>
-                                <td>
-                                    <span class="badge alert-{{ tripRow.availableSeats.type }}">
-                                          {{ tripRow.availableSeats.count }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="{{ tripRow.buttonUrl }}"
-                                       type="button"
-                                       class="btn btn-{{ tripRow.availableSeats.type }} btn-xs trip-btn">
-                                        {{ tripRow.buttonName }}
-                                    </a>
-                                </td>
-                                <script type="text/javascript">
-                                    tripPoints[{{ tripRow.trip.id }}] = [];
-                                    {% for routePoint in tripRow.routePoints %}
-                                    tripPoints[{{ tripRow.trip.id }}].push({
-                                        'lat': {{ routePoint.latitude }},
-                                        'lng': {{ routePoint.longitude }}
-                                    });
-                                    {% endfor %}
-                                </script>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
+                    {% include 'NfqWeDriveBundle:Trip:availableTripList.html.twig' with {'tripList' : availableTripList } only %}
             </div>
+
             <div class="tab-pane fade" id="joined_trips">
-                <table class="table table-hover table-striped order-table table-green"
-                       id="tasktable">
-                    <thead>
-                    <tr>
-                        <th>Departure</th>
-                        <th>Destination</th>
-                        <th>Driver</th>
-                        <th></th>
-                        <th id="join_column"> Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    {% for tripRow in tripsList %}
-                        {% if (tripRow.trip.departureTime.date|date('YmdHis') > "now"|date('YmdHis')) and (tripRow.buttonName == "Leave") %}
-                            <tr class="tripRow" id="{{ tripRow.trip.id }}">
-                                <td> {{ tripRow.trip.departureTime.date|date('m-d H:i') }} </td>
-                                <td> {{ tripRow.trip.title }}</td>
-                                <td> {{ tripRow.trip.route.user.username }}</td>
-                                <td>
-                                <span class="badge alert-{{ tripRow.availableSeats.type }}">
-                                      {{ tripRow.availableSeats.count }}
-                                </span>
-                                </td>
-                                <td>
-
-                                    <a href="{{ tripRow.buttonUrl }}"
-                                       type="button"
-                                       class="btn btn-warning btn-xs trip-btn">
-                                        {{ tripRow.buttonName }}
-                                    </a>
-                                </td>
-                                <script type="text/javascript">
-                                    tripPoints[{{ tripRow.trip.id }}] = [];
-                                    {% for routePoint in tripRow.routePoints %}
-                                    tripPoints[{{ tripRow.trip.id }}].push({
-                                        'lat': {{ routePoint.latitude }},
-                                        'lng': {{ routePoint.longitude }}
-                                    });
-                                    {% endfor %}
-                                </script>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
+                    {% include 'NfqWeDriveBundle:Trip:joinedTripList.html.twig' with {'tripList' : joinedTripList } only %}
             </div>
         </div>
     </div>
+
+    <script>
+        $(".joinButton").on("click",function (event) {
+            event.preventDefault();
+
+            console.log($('#' + this.id).attr('action'));
+            var buttonId = this.id;
+            $.ajax({
+                type: "POST",
+                url: $('#' + this.id).attr('action'),
+//                data: {},
+                dataType: 'json',
+                success: function (data) {
+
+                    $('#available_trips').load("{{ path('nfq_wedrive_ajax_availableTrip_list') }}");
+                    $('#joined_trips').load("{{ path('nfq_wedrive_ajax_joinedTrip_list') }}");
+                }
+            });
+        });
+    </script>
+
 {% endblock %}

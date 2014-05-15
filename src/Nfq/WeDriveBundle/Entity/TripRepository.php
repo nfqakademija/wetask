@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Constants\PassengerState;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * TripRepository
@@ -103,9 +104,13 @@ class TripRepository extends EntityRepository
                             WHERE t.id = :tripId and
                             (p.accepted = :state1 or p.accepted = :state2)
                         "
-        )->setParameters(array('tripId'=>$trip->getId(),
-                        'state1'=>PassengerState::ST_JOINED,
-                        'state2'=>PassengerState::ST_JOINED_DRIVER_ACCEPTED));
+        )->setParameters(
+                array(
+                    'tripId' => $trip->getId(),
+                    'state1' => PassengerState::ST_JOINED,
+                    'state2' => PassengerState::ST_JOINED_DRIVER_ACCEPTED
+                )
+            );
 
         $pCount = $query->getSingleScalarResult();
 
@@ -140,13 +145,91 @@ class TripRepository extends EntityRepository
                             WHERE p.trip = :tripId and
                             (p.accepted = :state1 or p.accepted = :state2)
                         "
-        )->setParameters(array('tripId'=>$trip->getId(),
-                'state1'=>PassengerState::ST_JOINED,
-                'state2'=>PassengerState::ST_JOINED_DRIVER_ACCEPTED));
+        )->setParameters(
+                array(
+                    'tripId' => $trip->getId(),
+                    'state1' => PassengerState::ST_JOINED,
+                    'state2' => PassengerState::ST_JOINED_DRIVER_ACCEPTED
+                )
+            );
 
         $passengers = $query->getResult();
 
         return $passengers;
     }
+
+    /**
+     * @param Controller $object
+     * @return ArrayCollection
+     */
+    public function prepareTripList(Controller $object)
+    {
+        /** @var TripRepository $tripRepository */
+//        $tripRepository = $object->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+
+        /** @var User $user */
+        $user = $object->getUser();
+
+        /** @var ArrayCollection|Trip[] $otherTrips */
+        $otherTrips = $this->getOtherTrips($user);
+
+        $elementType = array('danger', 'warning', 'success');
+        $buttonNames = array('Join', 'Leave');
+
+        $tripList['available'] = array();
+        $tripList['joined'] = array();
+
+        foreach ($otherTrips as $trip) {
+
+            $sCount = $this->getAvailableSeatsCount($trip);
+            if ($sCount >= 0) {
+                $buttonName = $buttonNames[0];
+                $buttonUrl = $object->generateUrl(
+                    'nfq_wedrive_ajax_trip_join',
+                    array('tripId' => $trip->getId())
+                );
+
+                /** @var ArrayCollection|Passenger[] $passengers */
+                $passengers = $this->getJoinedPassengersList($trip);
+
+                foreach ($passengers as $passenger) {
+                    if ($passenger->getUser() == $user) {
+                        $buttonName = $buttonNames[1];
+                        $buttonUrl = $object->generateUrl(
+                            'nfq_wedrive_passenger_join_leave',
+                            array('passengerId' => $passenger->getId())
+                        );
+                        break;
+                    }
+                }
+
+                if ($sCount != 0 || $buttonName == $buttonNames[1]) {
+
+                    $tripRow['buttonName'] = $buttonName;
+                    $tripRow['buttonUrl'] = $buttonUrl;
+                    $tripRow['trip'] = $trip;
+                    $tripRow['availableSeats']['count'] = $sCount;
+                    if ($sCount > 2) {
+                        $sCount = 2;
+                    }
+                    if ($buttonName == $buttonNames[1]) {
+                        $tripRow['availableSeats']['type'] = $elementType[1];
+                    } else {
+                        $tripRow['availableSeats']['type'] = $elementType[$sCount];
+                    }
+
+                    $tripRow['routePoints'] = $trip->getRoute()->getRoutePoints();
+
+                    $tripList['available'][] = $tripRow;
+
+                    if ($tripRow['buttonName'] == $buttonNames[1]) {
+                        $tripList['joined'][] = $tripRow;
+                    }
+                }
+            }
+        }
+        return $tripList;
+    }
+
 
 }

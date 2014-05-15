@@ -11,7 +11,9 @@ use Nfq\WeDriveBundle\Form\Type\TripRouteType;
 use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nfq\WeDriveBundle\Form\Type\TripType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class TripController
@@ -27,7 +29,7 @@ class TripController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction()
+    public function userTripListAction()
     {
         /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
@@ -63,8 +65,15 @@ class TripController extends Controller
     public function deleteAction($tripId)
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-        $entityManager = $this->getDoctrine()->getManager();
-//        TODO:
+        $em = $this->getDoctrine()->getManager();
+        $trip = $tripRepository->findOneBy($tripId);
+
+        if ($tripRepository->getJoinedPassengerCount($trip) == 0) {
+            $em->remove($trip);
+            $em->flush();
+
+            return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
+        }
     }
 
     /**
@@ -137,11 +146,10 @@ class TripController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid())
-        {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($trip);
-            $em ->flush();
+            $em->flush();
             return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
 
@@ -153,7 +161,34 @@ class TripController extends Controller
         );
     }
 
-    public function joinTripAction(Request $request, $tripId) {
+    public function availableTripListAction()
+    {
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+        $tripList = $tripRepository->prepareTripList($this);
+
+        return $this->render(
+            'NfqWeDriveBundle:Trip:availableTripList.html.twig',
+            array(
+            'tripList' => $tripList['available']
+            )
+        );
+    }
+
+    public function joinedTripListAction()
+    {
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+        $tripList = $tripRepository->prepareTripList($this);
+
+        return $this->render(
+            'NfqWeDriveBundle:Trip:joinedTripList.html.twig',
+            array(
+                'tripList' => $tripList['joined']
+            )
+        );
+    }
+
+    public function joinTripAction(Request $request, $tripId)
+    {
         $em = $this->getDoctrine()->getManager();
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
 
@@ -172,9 +207,9 @@ class TripController extends Controller
         $em->persist($trip);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('error',"Join successful");
+        $request->getSession()->getFlashBag()->add('error', "Join successful");
 
-        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+        return new Response(json_encode("Success"));
     }
 
 }
