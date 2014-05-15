@@ -5,28 +5,27 @@
             <span class="badge">{{ notifications.count }}</span></a>
         <ul class="dropdown-menu notif-menu">
             {% for request in notifications.requests %}
-                <li >
+                <li>
                     {{ request.message }}
                     <div class="btn-group btn-group-xs this">
                         <a href="{{ path('nfq_wedrive_passenger_join_reject',{'passengerId':request.passengerId}) }}"
-                           type="button" class="btn btn-danger">
+                           type="button" class="btn btn-danger btn-xs">
                             Reject
                         </a>
                         <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':request.passengerId}) }}"
-                           type="button" class="btn btn-success">
-                            Accept
+                           type="button" class="btn btn-info btn-xs">
+                            OK
                         </a>
                     </div>
                 </li>
-
             {% endfor %}
             {% for message in notifications.messages %}
-                <li >
+                <li>
                     {{ message.message }}
                     <div class="btn-group btn-group-xs this">
                         <a href="{{ path('nfq_wedrive_passenger_join_cancellation',{'passengerId':message.passengerId}) }}"
                            type="button" class="btn btn-info btn-xs">
-                            Okay
+                            OK
                         </a>
                     </div>
                 </li>

@@ -16,10 +16,15 @@ class PassengerRepository extends EntityRepository
 {
     /**
      * @param User $user
+     * @param int $hoursInterval
      * @return array|Passenger[]
      */
-    public function getPassengersWithRequest(User $user)
+    public function getPassengersWithRequest(User $user, $hoursInterval = 5)
     {
+        //prepare time for query
+        $fromDate = date("Y-m-d H:i:s");
+        $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));
+
         $em = $this->getEntityManager();
 
         $query = $em->createQuery(
@@ -28,13 +33,20 @@ class PassengerRepository extends EntityRepository
                             FROM Nfq\WeDriveBundle\Entity\Passenger p
                             JOIN p.trip t
                             JOIN t.route r
-                            JOIN r.user u
-                            WHERE u.username = :username and
-                            (p.accepted = :state1 or p.accepted = :state2)
+                            WHERE r.user = :user_id
+                            and (p.accepted = :state1 or p.accepted = :state2)
+                            and t.departureTime >:fromDate
+                            and t.departureTime <:toDate
                             ORDER BY p.accepted"
-        )->setParameters(array('username'=>$user->getUsername(),
-                'state1'=>PassengerState::ST_JOINED,
-                'state2'=>PassengerState::ST_CANCELED_BY_PASSENGER));
+        )->setParameters(
+                array(
+                    'user_id' => $user->getId(),
+                    'fromDate' => $fromDate,
+                    'toDate' => $toDate,
+                    'state1' => PassengerState::ST_JOINED,
+                    'state2' => PassengerState::ST_CANCELED_BY_PASSENGER
+                )
+            );
 
         $passengers = $query->getResult();
 
@@ -43,22 +55,36 @@ class PassengerRepository extends EntityRepository
 
     /**
      * @param User $user
+     * @param int $hoursInterval = 5
      * @return array|Passenger[]
      */
-    public function getUserAsPassengerListWithRequest(User $user)
+    public function getUserAsPassengerListWithRequest(User $user, $hoursInterval = 5)
     {
+        //prepare time for query
+        $fromDate = date("Y-m-d H:i:s");
+        $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));
+
         $em = $this->getEntityManager();
 
         $query = $em->createQuery(
             "
                             SELECT p
                             FROM Nfq\WeDriveBundle\Entity\Passenger p
-                            WHERE p.user = :user_id and
-                            (p.accepted = :state1 or p.accepted = :state2)
+                            JOIN p.trip t
+                            WHERE p.user = :user_id
+                            and (p.accepted = :state1 or p.accepted = :state2)
+                            and t.departureTime >:fromDate
+                            and t.departureTime <:toDate
                             ORDER BY p.accepted"
-        )->setParameters(array('user_id'=>$user->getId(),
-                'state1'=>PassengerState::ST_CANCELED_BY_DRIVER,
-                'state2'=>PassengerState::ST_REJECTED_BY_DRIVER));
+        )->setParameters(
+                array(
+                    'user_id' => $user->getId(),
+                    'fromDate' => $fromDate,
+                    'toDate' => $toDate,
+                    'state1' => PassengerState::ST_CANCELED_BY_DRIVER,
+                    'state2' => PassengerState::ST_REJECTED_BY_DRIVER
+                )
+            );
 
         $passengers = $query->getResult();
 
