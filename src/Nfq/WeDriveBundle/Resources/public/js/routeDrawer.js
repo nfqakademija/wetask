@@ -10,7 +10,7 @@ var routeDrawer = {
         }).disableSelection();
     },
     Add: function Add(event) {
-        if (!(waypoints.length > waypointlim)) {
+        if (!(waypoints.length > waypointLimit)) {
             var cell = $('<div></div>');
             $(cell).addClass('cell').addClass('btn').addClass('btn-default');
             $(cell).attr('type', 'button');
@@ -18,6 +18,9 @@ var routeDrawer = {
             $("#routeDrawerPanel").find('ul').append(cell);
             addWaypoint(event.latLng, true);
         }
+    },
+    Remove: function Remove() {
+
     },
     FetchJSON: function FetchJSON() {
         var latlngs = markerLatLng(waypoints);

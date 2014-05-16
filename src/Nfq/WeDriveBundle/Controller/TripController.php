@@ -4,7 +4,10 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\WeDriveBundle\Constants\PassengerState;
+use Nfq\WeDriveBundle\Entity\Notification;
+use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Nfq\WeDriveBundle\Entity\Passenger;
+use Nfq\WeDriveBundle\Entity\RoutePoint;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
 use Nfq\WeDriveBundle\Form\Type\TripRouteType;
@@ -65,17 +68,26 @@ class TripController extends Controller
      */
     public function deleteTripAction($tripId)
     {
+        $em = $this->getDoctrine()->getManager();
+
         /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-        $em = $this->getDoctrine()->getManager();
 
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id'=>$tripId));
 
         if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
+            /** @var NotificationRepository $notificationRepository */
+            $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+
             $passengers = $trip->getPassengers();
             foreach ($passengers as $passenger ){
                 $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
+                $em->persist($passenger);
+
+                /** @var Notification $notification */
+                $notification = $notificationRepository->generateNotification($passenger);
+                $em->persist($notification);
             }
         }
         $em->remove($trip);
@@ -120,6 +132,10 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
     public function newRouteTripAction(Request $request)
     {
         $trip = new Trip();
@@ -131,8 +147,26 @@ class TripController extends Controller
             $em = $this->getDoctrine()->getManager();
             $trip->getRoute()->setUser($this->getUser());
             $trip->setTitle($trip->getRoute()->getDestination());
+
+            $pointsJson = $form->get('route')->get('routePoints')->getData();
+            $routePoints = json_decode($pointsJson, true);
+
+            foreach ($routePoints as $key => $routePointData) {
+                $routePoint = new RoutePoint();
+                $routePoint->setLatitude($routePointData['k'])
+                    ->setLongitude($routePointData['A'])
+                    ->setRoute($trip->getRoute())
+                    ->setPOrder($key);
+                $em->persist($routePoint);
+            }
+
             $em->persist($trip);
             $em->flush();
+
+            if ($request->isXmlHttpRequest()) {
+                return new Response($this->generateUrl('nfq_wedrive_trip_list'));
+            }
+
             return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
 
@@ -144,6 +178,11 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $tripId
+     * @return RedirectResponse|Response
+     */
     public function manageTripAction(Request $request, $tripId)
     {
         $trip = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip')
@@ -168,6 +207,9 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @return Response
+     */
     public function availableTripListAction()
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
@@ -181,6 +223,9 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @return Response
+     */
     public function joinedTripListAction()
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
@@ -194,6 +239,11 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $tripId
+     * @return Response
+     */
     public function joinTripAction(Request $request, $tripId)
     {
         $em = $this->getDoctrine()->getManager();
@@ -210,8 +260,15 @@ class TripController extends Controller
 
         $trip->addPassenger($passenger);
 
+        /** @var NotificationRepository $notificationRepository */
+        $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+
+        /** @var Notification $notification */
+        $notification = $notificationRepository->generateNotification($passenger);
+
         $em->persist($passenger);
         $em->persist($trip);
+        $em->persist($notification);
         $em->flush();
 
         $request->getSession()->getFlashBag()->add('error', "Join successful");

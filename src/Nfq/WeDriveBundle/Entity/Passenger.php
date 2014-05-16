@@ -105,7 +105,7 @@ class Passenger
     /**
      * Set user
      *
-     * @param integer $user
+     * @param User $user
      * @return Passenger
      */
     public function setUser($user)
@@ -118,7 +118,7 @@ class Passenger
     /**
      * Get userID
      *
-     * @return integer
+     * @return User
      */
     public function getUser()
     {

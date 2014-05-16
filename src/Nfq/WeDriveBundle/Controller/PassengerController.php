@@ -4,6 +4,8 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\UserBundle\Entity\User;
+use Nfq\WeDriveBundle\Entity\Notification;
+use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\PassengerRepository;
 use Nfq\WeDriveBundle\Entity\Trip;
@@ -63,30 +65,8 @@ class PassengerController extends Controller
      * @param Passenger $passengerId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function acceptPassengerAction(Request $request, $passengerId) {
-        $this->setPassengerState($passengerId, PassengerState::ST_JOINED_DRIVER_ACCEPTED);
-        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
-    }
-
-    /**
-     *
-     * @param Request $request
-     * @param Passenger $passengerId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
     public function rejectPassengerAction(Request $request, $passengerId) {
         $this->setPassengerState($passengerId, PassengerState::ST_REJECTED_BY_DRIVER);
-        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
-    }
-
-    /**
-     *
-     * @param Request $request
-     * @param Passenger $passengerId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function cancellationSeenAction(Request $request, $passengerId) {
-        $this->setPassengerState($passengerId, PassengerState::ST_CANCELED);
         return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
 
@@ -114,10 +94,19 @@ class PassengerController extends Controller
     private function setPassengerState($passengerId, $state) {
         $em = $this->getDoctrine()->getManager();
         $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
+        /** @var Passenger $passenger */
         $passenger = $passengerRepository->findOneBy(array('id' => $passengerId));
 
         $passenger->setAccepted($state);
         $em->persist($passenger);
+
+        /** @var NotificationRepository $notificationRepository */
+        $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+
+        /** @var Notification $notification */
+        $notification = $notificationRepository->generateNotification($passenger);
+        $em->persist($notification);
+
         $em->flush();
     }
 }
