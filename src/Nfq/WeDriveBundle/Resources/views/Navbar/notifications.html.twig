@@ -4,26 +4,11 @@
                     class="glyphicon glyphicon-envelope"></span>&nbsp; Notifications
             <span class="badge">{{ notifications.count }}</span></a>
         <ul class="dropdown-menu notif-menu">
-            {% for request in notifications.requests %}
-                <li>
-                    {{ request.message }}
-                    <div class="btn-group btn-group-xs this">
-                        <a href="{{ path('nfq_wedrive_passenger_join_reject',{'passengerId':request.passengerId}) }}"
-                           type="button" class="btn btn-danger btn-xs">
-                            Reject
-                        </a>
-                        <a href="{{ path('nfq_wedrive_passenger_join_accept',{'passengerId':request.passengerId}) }}"
-                           type="button" class="btn btn-info btn-xs">
-                            OK
-                        </a>
-                    </div>
-                </li>
-            {% endfor %}
             {% for message in notifications.messages %}
                 <li>
                     {{ message.message }}
                     <div class="btn-group btn-group-xs this">
-                        <a href="{{ path('nfq_wedrive_passenger_join_cancellation',{'passengerId':message.passengerId}) }}"
+                        <a href="{{ path('nfq_wedrive_notification_seen',{'notificationId':message.notificationId}) }}"
                            type="button" class="btn btn-info btn-xs">
                             OK
                         </a>

@@ -4,6 +4,8 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\WeDriveBundle\Constants\PassengerState;
+use Nfq\WeDriveBundle\Entity\Notification;
+use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
@@ -210,8 +212,15 @@ class TripController extends Controller
 
         $trip->addPassenger($passenger);
 
+        /** @var NotificationRepository $notificationRepository */
+        $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+
+        /** @var Notification $notification */
+        $notification = $notificationRepository->generateNotification($passenger);
+
         $em->persist($passenger);
         $em->persist($trip);
+        $em->persist($notification);
         $em->flush();
 
         $request->getSession()->getFlashBag()->add('error', "Join successful");
