@@ -5,6 +5,7 @@ namespace Nfq\WeDriveBundle\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Passenger;
+use Nfq\WeDriveBundle\Entity\RoutePoint;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
 use Nfq\WeDriveBundle\Form\Type\TripRouteType;
@@ -131,8 +132,26 @@ class TripController extends Controller
             $em = $this->getDoctrine()->getManager();
             $trip->getRoute()->setUser($this->getUser());
             $trip->setTitle($trip->getRoute()->getDestination());
+
+            $pointsJson = $form->get('route')->get('routePoints')->getData();
+            $routePoints = json_decode($pointsJson, true);
+
+            foreach ($routePoints as $key => $routePointData) {
+                $routePoint = new RoutePoint();
+                $routePoint->setLatitude($routePointData['k'])
+                    ->setLongitude($routePointData['A'])
+                    ->setRoute($trip->getRoute())
+                    ->setPOrder($key);
+                $em->persist($routePoint);
+            }
+
             $em->persist($trip);
             $em->flush();
+
+            if ($request->isXmlHttpRequest()) {
+                return new Response($this->generateUrl('nfq_wedrive_trip_list'));
+            }
+
             return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
 

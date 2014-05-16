@@ -5,7 +5,7 @@ var currentLocation = new google.maps.LatLng(54.696164, 25.277769);
 var idleCenter = new google.maps.LatLng(54.68901487769897, 25.227699279785);
 var map;
 var waypoints = [];
-var waypointlim = 8;
+var waypointLimit = 8;
 var overlay;
 
 function Initialise() {
@@ -144,7 +144,7 @@ function plotRoute(coords) {
 }
 
 function addWaypoint(latlng, draggable) {
-    if (!(waypoints.length > waypointlim)) {
+    if (!(waypoints.length > waypointLimit)) {
 
         var waypoint = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
