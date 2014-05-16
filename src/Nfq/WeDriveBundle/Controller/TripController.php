@@ -60,20 +60,27 @@ class TripController extends Controller
     /**
      * Deteles Trip by id
      *
-     * @param $tripId
+     * @param int $tripId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction($tripId)
+    public function deleteTripAction($tripId)
     {
+        /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $em = $this->getDoctrine()->getManager();
-        $trip = $tripRepository->findOneBy($tripId);
 
-        if ($tripRepository->getJoinedPassengerCount($trip) == 0) {
-            $em->remove($trip);
-            $em->flush();
+        /** @var Trip $trip */
+        $trip = $tripRepository->findOneBy(array('id'=>$tripId));
 
-            return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
+        if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
+            $passengers = $trip->getPassengers();
+            foreach ($passengers as $passenger ){
+                $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
+            }
         }
+        $em->remove($trip);
+        $em->flush();
+        return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
     }
 
     /**

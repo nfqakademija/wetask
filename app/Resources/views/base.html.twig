@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-        <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
-        {% block javascripts_head %}
-            {% javascripts output='static/scripts_head.js'
-            'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
-            'bundles/nfqwedrive/js/jquery-ui-1.10.4.custom.min.js'
-            'bundles/nfqwedrive/js/bootstrap.min.js' %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome to weDrive!{% endblock %}</title>
+    {% block javascripts_head %}
+        {% javascripts output='static/scripts_head.js'
+        'bundles/nfqwedrive/js/jquery-2.1.0.min.js'
+        'bundles/nfqwedrive/js/jquery-ui-1.10.4.custom.min.js'
+        'bundles/nfqwedrive/js/bootstrap.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
 
-        {% block stylesheets %}
-            {% stylesheets filter="compass"  "@NfqWeDriveBundle/Resources/assets/css/style.scss"  %}
-            <link rel="stylesheet" href="{{ asset_url }}" />
-            {% endstylesheets %}
+    {% block stylesheets %}
+        {% stylesheets filter="compass"  "@NfqWeDriveBundle/Resources/assets/css/style.scss" %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
 
-            {% stylesheets 'bundles/nfqwedrive/css/*' filter='cssrewrite' %}
-                <link rel="stylesheet" href="{{ asset_url }}"/>
-            {% endstylesheets %}
-        {% endblock %}
+        {% stylesheets 'bundles/nfqwedrive/css/*' filter='cssrewrite' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
 
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block fos_user_content %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+{% block body %}{% endblock %}
+{% block fos_user_content %}{% endblock %}
 
-        {% block javascripts %}
-            {% javascripts output='static/scripts.js'
-            'bundles/nfqwedrive/js/maps.js'
-            'bundles/nfqwedrive/js/routePicker.js'
-            'bundles/nfqwedrive/js/clock.js'
-            'bundles/nfqwedrive/js/flashbag.js'
-            'bundles/nfqwedrive/js/routeDrawer.js'
-            'bundles/nfqwedrive/js/tripFunctions.js'
-            'bundles/nfqwedrive/js/formsAjax.js'
-            %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endblock %}
+{% block javascripts %}
+    {% javascripts output='static/scripts.js'
+    'bundles/nfqwedrive/js/maps.js'
+    'bundles/nfqwedrive/js/routePicker.js'
+    'bundles/nfqwedrive/js/clock.js'
+    'bundles/nfqwedrive/js/flashbag.js'
+    'bundles/nfqwedrive/js/routeDrawer.js'
+    'bundles/nfqwedrive/js/tripFunctions.js'
+    'bundles/nfqwedrive/js/formsAjax.js'
+    'bundles/nfqwedrive/js/confirmations.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
 
-        {% block clock_start %}
-            <script>
-                $( document ).ready(function() {
-                    Clock.startTime()
-                });
-            </script>
-        {% endblock %}
-    </body>
+{% block clock_start %}
+    <script>
+        $(document).ready(function () {
+            Clock.startTime()
+        });
+    </script>
+{% endblock %}
+</body>
 </html>

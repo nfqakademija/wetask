@@ -57,6 +57,15 @@
                                 </a>
                             </li>
                             {% endif %}
+                            <li class="divider"></li>
+                            <li >
+                                <a onclick="return tripDeleteConfirmation();"
+                                        href="{{ path('nfq_wedrive_trip_delete', {'tripId':trip.trip.id }) }}"
+                                        class="list-delete-button" >
+                                    Delete
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                 </td>

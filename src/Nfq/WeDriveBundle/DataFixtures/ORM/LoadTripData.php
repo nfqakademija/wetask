@@ -30,7 +30,7 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
 
         $everyHourCount = 5;
         $tripsCount = 13;
-        $cicleCount = 5; // $cicleCount * $everyHourCount +5 -is fixtures availability time
+        $cicleCount = 2; // $cicleCount * $everyHourCount +5 -is fixtures availability time
 
         for($i = 0; $i < $cicleCount; $i++){
             $timeDelta = $everyHourCount * $i;
