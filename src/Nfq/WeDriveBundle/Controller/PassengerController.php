@@ -11,6 +11,7 @@ use Nfq\WeDriveBundle\Entity\TripRepository;
 use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PassengerController
@@ -97,7 +98,11 @@ class PassengerController extends Controller
      */
     public function leaveTripAction(Request $request, $passengerId) {
         $this->setPassengerState($passengerId, PassengerState::ST_CANCELED_BY_PASSENGER);
-        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+
+        if ($request->isXmlHttpRequest()) {
+            return new Response(json_encode("Leave"));
+        }
+//        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
 
     /**

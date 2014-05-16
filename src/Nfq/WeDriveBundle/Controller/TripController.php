@@ -216,7 +216,7 @@ class TripController extends Controller
 
         $request->getSession()->getFlashBag()->add('error', "Join successful");
 
-        return new Response(json_encode("Success"));
+        return new Response(json_encode("Join"));
     }
 
 }

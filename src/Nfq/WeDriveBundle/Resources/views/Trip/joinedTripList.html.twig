@@ -9,7 +9,7 @@
         <th id="join_column"> Status</th>
     </tr>
     </thead>
-    <tbody id = "JoinedTrips">
+    <tbody id="JoinedTrips">
 
     {% set i=0 %}
     {% for tripRow in tripList %}
@@ -25,12 +25,12 @@
                 </td>
                 <td>
 
-                    <a href="{{ tripRow.buttonUrl }}"
-                            id = "joinButton{{ i }}"
-                       type="button"
-                       class="btn btn-warning btn-xs trip-btn">
+                    <button id="leaveButton{{ i }}"
+                            action="{{ tripRow.buttonUrl }}"
+                            type="button"
+                            class=" tripButton btn btn-warning btn-xs trip-btn">
                         {{ tripRow.buttonName }}
-                    </a>
+                    </button>
 
                 </td>
                 <script type="text/javascript">
@@ -48,3 +48,24 @@
     {% endfor %}
     </tbody>
 </table>
+
+<script type="text/javascript">
+    $(".tripButton").on('click', function (event) {
+        event.preventDefault();
+
+        if (confirm("Are you sure?")) {
+            console.log($('#' + this.id).attr('action'));
+            var buttonId = this.id;
+
+            $.ajax({
+                type: "POST",
+                url: $('#' + this.id).attr('action'),
+                dataType: 'json',
+                success: function (data) {
+                    $('#available_trips').load("{{ path('nfq_wedrive_ajax_availableTrip_list') }}");
+                    $('#joined_trips').load("{{ path('nfq_wedrive_ajax_joinedTrip_list') }}");
+                }
+            });
+        }
+    });
+</script>
