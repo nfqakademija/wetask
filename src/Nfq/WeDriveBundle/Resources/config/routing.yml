@@ -63,9 +63,9 @@ nfq_wedrive_passenger_join_leave:
     pattern:  /passenger/leave/{passengerId}
     defaults:   { _controller: NfqWeDriveBundle:Passenger:leaveTrip }
 
-nfq_wedrive_passenger_join_cancellation:
-    pattern:  /passenger/cancellation/{passengerId}
-    defaults:   { _controller: NfqWeDriveBundle:Passenger:cancellationSeen }
+nfq_wedrive_notification_seen:
+    pattern:  /notification/seen/{notificationId}
+    defaults:   { _controller: NfqWeDriveBundle:Notification:seen }
 
 nfq_wedrive_ajax_trip_join:
     pattern:  /ajax/trip/join/{tripId}
