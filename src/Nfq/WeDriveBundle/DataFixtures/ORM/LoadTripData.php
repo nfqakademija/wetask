@@ -29,25 +29,25 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
         $trips = array();
 
         $everyHourCount = 5;
-        $tripsCount = 13;
-        $cicleCount = 2; // $cicleCount * $everyHourCount +5 -is fixtures availability time
+        //$tripsCount = 13;
+        $cycleCount = 2; // $cycleCount * $everyHourCount +5 -is fixtures availability time
 
-        for($i = 0; $i < $cicleCount; $i++){
+        for($i = 0; $i < $cycleCount; $i++){
             $timeDelta = $everyHourCount * $i;
-            $tripND = $tripsCount * $i; //trip Number Delta
-            $trips[] = array('route-4', strtotime('+'.$timeDelta.' hours 27 minutes'), 'My car is on 5A floor', 'trip-'.(6+$tripND), 2);
-            $trips[] = array('route-8', strtotime('+'.$timeDelta.' hours 40 minutes'), 'Priimu rukancius', 'trip-'.(3+$tripND), 3);
-            $trips[] = array('route-10', strtotime('+'.$timeDelta.' hours 50 minutes'), 'My car is on 5A floor', 'trip-'.(5+$tripND), 2);
-            $trips[] = array('route-7', strtotime('+'.(1+$timeDelta).' hours 25 minutes'), 'I am listening Metallica', 'trip-'.(9+$tripND), 1);
-            $trips[] = array('route-1', strtotime('+'.(1+$timeDelta).' hours 30 minutes'), 'Antakalnis', 'trip-'.(1+$tripND), 2);
-            $trips[] = array('route-2', strtotime('+'.(1+$timeDelta).' hours 32 minutes'), 'Vairuosiu kruta masina', 'trip-'.(2+$tripND), 2);
-            $trips[] = array('route-5', strtotime('+'.(3+$timeDelta).' hours 5 minutes'), 'I am on minivan today', 'trip-'.(12+$tripND), 6);
-            $trips[] = array('route-4', strtotime('+'.(3+$timeDelta).' hours 20 minutes'), 'Only non smoking!', 'trip-'.(10+$tripND), 1);
-            $trips[] = array('route-9', strtotime('+'.(3+$timeDelta).' hours 37 minutes'), 'My car is on 5A floor', 'trip-'.(4+$tripND), 1);
-            $trips[] = array('route-6', strtotime('+'.(4+$timeDelta).' hours 12 minutes'), 'Imu suni', 'trip-'.(7+$tripND), 1);
-            $trips[] = array('route-1', strtotime('+'.(4+$timeDelta).' hours 25 minutes'), 'No air conditioner', 'trip-'.(8+$tripND), 1);
-            //$trips[] = array('route-4', strtotime('+'.(25+$timeDelta).' hours 55 minutes'), 'Only non smoking!', 'trip-'.(11+$tripND), 3);
-            //$trips[] = array('route-6', strtotime('+'.(25+$timeDelta).' hours 15 minutes'), 'Radio not working', 'trip-'.(13+$tripND), 1);
+            $delta = 100 * $i; //trip Number Delta
+            $trips[] = array('route-4', strtotime('+'.$timeDelta.' hours 27 minutes'), 'My car is on 5A floor', 'trip-'.(6+$delta), 2);
+            $trips[] = array('route-8', strtotime('+'.$timeDelta.' hours 40 minutes'), 'Priimu rukancius', 'trip-'.(3+$delta), 3);
+            $trips[] = array('route-10', strtotime('+'.$timeDelta.' hours 50 minutes'), 'My car is on 5A floor', 'trip-'.(5+$delta), 2);
+            $trips[] = array('route-7', strtotime('+'.(1+$timeDelta).' hours 25 minutes'), 'I am listening Metallica', 'trip-'.(9+$delta), 1);
+            $trips[] = array('route-1', strtotime('+'.(1+$timeDelta).' hours 30 minutes'), 'Antakalnis', 'trip-'.(1+$delta), 2);
+            $trips[] = array('route-2', strtotime('+'.(1+$timeDelta).' hours 32 minutes'), 'Vairuosiu kruta masina', 'trip-'.(2+$delta), 2);
+            $trips[] = array('route-5', strtotime('+'.(3+$timeDelta).' hours 5 minutes'), 'I am on minivan today', 'trip-'.(12+$delta), 6);
+            $trips[] = array('route-4', strtotime('+'.(3+$timeDelta).' hours 20 minutes'), 'Only non smoking!', 'trip-'.(10+$delta), 1);
+            $trips[] = array('route-9', strtotime('+'.(3+$timeDelta).' hours 37 minutes'), 'My car is on 5A floor', 'trip-'.(4+$delta), 1);
+            $trips[] = array('route-6', strtotime('+'.(4+$timeDelta).' hours 12 minutes'), 'Imu suni', 'trip-'.(7+$delta), 1);
+            $trips[] = array('route-1', strtotime('+'.(4+$timeDelta).' hours 25 minutes'), 'No air conditioner', 'trip-'.(8+$delta), 1);
+            //$trips[] = array('route-4', strtotime('+'.(25+$timeDelta).' hours 55 minutes'), 'Only non smoking!', 'trip-'.(11+$delta), 3);
+            //$trips[] = array('route-6', strtotime('+'.(25+$timeDelta).' hours 15 minutes'), 'Radio not working', 'trip-'.(13+$delta), 1);
 
         }
 

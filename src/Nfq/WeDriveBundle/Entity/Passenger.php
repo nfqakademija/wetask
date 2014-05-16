@@ -4,6 +4,7 @@ namespace Nfq\WeDriveBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Nfq\UserBundle\Entity\User;
+use Nfq\WeDriveBundle\Entity\Trip;
 
 /**
  * Passenger
@@ -45,7 +46,6 @@ class Passenger
      */
     private $user;
 
-
     /**
      * Get id
      *
@@ -59,7 +59,7 @@ class Passenger
     /**
      * Set trip
      *
-     * @param integer $trip
+     * @param Trip $trip
      * @return Passenger
      */
     public function setTrip($trip)
@@ -72,7 +72,7 @@ class Passenger
     /**
      * Get trip
      *
-     * @return integer
+     * @return Trip
      */
     public function getTrip()
     {

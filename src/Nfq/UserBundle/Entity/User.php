@@ -6,6 +6,7 @@ namespace Nfq\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Nfq\WeDriveBundle\Entity\Notification;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Route;
 
@@ -46,6 +47,13 @@ class User extends BaseUser
     protected $invitation;
 
     /**
+     * @var ArrayCollection|Notification[]
+     *
+     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\Notification", mappedBy="user")
+     */
+    private $notifications;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -54,6 +62,7 @@ class User extends BaseUser
 
         $this->routes = new ArrayCollection();
         $this->passengers = new ArrayCollection();
+        $this->notifications =new ArrayCollection();
     }
 
     /**
@@ -146,5 +155,38 @@ class User extends BaseUser
     public function setInvitation($invitation)
     {
         $this->invitation = $invitation;
+    }
+
+    /**
+     * Add notifications
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Notification $notifications
+     * @return User
+     */
+    public function addNotification(\Nfq\WeDriveBundle\Entity\Notification $notifications)
+    {
+        $this->notifications[] = $notifications;
+
+        return $this;
+    }
+
+    /**
+     * Remove notifications
+     *
+     * @param \Nfq\WeDriveBundle\Entity\Notification $notifications
+     */
+    public function removeNotification(\Nfq\WeDriveBundle\Entity\Notification $notifications)
+    {
+        $this->notifications->removeElement($notifications);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
     }
 }

@@ -49,27 +49,27 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
 
         );
         $passengers = array();
-        $tripCount = 13;
-        $cicleCount = 2;
+        //$tripCount = 13;
+        $cycleCount = 2;
 
-        for($i = 0; $i <$cicleCount; $i++){
-            $tripND = $tripCount * $i;
-            $passengers[] = array('trip-'.(1+$tripND), PassengerState::ST_JOINED, 'user-11');
-            $passengers[] = array('trip-'.(2+$tripND), PassengerState::ST_JOINED, 'user-5');
-            $passengers[] = array('trip-'.(3+$tripND), PassengerState::ST_JOINED_DRIVER_ACCEPTED, 'user-10');
-            $passengers[] = array('trip-'.(4+$tripND), PassengerState::ST_JOINED, 'user-11');
-            $passengers[] = array('trip-'.(5+$tripND), PassengerState::ST_JOINED, 'user-7');
-            $passengers[] = array('trip-'.(10+$tripND), PassengerState::ST_JOINED, 'user-8');
-            $passengers[] = array('trip-'.(7+$tripND), PassengerState::ST_JOINED, 'user-12');
-            //$passengers[] = array('trip-'.(11+$tripND), PassengerState::ST_JOINED, 'user-2');
-            $passengers[] = array('trip-'.(8+$tripND), PassengerState::ST_JOINED, 'user-5');
-            $passengers[] = array('trip-'.(9+$tripND), PassengerState::ST_JOINED, 'user-9');
-            $passengers[] = array('trip-'.(12+$tripND), PassengerState::ST_JOINED, 'user-13');
-            $passengers[] = array('trip-'.(12+$tripND), PassengerState::ST_JOINED, 'user-14');
-            $passengers[] = array('trip-'.(12+$tripND), PassengerState::ST_JOINED, 'user-15');
-            $passengers[] = array('trip-'.(3+$tripND), PassengerState::ST_CANCELED_BY_PASSENGER, 'user-15');
-            $passengers[] = array('trip-'.(12+$tripND), PassengerState::ST_CANCELED_BY_DRIVER, 'user-18');
-            $passengers[] = array('trip-'.(12+$tripND), PassengerState::ST_JOINED, 'user-16');
+        for($i = 0; $i <$cycleCount; $i++){
+            $delta = 100 * $i;
+            $passengers[] = array('trip-'.(1+$delta), PassengerState::ST_JOINED, 'user-11','pass-'.(1+$delta));
+            $passengers[] = array('trip-'.(2+$delta), PassengerState::ST_JOINED, 'user-5','pass-'.(2+$delta));
+            $passengers[] = array('trip-'.(3+$delta), PassengerState::ST_JOINED_DRIVER_ACCEPTED, 'user-10','pass-'.(3+$delta));
+            $passengers[] = array('trip-'.(4+$delta), PassengerState::ST_JOINED, 'user-11','pass-'.(4+$delta));
+            $passengers[] = array('trip-'.(5+$delta), PassengerState::ST_JOINED, 'user-7','pass-'.(5+$delta));
+            $passengers[] = array('trip-'.(10+$delta), PassengerState::ST_JOINED, 'user-8','pass-'.(6+$delta));
+            $passengers[] = array('trip-'.(7+$delta), PassengerState::ST_JOINED, 'user-12','pass-'.(7+$delta));
+            //$passengers[] = array('trip-'.(11+$delta), PassengerState::ST_JOINED, 'user-2','pass-'.(8+$delta));
+            $passengers[] = array('trip-'.(8+$delta), PassengerState::ST_JOINED, 'user-5','pass-'.(9+$delta));
+            $passengers[] = array('trip-'.(9+$delta), PassengerState::ST_JOINED, 'user-9','pass-'.(10+$delta));
+            $passengers[] = array('trip-'.(12+$delta), PassengerState::ST_JOINED, 'user-13','pass-'.(11+$delta));
+            $passengers[] = array('trip-'.(12+$delta), PassengerState::ST_JOINED, 'user-14','pass-'.(12+$delta));
+            $passengers[] = array('trip-'.(12+$delta), PassengerState::ST_JOINED, 'user-15','pass-'.(13+$delta));
+            $passengers[] = array('trip-'.(3+$delta), PassengerState::ST_CANCELED_BY_PASSENGER, 'user-15','pass-'.(14+$delta));
+            $passengers[] = array('trip-'.(12+$delta), PassengerState::ST_CANCELED_BY_DRIVER, 'user-18','pass-'.(15+$delta));
+            $passengers[] = array('trip-'.(12+$delta), PassengerState::ST_JOINED, 'user-16','pass-'.(16+$delta));
         }
         
         foreach ($passengers as $passengerData) {
@@ -79,6 +79,7 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
 
             $manager->persist($passenger);
             $passenger->setUser($this->getReference($passengerData[2]));
+            $this->addReference($passengerData[3], $passenger);
         }
         $manager->flush();
     }
