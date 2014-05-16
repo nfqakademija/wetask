@@ -68,17 +68,26 @@ class TripController extends Controller
      */
     public function deleteTripAction($tripId)
     {
+        $em = $this->getDoctrine()->getManager();
+
         /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-        $em = $this->getDoctrine()->getManager();
 
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id'=>$tripId));
 
         if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
+            /** @var NotificationRepository $notificationRepository */
+            $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+
             $passengers = $trip->getPassengers();
             foreach ($passengers as $passenger ){
                 $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
+                $em->persist($passenger);
+
+                /** @var Notification $notification */
+                $notification = $notificationRepository->generateNotification($passenger);
+                $em->persist($notification);
             }
         }
         $em->remove($trip);
@@ -123,6 +132,10 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
     public function newRouteTripAction(Request $request)
     {
         $trip = new Trip();
@@ -165,6 +178,11 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $tripId
+     * @return RedirectResponse|Response
+     */
     public function manageTripAction(Request $request, $tripId)
     {
         $trip = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip')
@@ -189,6 +207,9 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @return Response
+     */
     public function availableTripListAction()
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
@@ -202,6 +223,9 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @return Response
+     */
     public function joinedTripListAction()
     {
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
@@ -215,6 +239,11 @@ class TripController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $tripId
+     * @return Response
+     */
     public function joinTripAction(Request $request, $tripId)
     {
         $em = $this->getDoctrine()->getManager();
