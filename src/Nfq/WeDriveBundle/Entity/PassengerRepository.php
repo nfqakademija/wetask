@@ -72,9 +72,9 @@ class PassengerRepository extends EntityRepository
                             FROM Nfq\WeDriveBundle\Entity\Passenger p
                             JOIN p.trip t
                             WHERE p.user = :user_id
-                            and (p.accepted = :state1 or p.accepted = :state2)
-                            and t.departureTime >:fromDate
-                            and t.departureTime <:toDate
+                            AND (p.accepted = :state1 OR p.accepted = :state2)
+                            AND t.departureTime >:fromDate
+                            AND t.departureTime <:toDate
                             ORDER BY p.accepted"
         )->setParameters(
                 array(

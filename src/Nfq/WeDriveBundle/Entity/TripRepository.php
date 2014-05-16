@@ -18,14 +18,18 @@ class TripRepository extends EntityRepository
 {
 
 
-    public function getUserTrips(User $user)
+    /**
+     * @param User $user
+     * @param int $hoursInterval
+     * @return array
+     */
+    public function getUserTrips(User $user, $hoursInterval = 5)
     {
-        $em = $this->getEntityManager();
+        //prepare time for query
+        $fromDate = date("Y-m-d H:i:s");
+        $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));
 
-        $parameters = array(
-            'userId' => $user->getId(),
-            'departureTime' => date('Y-m-d H:i:s')
-        );
+        $em = $this->getEntityManager();
 
         $query = $em->createQuery(
             "
@@ -34,9 +38,16 @@ class TripRepository extends EntityRepository
                             JOIN t.route r
                             WHERE r.user = :userId
                             AND t.departureTime > :departureTime
+                            AND t.departureTime < :toDate
                             ORDER BY t.departureTime ASC
                         "
-        )->setParameters($parameters);
+        )->setParameters(
+                array(
+                    'userId' => $user->getId(),
+                    'departureTime' => $fromDate,
+                    'toDate' => $toDate
+                )
+            );
 
         $trips = $query->getResult();
 
@@ -53,10 +64,14 @@ class TripRepository extends EntityRepository
      * getOtherTrips
      *
      * @param User $user
+     * @param int $hoursInterval
      * @return ArrayCollection|Trip[]
      */
-    public function getOtherTrips(User $user)
+    public function getOtherTrips(User $user, $hoursInterval = 5)
     {
+        //prepare time for query
+        $fromDate = date("Y-m-d H:i:s");
+        $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));
 
         $em = $this->getEntityManager();
 
@@ -67,12 +82,14 @@ class TripRepository extends EntityRepository
                             JOIN t.route r
                             WHERE r.user != :userId
                             AND t.departureTime > :departureTime
+                            AND t.departureTime < :toDate
                             ORDER BY t.departureTime
                         "
         )->setParameters(
                 array(
                     'userId' => $user->getId(),
-                    'departureTime' => date('Y-m-d H:i:s')
+                    'departureTime' => $fromDate,
+                    'toDate' => $toDate
                 )
             );
 
