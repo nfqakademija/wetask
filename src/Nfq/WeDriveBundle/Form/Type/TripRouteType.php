@@ -106,7 +106,7 @@ class TripRouteType extends AbstractType
                 'submit',
                 array(
                     'attr' => array(
-                        'class' => 'btn btn-lg btn-success col-lg-2'
+                        'class' => 'btn btn-sm btn-success col-lg-2'
                     )
                 )
             );

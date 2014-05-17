@@ -5,13 +5,6 @@
 {% endblock %}
 
 {% block panel_title_button %}
-    {#<form method="post" action="{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}">#}
-        {#<button type="submit" class="btn btn-primary btn-sm" id="btn_new_trip" id="new_btn">#}
-            {#<span class="glyphicon glyphicon-remove"></span>#}
-        {#</button>#}
-    {##}
-    {#</form>#}
-
     <a onclick="return actionConfirmation('Are you sure you want to delete route?');"
             href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}"
             id="new_btn"
@@ -40,6 +33,10 @@
 
     <div class="form-group">
         {{ form_widget(form.save) }}
+        <a class="btn btn-sm btn-warning"
+           href = "{{ path('nfq_wedrive_route_list') }}">
+            Cancel
+        </a>
     </div>
 
     {{ form_end(form) }}

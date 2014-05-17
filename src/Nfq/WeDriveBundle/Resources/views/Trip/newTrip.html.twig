@@ -39,6 +39,10 @@
 
     <div class="form-group">
         {{ form_widget(form.save) }}
+        <a class="btn btn-sm btn-warning"
+           href = "{{ path('nfq_wedrive_route_list') }}">
+            Cancel
+        </a>
     </div>
 
     {{ form_end(form) }}

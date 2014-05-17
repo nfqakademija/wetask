@@ -54,16 +54,18 @@ class RouteType extends AbstractType
             )
         ;
 
+
         if ($this->entity == 'route') {
             $builder->add(
                 'save',
                 'submit',
                 array(
                     'attr' => array(
-                        'class' => 'btn btn-lg btn-success',
+                        'class' => 'btn btn-sm btn-success',
                     )
                 )
             );
+
         }
     }
 
