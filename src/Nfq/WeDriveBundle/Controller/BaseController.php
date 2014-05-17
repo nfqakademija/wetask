@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Nfq\WeDriveBundle\Entity\PassengerRepository;
@@ -22,6 +23,12 @@ class BaseController extends Controller
      */
     public function indexAction()
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        if(in_array("ROLE_OBSERVER",$user->getRoles())){
+            return $this->redirect($this->generateUrl('nfq_wedrive_observer'));
+        }
+
         /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $tripList = $tripRepository->prepareTripList($this);
@@ -42,5 +49,10 @@ class BaseController extends Controller
     public function showMapAction()
     {
         return $this->render('NfqWeDriveBundle:Map:map.html.twig');
+    }
+
+    public function observerAction()
+    {
+        return $this->render('NfqWeDriveBundle:Default:observer.html.twig');
     }
 }

@@ -2,6 +2,10 @@ nfq_wedrive_base:
     pattern:  /
     defaults: { _controller: NfqWeDriveBundle:Base:index }
 
+nfq_wedrive_observer:
+    pattern:  /public
+    defaults: { _controller: NfqWeDriveBundle:Base:observer }
+
 nfq_wedrive_route_list:
     pattern:  /route/list
     defaults: { _controller: NfqWeDriveBundle:Route:list }
