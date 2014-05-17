@@ -23,11 +23,11 @@ var routeDrawer = {
             $(cell).addClass('cell').addClass('btn').addClass('btn-default');
             $(cell).attr('type', 'button');
             $(cell).append($('<span class="glyphicon glyphicon-map-marker"></span>'));
-            $(cell).mouseover(function(){
+            $(cell).hover(function(){
                 var index = $(this).index();
                 waypoints[index].setAnimation(google.maps.Animation.BOUNCE);
             });
-            $(cell).mouseout(function(){
+            $(cell).mouseleave(function(){
                 var index = $(this).index();
                 waypoints[index].setAnimation(null);
             });
