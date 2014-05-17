@@ -23,11 +23,10 @@ class TripRepository extends EntityRepository
      * @param int $hoursInterval
      * @return array
      */
-    public function getUserTrips(User $user, $hoursInterval = 5)
+    public function getUserTrips(User $user)
     {
         //prepare time for query
         $fromDate = date("Y-m-d H:i:s");
-        $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));
 
         $em = $this->getEntityManager();
 
@@ -38,14 +37,12 @@ class TripRepository extends EntityRepository
                             JOIN t.route r
                             WHERE r.user = :userId
                             AND t.departureTime > :departureTime
-                            AND t.departureTime < :toDate
                             ORDER BY t.departureTime ASC
                         "
         )->setParameters(
                 array(
                     'userId' => $user->getId(),
-                    'departureTime' => $fromDate,
-                    'toDate' => $toDate
+                    'departureTime' => $fromDate
                 )
             );
 

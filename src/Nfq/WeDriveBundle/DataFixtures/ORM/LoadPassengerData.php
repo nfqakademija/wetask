@@ -50,7 +50,7 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
         );
         $passengers = array();
         //$tripCount = 13;
-        $cycleCount = 2;
+        $cycleCount = 4;
 
         for($i = 0; $i <$cycleCount; $i++){
             $delta = 100 * $i;

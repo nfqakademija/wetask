@@ -23,7 +23,7 @@ class LoadNotificationData extends AbstractFixture implements OrderedFixtureInte
     {
         $notifications = array();
 
-        $cycleCount = 2; // $cycleCount * $everyHourCount +5 -is fixtures availability time
+        $cycleCount = 4; // $cycleCount * $everyHourCount +5 -is fixtures availability time
 
         for($i = 0; $i < $cycleCount; $i++){
             $delta = 100 * $i;

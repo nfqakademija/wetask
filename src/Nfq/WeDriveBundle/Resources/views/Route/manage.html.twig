@@ -5,15 +5,21 @@
 {% endblock %}
 
 {% block panel_title_button %}
-    <form method="post" action="{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}">
-        <button type="submit" class="btn btn-primary btn-sm" id="btn_new_trip" id="new_btn">
-            <span class="glyphicon glyphicon-remove"></span>
-        </button>
-    {#<a href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}" id="new_btn"#}
-       {#type="button" class="btn btn-primary btn-sm" id="btn_new_trip" data-toggle="modal">#}
-        {#<span class="glyphicon glyphicon-remove"></span>#}
-    {#</a>#}
-    </form>
+    {#<form method="post" action="{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}">#}
+        {#<button type="submit" class="btn btn-primary btn-sm" id="btn_new_trip" id="new_btn">#}
+            {#<span class="glyphicon glyphicon-remove"></span>#}
+        {#</button>#}
+    {##}
+    {#</form>#}
+
+    <a onclick="return actionConfirmation('Are you sure you want to delete route?');"
+            href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}"
+            id="new_btn"
+            type="button"
+            class="btn btn-primary btn-sm btn-danger"
+            data-toggle="modal">
+    <span class="glyphicon glyphicon-remove"></span>
+    </a>
 {% endblock %}
 
 {% block panel_body %}

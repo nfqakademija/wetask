@@ -59,7 +59,7 @@
                             {% endif %}
                             <li class="divider"></li>
                             <li >
-                                <a onclick="return tripDeleteConfirmation();"
+                                <a onclick="return actionConfirmation('Are you sure you want to delete trip?');"
                                         href="{{ path('nfq_wedrive_trip_delete', {'tripId':trip.trip.id }) }}"
                                         class="list-delete-button" >
                                     Delete
@@ -69,6 +69,7 @@
                         </ul>
                     </div>
                 </td>
+
                 <script type="text/javascript">
                     tripPoints[{{ trip.trip.id }}] = [];
                     {% for routePoint in trip.routePoints %}
