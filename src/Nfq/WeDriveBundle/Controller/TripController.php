@@ -67,10 +67,11 @@ class TripController extends Controller
     /**
      * Deteles Trip by id
      *
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param int $tripId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteTripAction($tripId)
+    public function deleteTripAction(Request $request, $tripId)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -131,6 +132,7 @@ class TripController extends Controller
                 $trip->setRoute($route);
                 $em->persist($trip);
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('error', "New trip added successefully.");
                 return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
             }
 
@@ -251,6 +253,7 @@ class TripController extends Controller
      */
     public function joinedTripListAction()
     {
+        /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $tripList = $tripRepository->prepareTripList($this);
 
@@ -270,32 +273,38 @@ class TripController extends Controller
     public function joinTripAction(Request $request, $tripId)
     {
         $em = $this->getDoctrine()->getManager();
+        /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-
+        /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
-
-        $passenger = new Passenger();
         $user = $this->getUser();
 
-        $passenger->setUser($user);
-        $passenger->setTrip($trip);
-        $passenger->setAccepted(PassengerState::ST_JOINED);
+        if($tripRepository->getAvailableSeatsCount($trip)
+            && !$tripRepository->isUserPassenger($trip, $user)
+            && !$tripRepository->isUserDriver($trip, $user)){
 
-        $trip->addPassenger($passenger);
+            $passenger = new Passenger();
+            $passenger->setUser($user);
+            $passenger->setTrip($trip);
+            $passenger->setAccepted(PassengerState::ST_JOINED);
 
-        /** @var NotificationRepository $notificationRepository */
-        $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+            $trip->addPassenger($passenger);
 
-        /** @var Notification $notification */
-        $notification = $notificationRepository->generateNotification($passenger);
+            /** @var NotificationRepository $notificationRepository */
+            $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
 
-        $em->persist($passenger);
-        $em->persist($trip);
-        $em->persist($notification);
-        $em->flush();
+            /** @var Notification $notification */
+            $notification = $notificationRepository->generateNotification($passenger);
 
-        $request->getSession()->getFlashBag()->add('error', "Join successful");
+            $em->persist($passenger);
+            $em->persist($trip);
+            $em->persist($notification);
+            $em->flush();
 
+            $request->getSession()->getFlashBag()->add('error', "Join successful");
+        } else {
+            $request->getSession()->getFlashBag()->add('error', "Sorry. There ane no free seats.");
+        }
         return new Response(json_encode("Join"));
     }
     /**

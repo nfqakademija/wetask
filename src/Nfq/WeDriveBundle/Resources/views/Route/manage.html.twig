@@ -5,14 +5,14 @@
 {% endblock %}
 
 {% block panel_title_button %}
-    <a onclick="return actionConfirmation('Are you sure you want to delete route?');"
-            href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}"
-            id="new_btn"
-            type="button"
-            class="btn btn-primary btn-sm btn-danger"
-            data-toggle="modal">
-    <span class="glyphicon glyphicon-remove"></span>
-    </a>
+    {#<a onclick="return actionConfirmation('Are you sure you want to delete route?');"#}
+            {#href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}"#}
+            {#id="new_btn"#}
+            {#type="button"#}
+            {#class="btn btn-primary btn-sm btn-danger"#}
+            {#data-toggle="modal">#}
+    {#<span class="glyphicon glyphicon-remove"></span>#}
+    {#</a>#}
 {% endblock %}
 
 {% block panel_body %}

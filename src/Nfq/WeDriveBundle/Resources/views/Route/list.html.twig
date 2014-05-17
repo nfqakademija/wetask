@@ -22,8 +22,8 @@
         <tr>
             <th>Name</th>
             <th>Destination</th>
-            <th></th>
-            <th></th>
+            {#<th></th>#}
+            <th id="btn_column"></th>
         </tr>
         </thead>
         <tbody id="RouteBody">
@@ -34,20 +34,46 @@
             <tr class="routeRow" id="{{ routeObj.route.id }}">
                 <td>{{ routeObj.route.name }}</td>
                 <td>{{ routeObj.route.destination }}</td>
+                {#<td>#}
+                    {#<a href="{{ path('nfq_wedrive_route_manage',{'routeId':routeObj.route.id}) }}"#}
+                       {#class="btn btn-warning btn-xs">#}
+                        {#Manage#}
+                    {#</a>#}
+                {#</td>#}
                 <td>
-                    {#<button type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;Delete&nbsp;&nbsp;&nbsp;</button>#}
-                    <a href="{{ path('nfq_wedrive_route_manage',{'routeId':routeObj.route.id}) }}"
-                       class="btn btn-warning btn-xs">
-                        Manage
-                    </a>
-                </td>
-                <td>
-                    <a href="{{ path('nfq_wedrive_trip_new',{'routeId':routeObj.route.id}) }}" type="button"
-                       class="btn btn-success btn-xs">
-                        <span
-                                class="glyphicon glyphicon-chevron-right">
-                        </span>
-                    </a>
+                    {#<a href="{{ path('nfq_wedrive_trip_new',{'routeId':routeObj.route.id}) }}" type="button"#}
+                       {#class="btn btn-success btn-xs">#}
+                        {#<span#}
+                                {#class="glyphicon glyphicon-chevron-right">#}
+                        {#</span>#}
+                    {#</a>#}
+                    <div class="btn-group btn-group-sm">
+                        <a href="{{ path('nfq_wedrive_trip_new',{'routeId':routeObj.route.id}) }}"
+                           type="button"
+                           class="btn btn-primary btn-xs">
+                            Create trip
+                        </a>
+                        {#<button type="button" class="btn btn-primary">Create trip</button>#}
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ path('nfq_wedrive_route_manage',{'routeId':routeObj.route.id}) }}">
+                                    Manage route
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a onclick="return actionConfirmation('Are you sure you want to delete route?');"
+                                   href = "{{ path('nfq_wedrive_route_delete',{'routeId':routeObj.route.id}) }}"
+                                   class="list-delete-button">
+                                    Delete route
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </td>
                 <script type="text/javascript">
                     routePoints[{{ routeObj.route.id }}] = new Array();
