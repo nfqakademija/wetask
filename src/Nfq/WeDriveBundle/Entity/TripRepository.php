@@ -174,6 +174,53 @@ class TripRepository extends EntityRepository
     }
 
     /**
+     * @param Trip $trip
+     * @param User $user
+     * @return bool
+     */
+    public function isUserPassenger(Trip $trip, User $user)
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "
+                            SELECT count(p)
+                            FROM Nfq\WeDriveBundle\Entity\Passenger p
+                            JOIN p.trip t
+                            WHERE t.id = :tripId
+                            AND (p.accepted = :state1
+                            OR p.accepted = :state2)
+                            AND p.user = :userId
+                        "
+        )->setParameters(
+                array(
+                    'tripId' => $trip->getId(),
+                    'state1' => PassengerState::ST_JOINED,
+                    'state2' => PassengerState::ST_JOINED_DRIVER_ACCEPTED,
+                    'userId' => $user->getId()
+                )
+            );
+
+        $pCount = $query->getSingleScalarResult();
+
+        if($pCount > 0) return true ;
+        return false;
+    }
+
+    /**
+     * @param Trip $trip
+     * @param User $user
+     * @return bool
+     */
+    public function isUserDriver(Trip $trip, User $user)
+    {
+        if($trip->getRoute()->getUser()->getId() == $user->getId()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * getJoinedPassengersList
      *
      * @param Trip trip
