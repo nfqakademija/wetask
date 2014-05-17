@@ -19,39 +19,43 @@ class NotificationRepository extends EntityRepository
      * sends message to User depending on Passenger state
      *
      * @param Passenger $passenger
-     * @returns string
+     * @param string $message
+     * @returns Notification
      */
-    public function generateNotification(Passenger $passenger)
+    public function generateNotification(Passenger $passenger, $message = "")
     {
-        $message = "";
+
         $user = $passenger->getUser();
-        switch ($passenger->getAccepted()) {
-            case PassengerState::ST_JOINED:
-                $message = str_replace('##PASSENGER_NAME##',
-                    $passenger->getUser()->getUsername(),
-                    PassengerState::MSG_JOINED);
-                $user = $passenger->getTrip()->getRoute()->getUser();
-                break;
+        if($message == ""){
+            switch ($passenger->getAccepted()) {
+                case PassengerState::ST_JOINED:
+                    $message = str_replace('##PASSENGER_NAME##',
+                        $passenger->getUser()->getUsername(),
+                        PassengerState::MSG_JOINED);
+                    $user = $passenger->getTrip()->getRoute()->getUser();
+                    break;
 
-            case PassengerState::ST_CANCELED_BY_PASSENGER:
-                $message = str_replace('##PASSENGER_NAME##',
-                    $passenger->getUser()->getUsername(),
-                    PassengerState::MSG_CANCELED_BY_PASSENGER);
-                $user = $passenger->getTrip()->getRoute()->getUser();
-                break;
+                case PassengerState::ST_CANCELED_BY_PASSENGER:
+                    $message = str_replace('##PASSENGER_NAME##',
+                        $passenger->getUser()->getUsername(),
+                        PassengerState::MSG_CANCELED_BY_PASSENGER);
+                    $user = $passenger->getTrip()->getRoute()->getUser();
+                    break;
 
-            case PassengerState::ST_CANCELED_BY_DRIVER:
-                $message = str_replace('##DRIVER_NAME##',
-                    $passenger->getTrip()->getRoute()->getUser()->getUsername(),
-                    PassengerState::MSG_CANCELED_BY_DRIVER);
-                break;
+                case PassengerState::ST_CANCELED_BY_DRIVER:
+                    $message = str_replace('##DRIVER_NAME##',
+                        $passenger->getTrip()->getRoute()->getUser()->getUsername(),
+                        PassengerState::MSG_CANCELED_BY_DRIVER);
+                    break;
 
-            case PassengerState::ST_REJECTED_BY_DRIVER:
-                $message = str_replace('##DRIVER_NAME##',
-                    $passenger->getTrip()->getRoute()->getUser()->getUsername(),
-                    PassengerState::MSG_REJECTED_BY_DRIVER);
-                break;
+                case PassengerState::ST_REJECTED_BY_DRIVER:
+                    $message = str_replace('##DRIVER_NAME##',
+                        $passenger->getTrip()->getRoute()->getUser()->getUsername(),
+                        PassengerState::MSG_REJECTED_BY_DRIVER);
+                    break;
+            }
         }
+
         if($message!=""){
             $notification = new Notification();
             $notification->setMessage($message);

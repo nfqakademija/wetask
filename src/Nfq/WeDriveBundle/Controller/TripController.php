@@ -204,17 +204,31 @@ class TripController extends Controller
      */
     public function manageTripAction(Request $request, $tripId)
     {
+        /** @var TripRepository $tripRepository */
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         /** @var Trip $trip */
-        $trip = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip')
-            ->findOneBy(array('id' => $tripId));
+        $trip = $tripRepository->findOneBy(array('id' => $tripId));
         try {
             $this->checkPermission($trip, $this->getUser());
+            $tripBeforeManage = clone $trip;
             $form = $this->createForm(new TripType(), $trip);
 
             $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                if(!($trip == $tripBeforeManage)){
+                    /** @var NotificationRepository $notificationRepository */
+                    $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+                    /** @var ArrayCollection|Passenger[] $passengers */
+                    $passengers = $tripRepository->getJoinedPassengersList($trip);
+                    foreach ($passengers as $passenger){
+                        $driverName = $trip->getRoute()->getUser()->getUsername();
+                        $message = "Driver {$driverName} changed trip information!";
+                        $notification = $notificationRepository->generateNotification($passenger, $message);
+                        $em->persist($notification);
+                    }
+                }
                 $em->persist($trip);
                 $em->flush();
                 return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
