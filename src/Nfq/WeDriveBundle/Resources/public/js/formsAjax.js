@@ -14,8 +14,6 @@ $("#routeForm").submit(function (event) {
             url: url,
             data: formData,
             error: function (XMLHttpRequest) {
-                console.log(XMLHttpRequest.status);
-                console.log(XMLHttpRequest.statusText);
             },
             success: function (data) {
                 window.location = data;
@@ -51,4 +49,4 @@ $("#tripForm").submit(function (event) {
         alert("No actual route specified");
     }
 
-})
+});
