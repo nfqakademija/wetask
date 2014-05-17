@@ -218,13 +218,13 @@ class TripController extends Controller
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 if(!($trip == $tripBeforeManage)){
+                    $driverName = $trip->getRoute()->getUser()->getUsername();
+                    $message = "Driver {$driverName} changed trip information!";
                     /** @var NotificationRepository $notificationRepository */
                     $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
                     /** @var ArrayCollection|Passenger[] $passengers */
                     $passengers = $tripRepository->getJoinedPassengersList($trip);
                     foreach ($passengers as $passenger){
-                        $driverName = $trip->getRoute()->getUser()->getUsername();
-                        $message = "Driver {$driverName} changed trip information!";
                         $notification = $notificationRepository->generateNotification($passenger, $message);
                         $em->persist($notification);
                     }

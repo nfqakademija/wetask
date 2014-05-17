@@ -22,7 +22,7 @@ class TripRepository extends EntityRepository
      * @param int $hoursInterval
      * @return array
      */
-    public function gerRouteTrips(Route $route, $hoursInterval = 5)
+    public function getRouteTrips(Route $route, $hoursInterval = 5)
     {
         $fromDate = date("Y-m-d H:i:s");
         $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));

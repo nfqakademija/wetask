@@ -145,10 +145,32 @@ class RouteController extends Controller
             $this->checkPermission($route, $user);
 
             $form = $this->createForm(new RouteType(), $route);
+            $routeBeforeManage = clone $route;
             $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                if(!($route == $routeBeforeManage)){
+                    /** @var TripRepository $tripRepository */
+                    $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+                    /** @var NotificationRepository $notificationRepository */
+                    $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+                    /** @var ArrayCollection|Trip[] $trips */
+                    $trips = $tripRepository->getRouteTrips($route,2400);
+                    $driverName = $route->getUser()->getUsername();
+                    $message = "Driver {$driverName} changed trip information!";
+                    foreach($trips as $trip){
+                        if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
+                            $passengers = $tripRepository->getJoinedPassengersList($trip);
+                            foreach ($passengers as $passenger ){
+                                /** @var Notification $notification */
+                                $notification = $notificationRepository->generateNotification($passenger, $message);
+                                $em->persist($notification);
+                            }
+                        }
+                    }
+
+                }
                 $em->persist($route);
                 $em->flush();
 
@@ -185,14 +207,13 @@ class RouteController extends Controller
             $this->checkPermission($route, $user);
             /** @var TripRepository $tripRepository */
             $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-
             /** @var NotificationRepository $notificationRepository */
             $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
             /** @var ArrayCollection|Trip[] $trips */
             $trips = $tripRepository->gerRouteTrips($route,2400);
             foreach($trips as $trip){
                 if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
-                    $passengers = $trip->getPassengers();
+                    $passengers = $tripRepository->getJoinedPassengersList($trip);
                     foreach ($passengers as $passenger ){
                         $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
                         $em->persist($passenger);
