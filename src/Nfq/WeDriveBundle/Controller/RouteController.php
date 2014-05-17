@@ -4,8 +4,14 @@ namespace Nfq\WeDriveBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\UserBundle\Entity\User;
+use Nfq\WeDriveBundle\Constants\PassengerState;
+use Nfq\WeDriveBundle\Entity\Notification;
+use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Entity\RoutePoint;
+use Nfq\WeDriveBundle\Entity\Trip;
+use Nfq\WeDriveBundle\Entity\TripRepository;
+use Nfq\WeDriveBundle\Exception\RouteException;
 use Nfq\WeDriveBundle\Form\Type\RouteType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -163,25 +169,56 @@ class RouteController extends Controller
     public function deleteAction(Request $request, $routeId)
     {
         $user = $this->getUser();
+
         $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
-        $userRepository = $this->getDoctrine()->getRepository('NfqUserBundle:User');
-        $entityManager = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         /** @var Route $route */
         $route = $routeRepository->findOneBy(array('id' => $routeId));
-        /** @var User $user */
-        $user = $userRepository->findOneBy(array('username' => $user->getUsername()));
 
         try {
-            $this->checkIfRouteIsDeleteable($route, $user);
-//            $route->unsetAllTrips();
-            $entityManager->remove($route);
-            $entityManager->flush();
+            $this->checkPermission($route, $user);
+            /** @var TripRepository $tripRepository */
+            $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+
+            /** @var NotificationRepository $notificationRepository */
+            $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+            /** @var ArrayCollection|Trip[] $trips */
+            $trips = $tripRepository->gerRouteTrips($route,2400);
+            foreach($trips as $trip){
+                if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
+                    $passengers = $trip->getPassengers();
+                    foreach ($passengers as $passenger ){
+                        $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
+                        $em->persist($passenger);
+                        /** @var Notification $notification */
+                        $notification = $notificationRepository->generateNotification($passenger);
+                        $em->persist($notification);
+                    }
+                }
+            }
+
+            $em->remove($route);
+            $em->flush();
         } catch (RouteException $e) {
             $request->getSession()->getFlashBag()->add('error', $e->getMessage());
         }
 
         return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));
+    }
+
+    /**
+     * @param \Nfq\WeDriveBundle\Entity\Route $route
+     * @param User $user
+     * @throws \Nfq\WeDriveBundle\Exception\RouteException
+     * @return bool
+     */
+    public function checkPermission(Route $route, User $user)
+    {
+        if ($route->getUser()->getId() !== $user->getId()) {
+            throw new RouteException("ou do not have permissions to delete route!");
+        }
+        return true;
     }
 
     /**
@@ -195,9 +232,7 @@ class RouteController extends Controller
      */
     public function checkIfRouteIsDeleteable(Route $route, User $user)
     {
-        if ($route->getUser()->getId() !== $user->getId()) {
-            throw new RouteException("Route doesn't belong to user");
-        }
+
 
         $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
 
@@ -205,5 +240,4 @@ class RouteController extends Controller
             throw new RouteException("Route is already being used in a trip");
         }
     }
-
 }

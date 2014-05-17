@@ -17,10 +17,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class TripRepository extends EntityRepository
 {
 
+    /**
+     * @param Route $route
+     * @param int $hoursInterval
+     * @return array
+     */
+    public function gerRouteTrips(Route $route, $hoursInterval = 5)
+    {
+        $fromDate = date("Y-m-d H:i:s");
+        $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            "
+                            SELECT t
+                            FROM Nfq\WeDriveBundle\Entity\Trip t
+                            WHERE t.route = :routeId
+                            AND t.departureTime > :departureTime
+                            AND t.departureTime < :toTime
+                            ORDER BY t.departureTime ASC
+                        "
+        )->setParameters(
+                array(
+                    'routeId' => $route->getId(),
+                    'departureTime' => $fromDate,
+                    'toTime' => $toDate
+                )
+            );
+
+        $trips = $query->getResult();
+        return $trips;
+
+    }
 
     /**
      * @param User $user
-     * @param int $hoursInterval
      * @return array
      */
     public function getUserTrips(User $user)

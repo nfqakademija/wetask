@@ -27,7 +27,7 @@ class Route
     /**
      * @var ArrayCollection|Trip[]
      *
-     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\Trip", mappedBy="route", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Nfq\WeDriveBundle\Entity\Trip", mappedBy="route")
      */
     private $trips;
 
