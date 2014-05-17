@@ -3,20 +3,24 @@
 namespace Nfq\WeDriveBundle\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Notification;
 use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Nfq\WeDriveBundle\Entity\Passenger;
+use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Entity\RoutePoint;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
+use Nfq\WeDriveBundle\Exception\TripException;
 use Nfq\WeDriveBundle\Form\Type\TripRouteType;
-use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
+//use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nfq\WeDriveBundle\Form\Type\TripType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+//use User;
 
 /**
  * Class TripController
@@ -76,23 +80,29 @@ class TripController extends Controller
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id'=>$tripId));
 
-        if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
-            /** @var NotificationRepository $notificationRepository */
-            $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+        try {
+            $this->checkDeletePermission($trip, $this->getUser());
+            if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
+                /** @var NotificationRepository $notificationRepository */
+                $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
 
-            $passengers = $trip->getPassengers();
-            foreach ($passengers as $passenger ){
-                $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
-                $em->persist($passenger);
+                $passengers = $trip->getPassengers();
+                foreach ($passengers as $passenger ){
+                    $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
+                    $em->persist($passenger);
 
-                /** @var Notification $notification */
-                $notification = $notificationRepository->generateNotification($passenger);
-                $em->persist($notification);
+                    /** @var Notification $notification */
+                    $notification = $notificationRepository->generateNotification($passenger);
+                    $em->persist($notification);
+                }
             }
+            $em->remove($trip);
+            $em->flush();
+        } catch (TripException $e) {
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
         }
-        $em->remove($trip);
-        $em->flush();
         return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
+
     }
 
     /**
@@ -103,33 +113,40 @@ class TripController extends Controller
      */
     public function newTripAction(Request $request, $routeId)
     {
-
+        /** @var Route $route */
         $route = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findOneBy(
             array('id' => $routeId)
         );
 
-        $trip = new Trip();
-        $trip->setDepartureTime(new \DateTime("+3 hours"));
-        $trip->setTitle($route->getDestination());
-        $form = $this->createForm(new TripType(), $trip);
-        $form->handleRequest($request);
+        try {
+            $this->checkNewTripByRoutePermission($route, $this->getUser());
+            $trip = new Trip();
+            $trip->setDepartureTime(new \DateTime("+3 hours"));
+            $trip->setTitle($route->getDestination());
+            $form = $this->createForm(new TripType(), $trip);
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $trip->setRoute($route);
-            $em->persist($trip);
-            $em->flush();
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $trip->setRoute($route);
+                $em->persist($trip);
+                $em->flush();
+                return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
+            }
+
+            return $this->render(
+                'NfqWeDriveBundle:Trip:newTrip.html.twig',
+                array(
+                    'form' => $form->createView(),
+                    'routeName' => $route->getName(),
+                    'option' => 'New trip'
+                )
+            );
+
+        } catch (TripException $e) {
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
             return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
-
-        return $this->render(
-            'NfqWeDriveBundle:Trip:newTrip.html.twig',
-            array(
-                'form' => $form->createView(),
-                'routeName' => $route->getName(),
-                'option' => 'New trip'
-            )
-        );
     }
 
     /**
@@ -185,26 +202,32 @@ class TripController extends Controller
      */
     public function manageTripAction(Request $request, $tripId)
     {
+        /** @var Trip $trip */
         $trip = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip')
             ->findOneBy(array('id' => $tripId));
+        try {
+            $this->checkPermission($trip, $this->getUser());
+            $form = $this->createForm(new TripType(), $trip);
 
-        $form = $this->createForm(new TripType(), $trip);
+            $form->handleRequest($request);
 
-        $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($trip);
+                $em->flush();
+                return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
+            }
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($trip);
-            $em->flush();
-            return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
+            return $this->render(
+                'NfqWeDriveBundle:Trip:newTrip.html.twig',
+                array(
+                    'form' => $form->createView(),
+                )
+            );
+        } catch (TripException $e) {
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
         }
-
-        return $this->render(
-            'NfqWeDriveBundle:Trip:newTrip.html.twig',
-            array(
-                'form' => $form->createView(),
-            )
-        );
+        return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
     }
 
     /**
@@ -275,5 +298,44 @@ class TripController extends Controller
 
         return new Response(json_encode("Join"));
     }
+    /**
+     * @param \Nfq\WeDriveBundle\Entity\Trip $trip
+     * @param \Nfq\UserBundle\Entity\User $user
+     * @throws \Nfq\WeDriveBundle\Exception\TripException
+     * @return bool
+     */
+    private function checkPermission(Trip $trip, User $user)
+    {
+        if ($trip->getRoute()->getUser()->getId() !== $user->getId()) {
+            throw new TripException("You do not have permissions to do this action!");
+        }
+        return true;
+    }
+
+    /**
+     * @param \Nfq\WeDriveBundle\Entity\Trip $trip
+     * @param \Nfq\UserBundle\Entity\User $user
+     * @throws \Nfq\WeDriveBundle\Exception\TripException
+     * @return bool
+     */
+    private function checkDeletePermission(Trip $trip, User $user)
+    {
+        return $this->checkPermission($trip, $user);
+    }
+
+    /**
+     * @param \Nfq\WeDriveBundle\Entity\Route $route
+     * @param User $user
+     * @throws \Nfq\WeDriveBundle\Exception\TripException
+     * @return bool
+     */
+    private function checkNewTripByRoutePermission(Route $route, User $user)
+    {
+        if ($route->getUser()->getId() !== $user->getId()) {
+            throw new TripException("You do not have permissions to do this action!");
+        }
+        return true;
+    }
+
 
 }

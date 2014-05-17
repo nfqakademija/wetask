@@ -10,6 +10,7 @@ use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\PassengerRepository;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
+use Nfq\WeDriveBundle\Exception\TripException;
 use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,8 +67,16 @@ class PassengerController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function rejectPassengerAction(Request $request, $passengerId) {
-        $this->setPassengerState($passengerId, PassengerState::ST_REJECTED_BY_DRIVER);
-        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+        try {
+            $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
+            /** @var Passenger $passenger */
+            $passenger = $passengerRepository->findOneBy(array('id' => $passengerId));
+            $this->checkTripOwner($passenger->getTrip(),$this->getUser());
+            $this->setPassengerState($passengerId, PassengerState::ST_REJECTED_BY_DRIVER);
+        } catch (TripException $e) {
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
+        }
+        return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
     }
 
     /**
@@ -77,12 +86,21 @@ class PassengerController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function leaveTripAction(Request $request, $passengerId) {
-        $this->setPassengerState($passengerId, PassengerState::ST_CANCELED_BY_PASSENGER);
+        try {
+            $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
+            /** @var Passenger $passenger */
+            $passenger = $passengerRepository->findOneBy(array('id' => $passengerId));
+            $this->checkPassengerUser($passenger,$this->getUser());
+            $this->setPassengerState($passengerId, PassengerState::ST_CANCELED_BY_PASSENGER);
+        } catch (TripException $e) {
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
+        }
 
         if ($request->isXmlHttpRequest()) {
             return new Response(json_encode("Leave"));
         }
-//        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+//        return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
     }
 
     /**
@@ -109,4 +127,27 @@ class PassengerController extends Controller
 
         $em->flush();
     }
+
+    /**
+     * @param Trip $trip
+     * @param User $user
+     * @return bool
+     * @throws \Nfq\WeDriveBundle\Exception\TripException
+     */
+    private function checkTripOwner(Trip $trip, User $user)
+    {
+        if ($trip->getRoute()->getUser()->getId() !== $user->getId()) {
+            throw new TripException("You do not have permissions to do this action!");
+        }
+        return true;
+    }
+
+    private function checkPassengerUser(Passenger $passenger, User $user)
+    {
+        if ($passenger->getUser()->getId() !== $user->getId()) {
+            throw new TripException("You do not have permissions to do this action!");
+        }
+        return true;
+    }
+
 }

@@ -141,18 +141,23 @@ class RouteController extends Controller
         $route = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findOneBy(
             array('id' => $routeId)
         );
+        try {
+            $this->checkPermission($route, $user);
 
-        $form = $this->createForm(new RouteType(), $route);
-        $form->handleRequest($request);
+            $form = $this->createForm(new RouteType(), $route);
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($route);
-            $em->flush();
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($route);
+                $em->flush();
 
+                return $this->redirect($this->generateUrl('nfq_wedrive_route_list'));
+            }
+        } catch (RouteException $e) {
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
             return $this->redirect($this->generateUrl('nfq_wedrive_route_list'));
         }
-
         return $this->render(
             'NfqWeDriveBundle:Route:manage.html.twig',
             array('route' => $route, 'form' => $form->createView())
@@ -216,7 +221,7 @@ class RouteController extends Controller
     public function checkPermission(Route $route, User $user)
     {
         if ($route->getUser()->getId() !== $user->getId()) {
-            throw new RouteException("ou do not have permissions to delete route!");
+            throw new RouteException("You do not have permissions to do this action!");
         }
         return true;
     }
