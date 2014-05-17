@@ -1,3 +1,6 @@
+{% if show_join_column is not defined %}
+    {% set show_join_column = 'true' %}
+{% endif %}
 <table class="table table-hover table-striped order-table table-green"
        id="tasktable1">
 
@@ -7,7 +10,9 @@
         <th>Destination</th>
         <th>Driver</th>
         <th></th>
-        <th id="join_column"> Status</th>
+        {% if show_join_column == 'true' %}
+            <th id="join_column"> Status</th>
+        {% endif %}
     </tr>
     </thead>
 
@@ -25,6 +30,7 @@
                           {{ tripRow.availableSeats.count }}
                     </span>
                 </td>
+                {% if show_join_column == 'true' %}
                 <td>
                     <button id="tripButton{{ i }}"
                             action="{{ tripRow.buttonUrl }}"
@@ -34,6 +40,7 @@
                     </button>
                     {% set i  = i+1 %}
                 </td>
+                {% endif %}
                 <script type="text/javascript">
                     tripPoints[{{ tripRow.trip.id }}] = [];
                     {% for routePoint in tripRow.routePoints %}

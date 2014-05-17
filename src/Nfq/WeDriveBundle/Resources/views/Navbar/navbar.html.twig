@@ -1,51 +1,61 @@
-<nav id="user_bar" class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{ path('nfq_wedrive_base') }}">weDrive</a>
-            {% block time %}
-                <div id="current_time"></div>
-            {% endblock %}
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" id="navbar_menu_button" >
-                MENU
-            </button>
+{#<nav id="user_bar" class="navbar navbar-inverse">#}
+    {#<div class="container-fluid">#}
+        {#<!-- Brand and toggle get grouped for better mobile display -->#}
+        {#<div class="navbar-header">#}
+            {#{% block logo %}#}
+            {#<a class="navbar-brand" href="{{ path('nfq_wedrive_base') }}">weDrive</a>#}
+            {#{% endblock %}#}
+            {#{% block time %}#}
+                {#<div id="current_time"></div>#}
+            {#{% endblock %}#}
+            {#<button type="button" class="navbar-toggle" data-toggle="collapse"#}
+                    {#data-target="#bs-example-navbar-collapse-1" id="navbar_menu_button" >#}
+                {#MENU#}
+            {#</button>#}
 
-        </div>
+        {#</div>#}
 
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href={{ path('nfq_wedrive_trip_list') }}>
-                        <span class="glyphicon glyphicon-tasks"></span>
-                        My Trips
-                    </a>
-                </li>
-                <li class="dropdown">
-                    <a href="{{ path('nfq_wedrive_route_list') }}">
-                        <span class="glyphicon glyphicon-th-list"></span>
-                        My Routes
-                    </a>
-                </li>
-                {{ render(controller('NfqWeDriveBundle:Notification:showNotifications')) }}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                                class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username }}</a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{{ path('nfq_wedrive_base') }}profile">Profile</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('nfq_wedrive_base') }}logout">Log out</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
+        {#<!-- Collect the nav links, forms, and other content for toggling -->#}
+        {#<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">#}
+            {#<ul class="nav navbar-nav navbar-right">#}
+                {#{% block  my_trip_list %}#}
+                {#<li class="dropdown">#}
+                    {#<a href={{ path('nfq_wedrive_trip_list') }}>#}
+                        {#<span class="glyphicon glyphicon-tasks"></span>#}
+                        {#My Trips#}
+                    {#</a>#}
+                {#</li>#}
+                {#{% endblock %}#}
+                {#{% block my_route_list %}#}
+                {#<li class="dropdown">#}
+                    {#<a href="{{ path('nfq_wedrive_route_list') }}">#}
+                        {#<span class="glyphicon glyphicon-th-list"></span>#}
+                        {#My Routes#}
+                    {#</a>#}
+                {#</li>#}
+                {#{% endblock %}#}
+                {#{% block my_notifications %}#}
+                {#{{ render(controller('NfqWeDriveBundle:Notification:showNotifications')) }}#}
+                {#{% endblock %}#}
+                {#{% block user_profile %}#}
+                {#<li class="dropdown">#}
+                    {#<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span#}
+                                {#class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username }}</a>#}
+                    {#<ul class="dropdown-menu">#}
+                        {#<li>#}
+                            {#<a href="{{ path('nfq_wedrive_base') }}profile">Profile</a>#}
+                        {#</li>#}
+                        {#<li>#}
+                            {#<a href="{{ path('nfq_wedrive_base') }}logout">Log out</a>#}
+                        {#</li>#}
+                    {#</ul>#}
+                {#</li>#}
+                {#{% endblock %}#}
+            {#</ul>#}
+        {#</div>#}
+        {#<!-- /.navbar-collapse -->#}
+    {#</div>#}
+    {#<!-- /.container-fluid -->#}
+{#</nav>#}
 

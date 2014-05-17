@@ -53,6 +53,13 @@ class BaseController extends Controller
 
     public function observerAction()
     {
-        return $this->render('NfqWeDriveBundle:Default:observer.html.twig');
+        /** @var TripRepository $tripRepository */
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+        $tripList = $tripRepository->prepareTripList($this);
+        return $this->render(
+            'NfqWeDriveBundle:Default:observer.html.twig',
+            array(
+                'availableTripList' => $tripList['available']
+            ));
     }
 }

@@ -11,9 +11,9 @@
         <!-- Tab panes -->
         <div class="tab-content">
 
-            <script type="text/javascript">
-                tripPoints = [];
-            </script>
+            {#<script type="text/javascript">#}
+                {#tripPoints = [];#}
+            {#</script>#}
 
             <div class="tab-pane fade in active" id="available_trips">
                     {% include 'NfqWeDriveBundle:Trip:availableTripList.html.twig' with {'tripList' : availableTripList } only %}

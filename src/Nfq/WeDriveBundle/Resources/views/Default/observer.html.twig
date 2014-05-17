@@ -1,1 +1,10 @@
-observer
+{% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
+{% block  my_trip_list %} {% endblock %}
+{% block  my_route_list %} {% endblock %}
+{% block  my_notifications %} {% endblock %}
+
+{% block panel_title %} Available trips {% endblock %}
+{% block panel_body %}
+    {% set show_join_column = 'false' %}
+    {% include 'NfqWeDriveBundle:Trip:availableTripList.html.twig' with {'tripList' : availableTripList, 'show_join_column':'false' } only %}
+{% endblock %}
