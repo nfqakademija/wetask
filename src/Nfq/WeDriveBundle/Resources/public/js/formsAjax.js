@@ -31,6 +31,7 @@ $("#tripForm").submit(function (event) {
         var url = $(this).attr("action");
 
         $("#trip_route_routePoints").val(routeDrawer.FetchJSON());
+        $("#trip_routePoints").val(routeDrawer.FetchJSON());
         var formData = $(this).serialize();
 
         $.ajax({
