@@ -1,20 +1,43 @@
 {% if notifications is defined %}
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                    class="glyphicon glyphicon-envelope"></span>&nbsp; Notifications
-            <span class="badge">{{ notifications.count }}</span></a>
-        <ul class="dropdown-menu notif-menu">
-            {% for message in notifications.messages %}
-                <li>
-                    {{ message.message }}
-                    <div class="btn-group btn-group-xs this">
-                        <a href="{{ path('nfq_wedrive_notification_seen',{'notificationId':message.notificationId}) }}"
-                           type="button" class="btn btn-info btn-xs">
-                            OK
-                        </a>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </li>
+    {#<li class="dropdown">#}
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                class="glyphicon glyphicon-envelope"></span>&nbsp; Notifications
+        <span class="badge">{{ notifications.count }}</span></a>
+    <ul class="dropdown-menu notif-menu">
+        {% set i = 0 %}
+        {% for message in notifications.messages %}
+            <li>
+                {{ message.message }}
+                <div class=" btn-group btn-group-xs this">
+                    <button
+                            id="notificationButton{{ i }}"
+                            action="{{ path('nfq_wedrive_notification_seen',{'notificationId':message.notificationId}) }}"
+                            type="button" class="notificationOkButton btn btn-info btn-xs">
+                        OK
+                    </button>
+                </div>
+            </li>
+            {% set i = i + 1 %}
+        {% endfor %}
+    </ul>
+    {#</li>#}
 {% endif %}
+
+<script type="text/javascript">
+
+    $(document).on('click', '.notificationOkButton', function (event) {
+        event.preventDefault();
+        console.log("first");
+        $.ajax({
+            type: "POST",
+            url: $('#' + this.id).attr('action'),
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                $('#notificationList').load("{{ path('nfq_wedrive_ajax_notifications_show') }}");
+            }
+
+        });
+    })
+    ;
+</script>

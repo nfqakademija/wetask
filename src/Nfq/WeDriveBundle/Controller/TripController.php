@@ -251,6 +251,7 @@ class TripController extends Controller
      */
     public function availableTripListAction()
     {
+        /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $tripList = $tripRepository->prepareTripList($this);
 

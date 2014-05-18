@@ -31,15 +31,15 @@
                     </span>
                 </td>
                 {% if show_join_column == 'true' %}
-                <td>
-                    <button id="tripButton{{ i }}"
-                            action="{{ tripRow.buttonUrl }}"
-                            type="button"
-                            class=" tripButton btn btn-{{ tripRow.availableSeats.type }} btn-xs trip-btn">
-                        {{ tripRow.buttonName }}
-                    </button>
-                    {% set i  = i+1 %}
-                </td>
+                    <td>
+                        <button id="tripButton{{ i }}"
+                                action="{{ tripRow.buttonUrl }}"
+                                type="button"
+                                class="tripButton btn btn-{{ tripRow.availableSeats.type }} btn-xs trip-btn">
+                            {{ tripRow.buttonName }}
+                        </button>
+                        {% set i  = i+1 %}
+                    </td>
                 {% endif %}
                 <script type="text/javascript">
                     tripPoints[{{ tripRow.trip.id }}] = [];
@@ -56,24 +56,5 @@
     </tbody>
 </table>
 
-<script type="text/javascript">
-    $(".tripButton").on('click', function (event) {
-        event.preventDefault();
 
-        if (confirm("Are you sure?")) {
-            console.log($('#' + this.id).attr('action'));
-            var buttonId = this.id;
-
-            $.ajax({
-                type: "POST",
-                url: $('#' + this.id).attr('action'),
-                dataType: 'json',
-                success: function (data) {
-                    $('#available_trips').load("{{ path('nfq_wedrive_ajax_availableTrip_list') }}");
-                    $('#joined_trips').load("{{ path('nfq_wedrive_ajax_joinedTrip_list') }}");
-                }
-            });
-        }
-    });
-</script>
 
