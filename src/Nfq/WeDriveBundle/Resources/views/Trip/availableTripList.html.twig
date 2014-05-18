@@ -17,41 +17,44 @@
     </thead>
 
     <tbody id="AvailableTrips">
+    <script type="text/javascript">
+        tripPoints = [];
+    </script>
     {% set i=0 %}
     {% for tripRow in tripList %}
         {% if (tripRow.trip.departureTime.date|date('YmdHis') > "now"|date('YmdHis')) and
         (tripRow.trip.departureTime.date|date('YmdHis') <  "+5 hours" |date('YmdHis')) %}
-            <tr class="tripRow" id="{{ tripRow.trip.id }}">
-                <td> {{ tripRow.trip.departureTime.date|date('H:i') }} </td>
-                <td> {{ tripRow.trip.title }}</td>
-                <td> {{ tripRow.trip.route.user.username }}</td>
-                <td>
+        <tr class="tripRow" id="{{ tripRow.trip.id }}">
+            <td> {{ tripRow.trip.departureTime.date|date('H:i') }} </td>
+            <td> {{ tripRow.trip.title }}</td>
+            <td> {{ tripRow.trip.route.user.username }}</td>
+            <td>
                     <span class="badge alert-{{ tripRow.availableSeats.type }}">
                           {{ tripRow.availableSeats.count }}
                     </span>
+            </td>
+            {% if show_join_column == 'true' %}
+                <td>
+                    <button id="tripButton{{ i }}"
+                            action="{{ tripRow.buttonUrl }}"
+                            type="button"
+                            class="tripButton btn btn-{{ tripRow.availableSeats.type }} btn-xs trip-btn">
+                        {{ tripRow.buttonName }}
+                    </button>
+                    {% set i  = i+1 %}
                 </td>
-                {% if show_join_column == 'true' %}
-                    <td>
-                        <button id="tripButton{{ i }}"
-                                action="{{ tripRow.buttonUrl }}"
-                                type="button"
-                                class="tripButton btn btn-{{ tripRow.availableSeats.type }} btn-xs trip-btn">
-                            {{ tripRow.buttonName }}
-                        </button>
-                        {% set i  = i+1 %}
-                    </td>
-                {% endif %}
-                <script type="text/javascript">
-                    tripPoints[{{ tripRow.trip.id }}] = [];
-                    {% for routePoint in tripRow.routePoints %}
-                    tripPoints[{{ tripRow.trip.id }}].push({
-                        'lat': {{ routePoint.latitude }},
-                        'lng': {{ routePoint.longitude }}
-                    });
-                    {% endfor %}
-                </script>
-            </tr>
+            {% endif %}
+        </tr>
         {% endif %}
+        <script type="text/javascript">
+            tripPoints[{{ tripRow.trip.id }}] = [];
+            {% for routePoint in tripRow.routePoints %}
+            tripPoints[{{ tripRow.trip.id }}].push({
+                'lat': {{ routePoint.latitude }},
+                'lng': {{ routePoint.longitude }}
+            });
+            {% endfor %}
+        </script>
     {% endfor %}
     </tbody>
 </table>
