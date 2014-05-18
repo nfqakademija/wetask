@@ -6,6 +6,7 @@ use Nfq\WeDriveBundle\Entity\Notification;
 use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class NotificationController
@@ -34,12 +35,14 @@ class NotificationController extends Controller
         $notification->setSeen(true);
         $em->persist($notification);
         $em->flush();
-        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+
+        return new Response(json_encode("Notification seen"));
+//        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showNotificationsAction()
+    public function showNotificationListAction()
     {
         /** @var NotificationRepository $notificationRepository */
         $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');

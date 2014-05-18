@@ -25,5 +25,23 @@
         </div>
     </div>
 
+    <script type="text/javascript">
+        $(document).on('click', ".tripButton", function (event) {
+            event.preventDefault();
 
+            if (confirm("Are you sure?")) {
+                console.log($('#' + this.id).attr('action'));
+
+                $.ajax({
+                    type: "POST",
+                    url: $('#' + this.id).attr('action'),
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#available_trips').load("{{ path('nfq_wedrive_ajax_availableTrip_list') }}");
+                        $('#joined_trips').load("{{ path('nfq_wedrive_ajax_joinedTrip_list') }}");
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}

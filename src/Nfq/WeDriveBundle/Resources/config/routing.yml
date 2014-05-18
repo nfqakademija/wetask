@@ -70,6 +70,10 @@ nfq_wedrive_notification_seen:
     pattern:  /notification/seen/{notificationId}
     defaults:   { _controller: NfqWeDriveBundle:Notification:seen }
 
+nfq_wedrive_ajax_notifications_show:
+    pattern:  /ajax/notification/show
+    defaults:   { _controller: NfqWeDriveBundle:Notification:showNotificationList}
+
 nfq_wedrive_ajax_trip_join:
     pattern:  /ajax/trip/join/{tripId}
     defaults: { _controller: NfqWeDriveBundle:Trip:joinTrip }
