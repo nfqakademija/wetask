@@ -76,7 +76,7 @@
                     </div>
                 </td>
                 <script type="text/javascript">
-                    routePoints[{{ routeObj.route.id }}] = new Array();
+                    routePoints[{{ routeObj.route.id }}] = [];
                     {% for routePoint in routeObj.routePoints %}
                     routePoints[{{ routeObj.route.id }}].push({
                         'lat': {{ routePoint.latitude }},
@@ -86,9 +86,6 @@
                 </script>
             </tr>
         {% endfor %}
-        <script type="text/javascript">
-            console.log(routePoints);
-        </script>
         </tbody>
     </table>
 {% endblock %}

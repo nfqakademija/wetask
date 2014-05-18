@@ -66,11 +66,16 @@ function Initialise() {
             if (waypoints.length == 0) {
                 routeDrawer.init();
             }
-            routeDrawer.Add(event);
+            routeDrawer.Add(event.latLng);
             var coords = markerLatLng(waypoints);
             plotRoute(coords);
         }
     });
+    google.maps.event.addListenerOnce(map, 'idle', function () {
+        if (typeof singleRoutePoints != 'undefined') {
+            routeDrawer.Load(singleRoutePoints);
+        }
+    })
 }
 
 function clearMarkers() {
@@ -97,7 +102,7 @@ function coordMarkers(coords) {
 
     for (var i = 0, n = coords.length; i < n; i++) {
         var coord = new google.maps.LatLng(coords[i]['lat'], coords[i]['lng']);
-        (function(n){
+        (function (n) {
             setTimeout(function () {
                 addWaypoint(n, false);
             }, i * 80);

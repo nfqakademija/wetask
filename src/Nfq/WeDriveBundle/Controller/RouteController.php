@@ -98,16 +98,7 @@ class RouteController extends Controller
             $route->setUser($user);
 
             $pointsJson = $routeForm->get('routePoints')->getData();
-            $routePoints = json_decode($pointsJson, true);
-
-            foreach ($routePoints as $key => $routePointData) {
-                $routePoint = new RoutePoint();
-                $routePoint->setLatitude($routePointData['k'])
-                    ->setLongitude($routePointData['A'])
-                    ->setRoute($route)
-                    ->setPOrder($key);
-                $em->persist($routePoint);
-            }
+            $this->persistRoutePoints($pointsJson, $route);
 
             $em->persist($route);
             $em->flush();
@@ -146,34 +137,42 @@ class RouteController extends Controller
 
             $form = $this->createForm(new RouteType(), $route);
             $routeBeforeManage = clone $route;
+            $routePoints = $route->getRoutePoints();
             $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                if(!($route == $routeBeforeManage)){
+                /** @var JSON of routePoints $pointsJson */ //TODO this can be optimized
+                $pointsJson = $form->get('routePoints')->getData();
+                $this->removeRoutePoints($route);
+                $this->persistRoutePoints($pointsJson, $route);
+
+                if (!($route == $routeBeforeManage)) {
                     /** @var TripRepository $tripRepository */
                     $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
                     /** @var NotificationRepository $notificationRepository */
                     $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
                     /** @var ArrayCollection|Trip[] $trips */
-                    $trips = $tripRepository->getRouteTrips($route,2400);
+                    $trips = $tripRepository->getRouteTrips($route, 2400);
                     $driverName = $route->getUser()->getUsername();
                     $message = "Driver {$driverName} changed trip information!";
-                    foreach($trips as $trip){
+                    foreach ($trips as $trip) {
                         if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
                             $passengers = $tripRepository->getJoinedPassengersList($trip);
-                            foreach ($passengers as $passenger ){
+                            foreach ($passengers as $passenger) {
                                 /** @var Notification $notification */
                                 $notification = $notificationRepository->generateNotification($passenger, $message);
                                 $em->persist($notification);
                             }
                         }
                     }
-
                 }
                 $em->persist($route);
                 $em->flush();
 
+                if ($request->isXmlHttpRequest()) {
+                    return new Response($this->generateUrl('nfq_wedrive_route_list'));
+                }
                 return $this->redirect($this->generateUrl('nfq_wedrive_route_list'));
             }
         } catch (RouteException $e) {
@@ -182,7 +181,7 @@ class RouteController extends Controller
         }
         return $this->render(
             'NfqWeDriveBundle:Route:manage.html.twig',
-            array('route' => $route, 'form' => $form->createView())
+            array('route' => $route, 'routePoints' => $routePoints, 'form' => $form->createView())
         );
     }
 
@@ -210,11 +209,11 @@ class RouteController extends Controller
             /** @var NotificationRepository $notificationRepository */
             $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
             /** @var ArrayCollection|Trip[] $trips */
-            $trips = $tripRepository->gerRouteTrips($route,2400);
-            foreach($trips as $trip){
+            $trips = $tripRepository->gerRouteTrips($route, 2400);
+            foreach ($trips as $trip) {
                 if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
                     $passengers = $tripRepository->getJoinedPassengersList($trip);
-                    foreach ($passengers as $passenger ){
+                    foreach ($passengers as $passenger) {
                         $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
                         $em->persist($passenger);
                         /** @var Notification $notification */
@@ -234,6 +233,29 @@ class RouteController extends Controller
     }
 
     /**
+     * Persists given routePoint(from json) to given route
+     *
+     * @param $pointsJson
+     * @param $route
+     */
+    public function persistRoutePoints($pointsJson, $route)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $routePoints = json_decode($pointsJson, true);
+
+        foreach ($routePoints as $key => $routePointData) {
+            $routePoint = new RoutePoint();
+            $routePoint->setLatitude($routePointData['k'])
+                ->setLongitude($routePointData['A'])
+                ->setRoute($route)
+                ->setPOrder($key);
+            $em->persist($routePoint);
+        }
+    }
+
+    /**
+     * Checks if the route belongs to the user
+     *
      * @param \Nfq\WeDriveBundle\Entity\Route $route
      * @param User $user
      * @throws \Nfq\WeDriveBundle\Exception\RouteException
@@ -249,7 +271,7 @@ class RouteController extends Controller
 
     /**
      *
-     * Checks if user owns the route and if it's not used in future trips
+     * Checks if the route is not used in future trips
      *
      * @param Route $route
      * @param User $user
@@ -258,12 +280,19 @@ class RouteController extends Controller
      */
     public function checkIfRouteIsDeleteable(Route $route, User $user)
     {
-
-
         $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
 
         if ($routeRepository->willBeUsed($route) != 0) {
             throw new RouteException("Route is already being used in a trip");
+        }
+    }
+
+    private function removeRoutePoints($route)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $routePoints = $route->getRoutePoints();
+        foreach ($routePoints as $routePoint) {
+            $em->remove($routePoint);
         }
     }
 }

@@ -17,14 +17,14 @@ var routeDrawer = {
             }
         }).disableSelection();
     },
-    Add: function Add(event) {
+    Add: function Add(latLng) {
         if (!(waypoints.length > waypointLimit)) {
             var cell = $('<div></div>');
             $(cell).addClass('cell').addClass('btn').addClass('btn-default');
-            $(cell).attr('type', 'button').attr('id','markerCell');
+            $(cell).attr('type', 'button').attr('id', 'markerCell');
             $(cell).append($('<span class="glyphicon glyphicon-map-marker"></span>'));
             var delBtn = $('<span id="routedel" class="glyphicon glyphicon-remove"></span>');
-            $(delBtn).click(function() {
+            $(delBtn).click(function () {
                 routeDrawer.Remove($(this).parent().index());
                 $(this).parent().remove();
                 plotRoute(markerLatLng(waypoints));
@@ -39,7 +39,7 @@ var routeDrawer = {
                 waypoints[index].setAnimation(null);
             });
             $("#routeDrawerPanel").find('ul').append(cell);
-            addWaypoint(event.latLng, true);
+            addWaypoint(latLng, true);
         }
     },
     Switch: function Switch(original, current) {
@@ -52,6 +52,14 @@ var routeDrawer = {
         waypoints[index].setMap(null);
         waypoints.splice(index, 1);
     },
+    Load: function Load(routepoints) {
+        for (var i = 0; i < routepoints.length; i++) {
+            latlng = new google.maps.LatLng(routepoints[i].lat, routepoints[i].lng);
+            routeDrawer.Add(latlng);
+            console.log("yes");
+        }
+        plotRoute(markerLatLng(waypoints));
+    },
     FetchJSON: function FetchJSON() {
         var latlngs = markerLatLng(waypoints);
         if (latlngs.length > 0) {
@@ -60,9 +68,3 @@ var routeDrawer = {
         return json;
     }
 };
-$(document).mouseup(function(event){
-    var popocontainer = jQuery(".popover");
-    if (popocontainer.has(event.target).length === 0){
-        jQuery('.popover').toggleClass('in').remove();
-    }
-});

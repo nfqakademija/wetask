@@ -6,17 +6,17 @@
 
 {% block panel_title_button %}
     {#<a onclick="return actionConfirmation('Are you sure you want to delete route?');"#}
-            {#href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}"#}
-            {#id="new_btn"#}
-            {#type="button"#}
-            {#class="btn btn-primary btn-sm btn-danger"#}
-            {#data-toggle="modal">#}
+    {#href = "{{ path('nfq_wedrive_route_delete',{'routeId':route.id}) }}"#}
+    {#id="new_btn"#}
+    {#type="button"#}
+    {#class="btn btn-primary btn-sm btn-danger"#}
+    {#data-toggle="modal">#}
     {#<span class="glyphicon glyphicon-remove"></span>#}
     {#</a>#}
 {% endblock %}
 
 {% block panel_body %}
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr':{'id':'routeForm'}}) }}
     {{ form_errors(form) }}
 
     <div class="form-group">
@@ -34,10 +34,25 @@
     <div class="form-group">
         {{ form_widget(form.save) }}
         <a class="btn btn-sm btn-warning"
-           href = "{{ path('nfq_wedrive_route_list') }}">
+           href="{{ path('nfq_wedrive_route_list') }}">
             Cancel
         </a>
     </div>
 
     {{ form_end(form) }}
+
+    <script type="text/javascript">
+        routeDraw = true;
+        singleRoutePoints = [];
+        {% for routePoint in routePoints %}
+        singleRoutePoints.push({
+            'lat': {{ routePoint.latitude }},
+            'lng': {{ routePoint.longitude }}
+        });
+        {% endfor %}
+        $(document).ready(function(){
+            routeDrawer.init();
+        })
+        //route load call happens in maps.js for DOM reasons dontdeletethisplease.php
+    </script>
 {% endblock %}
