@@ -119,7 +119,9 @@ function markerLatLng(markers) {
 }
 
 function plotRoute(coords) {
-    var routeDestination = coords[coords.length - 1];
+    var routeDestination;
+    if (coords.length !=0) {
+        routeDestination = coords[coords.length - 1];
 
     coords.pop();
 
@@ -131,7 +133,9 @@ function plotRoute(coords) {
             stopover: true
         }
     }
-
+    } else {
+        routeDestination = currentLocation;
+    }
     var request = {
         origin: currentLocation,
         destination: routeDestination,
