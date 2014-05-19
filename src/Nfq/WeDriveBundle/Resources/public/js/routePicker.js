@@ -26,6 +26,7 @@ $(".tripRow").each(function () {
     })
 });
 
+
 function displayRoute(coords) {
     var latLngPoints = arrayLatLng(coords);
     refitMap(latLngPoints);

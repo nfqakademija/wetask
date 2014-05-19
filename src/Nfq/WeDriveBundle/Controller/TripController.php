@@ -290,6 +290,24 @@ class TripController extends Controller
     /**
      * @return Response
      */
+    public function availableObserverTripListAction()
+    {
+        /** @var TripRepository $tripRepository */
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+        $tripList = $tripRepository->prepareTripList($this);
+
+        return $this->render(
+            'NfqWeDriveBundle:Trip:availableTripList.html.twig',
+            array(
+                'tripList' => $tripList['available'],
+                'show_join_column' => 'false'
+            )
+        );
+    }
+
+    /**
+     * @return Response
+     */
     public function joinedTripListAction()
     {
         /** @var TripRepository $tripRepository */

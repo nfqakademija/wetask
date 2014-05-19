@@ -82,6 +82,10 @@ nfq_wedrive_ajax_availableTrip_list:
     pattern:  /ajax/trip/available
     defaults: { _controller: NfqWeDriveBundle:Trip:availableTripList }
 
+nfq_wedrive_ajax_availableTrip_observer_list:
+    pattern:  /ajax/trip/available/observer
+    defaults: { _controller: NfqWeDriveBundle:Trip:availableObserverTripList }
+
 nfq_wedrive_ajax_joinedTrip_list:
     pattern:  /ajax/trip/joined
     defaults: { _controller: NfqWeDriveBundle:Trip:joinedTripList }
