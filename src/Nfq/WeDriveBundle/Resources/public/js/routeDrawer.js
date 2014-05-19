@@ -22,14 +22,9 @@ var routeDrawer = {
             var cell = $('<div></div>');
             $(cell).addClass('cell').addClass('btn').addClass('btn-default');
             $(cell).attr('type', 'button').attr('id', 'markerCell');
-            //data-toggle="tooltip" data-placement="left" title="Tooltip on left"
             $(cell).append($('<span class="glyphicon glyphicon-map-marker"></span>'));
-            $(cell).tooltip({
-                "title": "Click to delete",
-                "placement": "left"
-            })
             $(cell).click(function () {
-                routeDrawer.Remove($(this).parent().index());
+                routeDrawer.Remove($(this).index());
                 $(this).remove();
                 plotRoute(markerLatLng(waypoints));
             });
