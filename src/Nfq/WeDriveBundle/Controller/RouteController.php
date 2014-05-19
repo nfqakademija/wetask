@@ -292,6 +292,11 @@ class RouteController extends Controller
         }
     }
 
+    /**
+     * Removes all routePoints from route
+     *
+     * @param $route
+     */
     private function removeRoutePoints($route)
     {
         $em = $this->getDoctrine()->getManager();

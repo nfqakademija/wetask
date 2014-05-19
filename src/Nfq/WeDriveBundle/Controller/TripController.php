@@ -79,7 +79,7 @@ class TripController extends Controller
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
 
         /** @var Trip $trip */
-        $trip = $tripRepository->findOneBy(array('id'=>$tripId));
+        $trip = $tripRepository->findOneBy(array('id' => $tripId));
 
         try {
             if ($trip == null) throw new TripException("Trip does not exist!");
@@ -89,7 +89,7 @@ class TripController extends Controller
                 $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
 
                 $passengers = $trip->getPassengers();
-                foreach ($passengers as $passenger ){
+                foreach ($passengers as $passenger) {
                     $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
                     $em->persist($passenger);
 
@@ -209,31 +209,50 @@ class TripController extends Controller
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
-
+        $routePoints = $trip->getRoute()->getRoutePoints();
         try {
             if ($trip == null) throw new TripException("Trip does not exist!");
             $this->checkPermission($trip, $this->getUser());
-
             $tripBeforeManage = clone $trip;
             $form = $this->createForm(new TripType(), $trip);
-
+            $form->add(
+                'routePoints',
+                'hidden',
+                array(
+                    'mapped' => false,
+                    'required' => false,
+                    'property_path' => null,
+                )
+            );
             $form->handleRequest($request);
+
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                if(!($trip == $tripBeforeManage)){
+
+                /** @var JSON of routePoints $pointsJson */ //TODO could be optimized
+                $pointsJson = $form->get('routePoints')->getData();
+                $this->removeRoutePoints($trip->getRoute());
+                $this->persistRoutePoints($pointsJson, $trip->getRoute());
+
+                if (!($trip == $tripBeforeManage)) {
                     $driverName = $trip->getRoute()->getUser()->getUsername();
                     $message = "Driver {$driverName} changed trip information!";
                     /** @var NotificationRepository $notificationRepository */
                     $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
                     /** @var ArrayCollection|Passenger[] $passengers */
                     $passengers = $tripRepository->getJoinedPassengersList($trip);
-                    foreach ($passengers as $passenger){
+                    foreach ($passengers as $passenger) {
                         $notification = $notificationRepository->generateNotification($passenger, $message);
                         $em->persist($notification);
                     }
                 }
+
                 $em->persist($trip);
                 $em->flush();
+
+                if ($request->isXmlHttpRequest()) {
+                    return new Response($this->generateUrl('nfq_wedrive_trip_list'));
+                }
                 return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
             }
 
@@ -241,15 +260,14 @@ class TripController extends Controller
                 'NfqWeDriveBundle:Trip:newTrip.html.twig',
                 array(
                     'form' => $form->createView(),
+                    'routePoints' => $routePoints
                 )
             );
-
-
         } catch (TripException $e) {
             $request->getSession()->getFlashBag()->add('error', $e->getMessage());
             return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
         }
-
+        return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
     }
 
     /**
@@ -264,7 +282,7 @@ class TripController extends Controller
         return $this->render(
             'NfqWeDriveBundle:Trip:availableTripList.html.twig',
             array(
-            'tripList' => $tripList['available']
+                'tripList' => $tripList['available']
             )
         );
     }
@@ -300,9 +318,10 @@ class TripController extends Controller
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
         $user = $this->getUser();
 
-        if($tripRepository->getAvailableSeatsCount($trip)
+        if ($tripRepository->getAvailableSeatsCount($trip)
             && !$tripRepository->isUserPassenger($trip, $user)
-            && !$tripRepository->isUserDriver($trip, $user)){
+            && !$tripRepository->isUserDriver($trip, $user)
+        ) {
 
             $passenger = new Passenger();
             $passenger->setUser($user);
@@ -328,6 +347,7 @@ class TripController extends Controller
         }
         return new Response(json_encode("Join"));
     }
+
     /**
      * @param \Nfq\WeDriveBundle\Entity\Trip $trip
      * @param \Nfq\UserBundle\Entity\User $user
@@ -367,5 +387,38 @@ class TripController extends Controller
         return true;
     }
 
+    /**
+     * Removes all routePoints from route
+     *
+     * @param $route
+     */
+    private function removeRoutePoints($route)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $routePoints = $route->getRoutePoints();
+        foreach ($routePoints as $routePoint) {
+            $em->remove($routePoint);
+        }
+    }
 
+    /**
+     * Persists given routePoint(from json) to given route
+     *
+     * @param $pointsJson
+     * @param $route
+     */
+    public function persistRoutePoints($pointsJson, $route)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $routePoints = json_decode($pointsJson, true);
+
+        foreach ($routePoints as $key => $routePointData) {
+            $routePoint = new RoutePoint();
+            $routePoint->setLatitude($routePointData['k'])
+                ->setLongitude($routePointData['A'])
+                ->setRoute($route)
+                ->setPOrder($key);
+            $em->persist($routePoint);
+        }
+    }
 }

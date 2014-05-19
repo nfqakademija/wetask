@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block panel_body %}
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr':{'id':'tripForm'}}) }}
     {{ form_errors(form) }}
 
     <div class="form-group">
@@ -45,6 +45,20 @@
         </a>
     </div>
 
+    <script type="text/javascript" >
+        routeDraw = true;
+        singleRoutePoints = [];
+        {% for routePoint in routePoints %}
+        singleRoutePoints.push({
+            'lat': {{ routePoint.latitude }},
+            'lng': {{ routePoint.longitude }}
+        });
+        {% endfor %}
+        $(document).ready(function(){
+            routeDrawer.init();
+        })
+        //route load call happens in maps.js for DOM reasons dontdeletethisplease.php
+    </script>
     {{ form_end(form) }}
 {% endblock %}
 
