@@ -8,14 +8,42 @@
     {% set show_join_column = 'false' %}
     {#{% include 'NfqWeDriveBundle:Trip:availableTripList.html.twig' with {'tripList' : availableTripList, 'show_join_column':'true' } only %}#}
     <script>
+            var routeInterval = 4000;
+            var currentShownRoute = 0;
+            var switching = false;
+
+            var startSwitching = function () {
+                var tripList = $("#AvailableTrips").children('tr');
+                $(tripList[currentShownRoute]).addClass('bg-info');
+                var tripId = $(tripList[currentShownRoute]).attr('id');
+                var coords = tripPoints[tripId];
+                displayRoute(coords);
+
+                setInterval(function () {
+                    var tripList = $("#AvailableTrips").children('tr');
+                    $(tripList[currentShownRoute]).removeClass('bg-info');
+                    if (tripList.length - 1 > currentShownRoute) {
+                        currentShownRoute++;
+                    } else {
+                        currentShownRoute = 0;
+                    }
+                    $(tripList[currentShownRoute]).addClass('bg-info');
+                    var tripId = $(tripList[currentShownRoute]).attr('id');
+                    var coords = tripPoints[tripId];
+                    displayRoute(coords);
+                }, routeInterval);
+                switching = true;
+            };
+
         $(document).ready(function () {
-            var interval = 500;   //number of mili seconds between each call
+            var interval = 10000;   //number of mili seconds between each call
             var lastPickedRoute;
-            var refresh = function() {
+
+            var refresh = function () {
                 $.ajax({
                     url: "{{ path('nfq_wedrive_ajax_availableTrip_observer_list') }}",
                     cache: false,
-                    success: function(html) {
+                    success: function (html) {
                         $("#observer-trip-list").html(html);
                         $(".tripRow").each(function () {
                             $(this).click(function () {
@@ -24,11 +52,13 @@
                                     var coords = tripPoints[tripId];
                                     displayRoute(coords);
                                     lastPickedRoute = tripId;
-                                    console.log("click");
                                 }
-                            })
+                            });
+                            if (!switching) {
+                                startSwitching();
+                            }
                         });
-                        setTimeout(function() {
+                        setTimeout(function () {
                             refresh();
                         }, interval);
                     }
