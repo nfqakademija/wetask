@@ -26,6 +26,10 @@ class TripType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choices = array();
+        for($i=0;$i<20;$i++){
+            $choices["$i"] = "$i";
+        }
         $builder
             ->add(
                 'title',
@@ -47,35 +51,53 @@ class TripType extends AbstractType
                 )
             )
             ->add(
-        'maxPassengers',
-        'integer',
-        array(
-            'label' => 'Available seats',
-            'label_attr' => array(
-                'class' => 'control-label'
-            ),
-            'attr' => array(
-                'class' => 'form-control'
+                'maxPassengers',
+                'choice',
+                array(
+                    'label' => 'Available seats',
+                    'label_attr' => array(
+                        'class' => 'control-label'
+                    ),
+                    'attr' => array(
+                        'class' => 'form-control'
+                    ),
+                    'choices' => $choices
+                )
             )
-        )
-    )
-        ->add(
-            'departureTime',
-            'datetime',
-            array(
-                'label' => 'Departure time',
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
-                'label_attr' => array(
-                    'class' => 'control-label'
-                ),
+//            ->add(
+//                'maxPassengers',
+//                'integer',
+//                array(
+//                    'label' => 'Available seats',
+//                    'label_attr' => array(
+//                        'class' => 'control-label'
+//                    ),
+//                    'attr' => array(
+//                        'class' => 'form-control'
+//                    ),
+//                    'choices' => array(
+//                        '1' => '1',
+//                        '2' => '2'
+//                    )
+//                )
+//            )
+            ->add(
+                'departureTime',
+                'datetime',
+                array(
+                    'label' => 'Departure time',
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    'label_attr' => array(
+                        'class' => 'control-label'
+                    ),
 //                    'data'  =>  new \DateTime("+3 hours"),
 //                    'attr' => array(
 //                        'id'    =>   'datepicker'
 //                    ),
 //                    'input' =>  'datetime',
+                )
             )
-        )
 //            ->add(
 //                'route',
 //                'entity',
@@ -92,15 +114,15 @@ class TripType extends AbstractType
 //                    'property'  => 'name'
 //                )
 //            )
-        ->add(
-            'save',
-            'submit',
-            array(
-                'attr' => array(
-                    'class' => 'btn btn-sm btn-success col-lg-2'
+            ->add(
+                'save',
+                'submit',
+                array(
+                    'attr' => array(
+                        'class' => 'btn btn-sm btn-success col-lg-2'
+                    )
                 )
-            )
-        );
+            );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

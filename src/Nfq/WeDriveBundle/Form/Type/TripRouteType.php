@@ -26,6 +26,10 @@ class TripRouteType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choices = array();
+        for($i=0;$i<20;$i++){
+            $choices["$i"] = "$i";
+        }
         $builder
 //            ->add(
 //                'title',
@@ -58,9 +62,22 @@ class TripRouteType extends AbstractType
                     )
                 )
             )
-            ->add(
+//            ->add(
+//                'maxPassengers',
+//                'integer',
+//                array(
+//                    'label' => 'Available seats',
+//                    'label_attr' => array(
+//                        'class' => 'control-label'
+//                    ),
+//                    'attr' => array(
+//                        'class' => 'form-control'
+//                    )
+//                )
+//            )
+                        ->add(
                 'maxPassengers',
-                'integer',
+                'choice',
                 array(
                     'label' => 'Available seats',
                     'label_attr' => array(
@@ -68,7 +85,8 @@ class TripRouteType extends AbstractType
                     ),
                     'attr' => array(
                         'class' => 'form-control'
-                    )
+                    ),
+                    'choices' => $choices
                 )
             )
             ->add(
