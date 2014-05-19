@@ -230,7 +230,7 @@ class TripController extends Controller
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
-                /** @var json of routePoints $pointsJson */ //TODO could be optimized
+                /** @var json of routePoints $pointsJson */
                 $pointsJson = $form->get('routePoints')->getData();
                 $this->removeRoutePoints($trip->getRoute());
                 $this->persistRoutePoints($pointsJson, $trip->getRoute());
