@@ -10,6 +10,7 @@ use Nfq\WeDriveBundle\Entity\NotificationRepository;
 use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Entity\RoutePoint;
+use Nfq\WeDriveBundle\Entity\RoutePointRepository;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
 use Nfq\WeDriveBundle\Exception\TripException;
@@ -44,6 +45,8 @@ class TripController extends Controller
 
         $tripList = array();
 
+
+
         foreach ($userTrips as $trip) {
 
             $sCount = $tripRepository->getAvailableSeatsCount($trip);
@@ -53,7 +56,6 @@ class TripController extends Controller
             $tripRow['routePoints'] = $trip->getRoute()->getRoutePoints();
 
             $tripList[] = $tripRow;
-
         }
 
         return $this->render(
@@ -283,6 +285,22 @@ class TripController extends Controller
         /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         $tripList = $tripRepository->prepareTripList($this);
+
+//        /** @var RoutePointRepository $rPointRepository */
+//        $rPointRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:RoutePoint');
+//        $s = "";
+//        $pointToSearch = array('x' => '54.6931603', 'y' => '25.2215302' );
+//        $pointToStart = array('x' => '54.6965551', 'y' => '25.2785325' );
+//
+//        foreach ($tripList['available'] as $tRow){
+//            $s .= ";  ".$rPointRepository->getDistanceToRoute(
+//                    $tRow['routePoints'],
+//                    $pointToSearch,
+//                    $pointToStart);
+//        }
+//
+//        echo $s;
+        //die();
 
         return $this->render(
             'NfqWeDriveBundle:Trip:availableTripList.html.twig',
