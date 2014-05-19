@@ -145,7 +145,9 @@ class PassengerController extends Controller
      */
     private function checkTripOwner(Trip $trip, User $user)
     {
-        if ($trip->getRoute()->getUser()->getId() !== $user->getId()) {
+
+        if (($trip->getRoute()->getUser()->getId() !== $user->getId())
+        || !(in_array("ROLE_USER",$user->getRoles()))) {
             throw new TripException("You do not have permissions to do this action!");
         }
         return true;
@@ -153,7 +155,8 @@ class PassengerController extends Controller
 
     private function checkPassengerUser(Passenger $passenger, User $user)
     {
-        if ($passenger->getUser()->getId() !== $user->getId()) {
+        if (($passenger->getUser()->getId() !== $user->getId())
+            || !(in_array("ROLE_USER",$user->getRoles()))) {
             throw new TripException("You do not have permissions to do this action!");
         }
         return true;

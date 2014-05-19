@@ -267,7 +267,8 @@ class RouteController extends Controller
      */
     public function checkPermission(Route $route, User $user)
     {
-        if ($route->getUser()->getId() !== $user->getId()) {
+        if (($route->getUser()->getId() !== $user->getId())
+            || !(in_array("ROLE_USER",$user->getRoles()))){
             throw new RouteException("You do not have permissions to do this action!");
         }
         return true;

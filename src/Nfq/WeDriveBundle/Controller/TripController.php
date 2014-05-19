@@ -374,7 +374,8 @@ class TripController extends Controller
      */
     private function checkPermission(Trip $trip, User $user)
     {
-        if ($trip->getRoute()->getUser()->getId() !== $user->getId()) {
+        if (($trip->getRoute()->getUser()->getId() !== $user->getId())
+            || !(in_array("ROLE_USER",$user->getRoles()))){
             throw new TripException("You do not have permissions to do this action!");
         }
         return true;
@@ -399,7 +400,8 @@ class TripController extends Controller
      */
     private function checkNewTripByRoutePermission(Route $route, User $user)
     {
-        if ($route->getUser()->getId() !== $user->getId()) {
+        if (($route->getUser()->getId() !== $user->getId())||
+            !(in_array("ROLE_USER",$user->getRoles()))) {
             throw new TripException("You do not have permissions to do this action!");
         }
         return true;
