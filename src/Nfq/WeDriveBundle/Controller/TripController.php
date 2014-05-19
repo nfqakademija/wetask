@@ -119,9 +119,9 @@ class TripController extends Controller
         $route = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route')->findOneBy(
             array('id' => $routeId)
         );
-
         try {
             $this->checkNewTripByRoutePermission($route, $this->getUser());
+            $routePoints = $route->getRoutePoints();
             $trip = new Trip();
             $trip->setDepartureTime(new \DateTime("+3 hours"));
             $trip->setTitle($route->getDestination());
@@ -141,6 +141,7 @@ class TripController extends Controller
                 'NfqWeDriveBundle:Trip:newTrip.html.twig',
                 array(
                     'form' => $form->createView(),
+                    'routePoints' => $routePoints,
                     'routeName' => $route->getName(),
                     'option' => 'New trip'
                 )
@@ -229,7 +230,7 @@ class TripController extends Controller
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
-                /** @var JSON of routePoints $pointsJson */ //TODO could be optimized
+                /** @var json of routePoints $pointsJson */ //TODO could be optimized
                 $pointsJson = $form->get('routePoints')->getData();
                 $this->removeRoutePoints($trip->getRoute());
                 $this->persistRoutePoints($pointsJson, $trip->getRoute());

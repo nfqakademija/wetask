@@ -46,7 +46,6 @@
     </div>
 
     <script type="text/javascript" >
-        routeDraw = true;
         singleRoutePoints = [];
         {% for routePoint in routePoints %}
         singleRoutePoints.push({
@@ -54,9 +53,6 @@
             'lng': {{ routePoint.longitude }}
         });
         {% endfor %}
-        $(document).ready(function(){
-            routeDrawer.init();
-        })
         //route load call happens in maps.js for DOM reasons dontdeletethisplease.php
     </script>
     {{ form_end(form) }}
