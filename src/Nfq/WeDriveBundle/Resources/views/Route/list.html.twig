@@ -66,8 +66,7 @@
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a onclick="return actionConfirmation('Are you sure you want to delete route?');"
-                                   href = "{{ path('nfq_wedrive_route_delete',{'routeId':routeObj.route.id}) }}"
+                                <a href = "{{ path('nfq_wedrive_route_delete',{'routeId':routeObj.route.id}) }}"
                                    class="list-delete-button">
                                     Delete route
                                 </a>
