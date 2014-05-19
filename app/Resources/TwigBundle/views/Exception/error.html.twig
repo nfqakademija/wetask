@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>An Error Occurred</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body >
+    <div class="row" style="margin: 20% 0 0" >
+
+        <div class="col-md-offset-4 col-md-4">
+            <div class="panel panel-default" style="box-shadow: 00px 00px 10px #888888;">
+                <div class="panel-body">
+                    <h1 style="color: red;">{{ status_code }}</h1>
+                    <h2>page not found</h2>
+                    <h3 ><span style="color: red;">Sorry,</span> couldn't find that.</h3>
+                    You can start from our webpage: <a  href="{{ path('nfq_wedrive_base') }}">weDrive</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
