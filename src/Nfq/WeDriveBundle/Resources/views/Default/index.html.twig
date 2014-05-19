@@ -30,13 +30,14 @@
             event.preventDefault();
 
             if (confirm("Are you sure?")) {
-                console.log($('#' + this.id).attr('action'));
+                console.log($(this).attr('action'));
+                $(this).html("Processing...");
 
                 $.ajax({
                     type: "POST",
-                    url: $('#' + this.id).attr('action'),
+                    url: $(this).attr('action'),
                     dataType: 'json',
-                    success: function (data) {
+                    success: function () {
                         $('#available_trips').load("{{ path('nfq_wedrive_ajax_availableTrip_list') }}");
                         $('#joined_trips').load("{{ path('nfq_wedrive_ajax_joinedTrip_list') }}");
                     }

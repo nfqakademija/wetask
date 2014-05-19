@@ -82,6 +82,7 @@ class TripController extends Controller
         $trip = $tripRepository->findOneBy(array('id'=>$tripId));
 
         try {
+            if ($trip == null) throw new TripException("Trip does not exist!");
             $this->checkDeletePermission($trip, $this->getUser());
             if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
                 /** @var NotificationRepository $notificationRepository */
@@ -208,13 +209,15 @@ class TripController extends Controller
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
+
         try {
+            if ($trip == null) throw new TripException("Trip does not exist!");
             $this->checkPermission($trip, $this->getUser());
+
             $tripBeforeManage = clone $trip;
             $form = $this->createForm(new TripType(), $trip);
 
             $form->handleRequest($request);
-
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 if(!($trip == $tripBeforeManage)){
@@ -240,10 +243,13 @@ class TripController extends Controller
                     'form' => $form->createView(),
                 )
             );
+
+
         } catch (TripException $e) {
             $request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
         }
-        return new RedirectResponse($this->generateUrl('nfq_wedrive_trip_list'));
+
     }
 
     /**

@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Constants\PassengerState;
+use Nfq\WeDriveBundle\Exception\TripException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -229,6 +230,7 @@ class TripRepository extends EntityRepository
     public function getJoinedPassengersList($trip)
     {
         $em = $this->getEntityManager();
+        if ($trip == null) throw new TripException("This trip does not exist!");
 
         $query = $em->createQuery(
             "

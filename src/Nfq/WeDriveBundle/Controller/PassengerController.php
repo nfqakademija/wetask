@@ -2,6 +2,7 @@
 
 namespace Nfq\WeDriveBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Entity\Notification;
@@ -38,26 +39,31 @@ class PassengerController extends Controller
 
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
+        try {
+            if ($trip == null) throw new TripException("Trip does not exist!");
+            /** @var ArrayCollection|Passenger[] $passengers */
+            $passengers = $tripRepository->getJoinedPassengersList($trip);
 
-        /** @var ArrayCollection|Passenger[] $passengers */
-        $passengers = $tripRepository->getJoinedPassengersList($trip);
+            if(count($passengers)){
+                foreach ($passengers as $passenger) {
+                    $passengerRow['name'] = $passenger->getUser()->getUsername();
+                    $passengerRow['state'] = 'Joined';
+                    $passengerRow['id'] = $passenger->getId();
 
-        if(count($passengers)){
-            foreach ($passengers as $passenger) {
-                $passengerRow['name'] = $passenger->getUser()->getUsername();
-                $passengerRow['state'] = 'Joined';
-                $passengerRow['id'] = $passenger->getId();
+                    $passengerList[] = $passengerRow;
+                }
 
-                $passengerList[] = $passengerRow;
+                return $this->render(
+                    'NfqWeDriveBundle:Passenger:list.html.twig',
+                    array('tripPassengers' =>$passengerList, 'trip' => $trip)
+                );
             }
 
-            return $this->render(
-                'NfqWeDriveBundle:Passenger:list.html.twig',
-                array('tripPassengers' =>$passengerList, 'trip' => $trip)
-            );
+            return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
+        } catch (TripException $e) {
+            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
         }
-
-        return $this->redirect($this->generateUrl('nfq_wedrive_base'));
     }
 
     /**
@@ -71,6 +77,7 @@ class PassengerController extends Controller
             $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
             /** @var Passenger $passenger */
             $passenger = $passengerRepository->findOneBy(array('id' => $passengerId));
+            if ($passenger == null) throw new TripException("Passenger does not exist!");
             $this->checkTripOwner($passenger->getTrip(),$this->getUser());
             $this->setPassengerState($passengerId, PassengerState::ST_REJECTED_BY_DRIVER);
         } catch (TripException $e) {
@@ -90,6 +97,7 @@ class PassengerController extends Controller
             $passengerRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Passenger');
             /** @var Passenger $passenger */
             $passenger = $passengerRepository->findOneBy(array('id' => $passengerId));
+            if ($passenger == null) throw new TripException("Passenger does not exist!");
             $this->checkPassengerUser($passenger,$this->getUser());
             $this->setPassengerState($passengerId, PassengerState::ST_CANCELED_BY_PASSENGER);
         } catch (TripException $e) {

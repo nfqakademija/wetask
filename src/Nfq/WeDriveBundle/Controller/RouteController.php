@@ -7,8 +7,10 @@ use Nfq\UserBundle\Entity\User;
 use Nfq\WeDriveBundle\Constants\PassengerState;
 use Nfq\WeDriveBundle\Entity\Notification;
 use Nfq\WeDriveBundle\Entity\NotificationRepository;
+use Nfq\WeDriveBundle\Entity\Passenger;
 use Nfq\WeDriveBundle\Entity\Route;
 use Nfq\WeDriveBundle\Entity\RoutePoint;
+use Nfq\WeDriveBundle\Entity\RouteRepository;
 use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
 use Nfq\WeDriveBundle\Exception\RouteException;
@@ -45,10 +47,6 @@ class RouteController extends Controller
             array('user' => $user->getId())
         );
 
-        if (!$routes) {
-            //Throw exception for no routes
-
-        }
         /** @var  $return */
         $return = array();
         foreach ($routes as $route) {
@@ -133,6 +131,7 @@ class RouteController extends Controller
             array('id' => $routeId)
         );
         try {
+            if ($route == null) throw new RouteException("Route does not exist!");
             $this->checkPermission($route, $user);
 
             $form = $this->createForm(new RouteType(), $route);
@@ -202,32 +201,37 @@ class RouteController extends Controller
         /** @var Route $route */
         $route = $routeRepository->findOneBy(array('id' => $routeId));
 
-        try {
-            $this->checkPermission($route, $user);
-            /** @var TripRepository $tripRepository */
-            $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-            /** @var NotificationRepository $notificationRepository */
-            $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
-            /** @var ArrayCollection|Trip[] $trips */
-            $trips = $tripRepository->gerRouteTrips($route, 2400);
-            foreach ($trips as $trip) {
-                if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
-                    $passengers = $tripRepository->getJoinedPassengersList($trip);
-                    foreach ($passengers as $passenger) {
-                        $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
-                        $em->persist($passenger);
-                        /** @var Notification $notification */
-                        $notification = $notificationRepository->generateNotification($passenger);
-                        $em->persist($notification);
+            try {
+                if ($route == null) throw new RouteException("Route does not exist!");
+                $this->checkPermission($route, $user);
+                /** @var TripRepository $tripRepository */
+                $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+                /** @var NotificationRepository $notificationRepository */
+                $notificationRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Notification');
+                /** @var ArrayCollection|Trip[] $trips */
+                $trips = $tripRepository->getRouteTrips($route, 2400);
+                foreach ($trips as $trip) {
+                    if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
+                        /** @var ArrayCollection|Passenger[] $passengers */
+                        $passengers = $tripRepository->getJoinedPassengersList($trip);
+                        foreach ($passengers as $passenger) {
+
+                            $passenger->setAccepted(PassengerState::ST_CANCELED_BY_DRIVER);
+                            $em->persist($passenger);
+                            /** @var Notification $notification */
+                            $notification = $notificationRepository->generateNotification($passenger);
+                            $em->persist($notification);
+                        }
                     }
                 }
-            }
 
-            $em->remove($route);
-            $em->flush();
-        } catch (RouteException $e) {
-            $request->getSession()->getFlashBag()->add('error', $e->getMessage());
-        }
+                $em->remove($route);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add('error', "Route deleted successfully");
+            } catch (RouteException $e) {
+
+                $request->getSession()->getFlashBag()->add('error', $e->getMessage());
+            }
 
         return new RedirectResponse($this->generateUrl('nfq_wedrive_route_list'));
     }
@@ -280,6 +284,7 @@ class RouteController extends Controller
      */
     public function checkIfRouteIsDeleteable(Route $route, User $user)
     {
+        /** @var RouteRepository $routeRepository */
         $routeRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Route');
 
         if ($routeRepository->willBeUsed($route) != 0) {

@@ -5,3 +5,7 @@ nfq_user_invitation:
 nfq_user_registration:
     pattern: /register
     defaults: { _controller: NfqUserBundle:User:register }
+
+nfq_user_login:
+    pattern:  /login
+    defaults: { _controller: NfqUserBundle:User:login }
