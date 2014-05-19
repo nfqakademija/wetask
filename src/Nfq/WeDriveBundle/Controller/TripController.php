@@ -14,13 +14,11 @@ use Nfq\WeDriveBundle\Entity\Trip;
 use Nfq\WeDriveBundle\Entity\TripRepository;
 use Nfq\WeDriveBundle\Exception\TripException;
 use Nfq\WeDriveBundle\Form\Type\TripRouteType;
-//use Proxies\__CG__\Nfq\WeDriveBundle\Entity\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nfq\WeDriveBundle\Form\Type\TripType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-//use User;
 
 /**
  * Class TripController
@@ -77,7 +75,6 @@ class TripController extends Controller
 
         /** @var TripRepository $tripRepository */
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
-
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
 
@@ -134,6 +131,9 @@ class TripController extends Controller
                 $em->persist($trip);
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('error', "New trip added successefully.");
+                if ($request->isXmlHttpRequest()) {
+                    return new Response($this->generateUrl('nfq_wedrive_trip_list'));
+                }
                 return $this->redirect($this->generateUrl('nfq_wedrive_trip_list'));
             }
 
