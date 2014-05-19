@@ -41,6 +41,7 @@ class PassengerController extends Controller
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
         try {
             if ($trip == null) throw new TripException("Trip does not exist!");
+            $this->checkTripOwner($trip, $this->getUser());
             /** @var ArrayCollection|Passenger[] $passengers */
             $passengers = $tripRepository->getJoinedPassengersList($trip);
 
