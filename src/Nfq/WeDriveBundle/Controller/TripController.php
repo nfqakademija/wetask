@@ -79,7 +79,9 @@ class TripController extends Controller
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
 
         try {
-            if ($trip == null) throw new TripException("Trip does not exist!");
+            if ($trip == null) {
+                throw new TripException("Trip does not exist!");
+            }
             $this->checkDeletePermission($trip, $this->getUser());
             if ($tripRepository->getJoinedPassengersCount($trip) > 0) {
                 /** @var NotificationRepository $notificationRepository */
@@ -212,7 +214,9 @@ class TripController extends Controller
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
         $routePoints = $trip->getRoute()->getRoutePoints();
         try {
-            if ($trip == null) throw new TripException("Trip does not exist!");
+            if ($trip == null) {
+                throw new TripException("Trip does not exist!");
+            }
             $this->checkPermission($trip, $this->getUser());
             $tripBeforeManage = clone $trip;
             $form = $this->createForm(new TripType(), $trip);
@@ -335,6 +339,12 @@ class TripController extends Controller
         $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
         /** @var Trip $trip */
         $trip = $tripRepository->findOneBy(array('id' => $tripId));
+
+        if ($trip == null) {
+            $request->getSession()->getFlashBag()->add('error', 'Trip does not exist!');
+            return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+        }
+
         $user = $this->getUser();
 
         if ($tripRepository->getAvailableSeatsCount($trip)
@@ -360,11 +370,16 @@ class TripController extends Controller
             $em->persist($notification);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('error', "Join successful");
+//            $request->getSession()->getFlashBag()->add('error', "Join successful");
         } else {
-            $request->getSession()->getFlashBag()->add('error', "Sorry. There ane no free seats.");
+
+            $request->getSession()->getFlashBag()->add('error', "You can't join this trip!");
         }
-        return new Response(json_encode("Join"));
+        if ($request->isXmlHttpRequest()) {
+            return new Response(json_encode("Join"));
+        } else {
+            return $this->redirect($this->generateUrl('nfq_wedrive_base'));
+        }
     }
 
     /**
@@ -376,7 +391,8 @@ class TripController extends Controller
     private function checkPermission(Trip $trip, User $user)
     {
         if (($trip->getRoute()->getUser()->getId() !== $user->getId())
-            || !(in_array("ROLE_USER",$user->getRoles()))){
+            || !(in_array("ROLE_USER", $user->getRoles()))
+        ) {
             throw new TripException("You do not have permissions to do this action!");
         }
         return true;
@@ -401,8 +417,9 @@ class TripController extends Controller
      */
     private function checkNewTripByRoutePermission(Route $route, User $user)
     {
-        if (($route->getUser()->getId() !== $user->getId())||
-            !(in_array("ROLE_USER",$user->getRoles()))) {
+        if (($route->getUser()->getId() !== $user->getId()) ||
+            !(in_array("ROLE_USER", $user->getRoles()))
+        ) {
             throw new TripException("You do not have permissions to do this action!");
         }
         return true;

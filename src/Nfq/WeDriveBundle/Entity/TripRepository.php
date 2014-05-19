@@ -225,7 +225,7 @@ class TripRepository extends EntityRepository
      * getJoinedPassengersList
      *
      * @param Trip trip
-     * @return ArrayCollection|Passengers[]
+     * @return ArrayCollection|Passenger[]
      */
     public function getJoinedPassengersList($trip)
     {

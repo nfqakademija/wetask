@@ -1,0 +1,12 @@
+# Nfq/NfqUserBundle/Resources/config/admin.yml
+services:
+    sonata.admin.post:
+        class: Nfq\UserBundle\Admin\PostAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Post" }
+        arguments:
+            - ~
+            - Nfq\NfqUserBundle\Entity\Post
+            - ~
+        calls:
+            - [ setTranslationDomain, [NfqUserBundle]]

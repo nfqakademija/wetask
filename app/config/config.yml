@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: @NfqUserBundle/Resources/config/admin.yml }
 
 framework:
     #esi:             ~
@@ -86,3 +87,30 @@ fos_user:
     registration:
         form:
             type: nfq_user_registration
+
+#    title_logo: bundles/acmedemao/img/fancy_acme_logo.png
+sonata_admin:
+#    template:
+#        show:       NfqUserBundle:Admin:UserInvitation.html.twig
+    title:      WeDrive Admin Panel
+    dashboard:
+        blocks:
+            -
+                position: center
+                type: sonata.admin.block.admin_list
+#            -
+#                position: right
+#                type: sonata.block.service.text
+#                settings:
+#                    content: >
+#                        <h2>Welcome to the Sonata Admin</h2>
+#                        <p>This is a <code>sonata.block.service.text</code> from the Block
+#                        Bundle, you can create and add new block in these area by configuring
+#                        the <code>sonata_admin</code> section.</p> <br /> For instance, here
+#                        a RSS feed parser (<code>sonata.block.service.rss</code>):
+#            -
+#                position: right
+#                type: sonata.block.service.rss
+#                settings:
+#                    title: Sonata Project's Feeds
+#                    url: http://sonata-project.org/blog/archive.rss

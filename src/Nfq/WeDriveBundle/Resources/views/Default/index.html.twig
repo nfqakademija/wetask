@@ -1,5 +1,10 @@
 {% extends 'NfqWeDriveBundle:Base:base.html.twig' %}
 
+{% block flasherror %}
+    {{ parent() }}
+    {{ error }}
+{% endblock %}
+
 {% block panel %}
     <div class="panel panel-primary">
 
@@ -12,15 +17,15 @@
         <div class="tab-content">
 
             {#<script type="text/javascript">#}
-                {#tripPoints = [];#}
+            {#tripPoints = [];#}
             {#</script>#}
 
             <div class="tab-pane fade in active" id="available_trips">
-                    {% include 'NfqWeDriveBundle:Trip:availableTripList.html.twig' with {'tripList' : availableTripList } only %}
+                {% include 'NfqWeDriveBundle:Trip:availableTripList.html.twig' with {'tripList' : availableTripList } only %}
             </div>
 
             <div class="tab-pane fade" id="joined_trips">
-                    {% include 'NfqWeDriveBundle:Trip:joinedTripList.html.twig' with {'tripList' : joinedTripList } only %}
+                {% include 'NfqWeDriveBundle:Trip:joinedTripList.html.twig' with {'tripList' : joinedTripList } only %}
             </div>
         </div>
     </div>

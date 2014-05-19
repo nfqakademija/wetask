@@ -50,7 +50,7 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
         );
         $passengers = array();
         //$tripCount = 13;
-        $cycleCount = 1;
+        $cycleCount = 2;
 
         for($i = 0; $i <$cycleCount; $i++){
             $delta = 100 * $i;
@@ -71,7 +71,7 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
             $passengers[] = array('trip-'.(12+$delta), PassengerState::ST_CANCELED_BY_DRIVER, 'user-18','pass-'.(15+$delta));
             $passengers[] = array('trip-'.(12+$delta), PassengerState::ST_JOINED, 'user-16','pass-'.(16+$delta));
         }
-        
+
         foreach ($passengers as $passengerData) {
             $passenger = new Passenger();
             $passenger->setTrip($this->getReference($passengerData[0]));
