@@ -146,7 +146,8 @@ class RouteController extends Controller
                 $this->removeRoutePoints($route);
                 $this->persistRoutePoints($pointsJson, $route);
 
-                if (!($route == $routeBeforeManage)) {
+                //if (!($route == $routeBeforeManage))
+                {
                     /** @var TripRepository $tripRepository */
                     $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
                     /** @var NotificationRepository $notificationRepository */

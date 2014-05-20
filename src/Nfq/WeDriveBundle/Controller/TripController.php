@@ -241,7 +241,8 @@ class TripController extends Controller
                 $this->removeRoutePoints($trip->getRoute());
                 $this->persistRoutePoints($pointsJson, $trip->getRoute());
 
-                if (!($trip == $tripBeforeManage)) {
+                //if (!($trip == $tripBeforeManage))
+                {
                     $driverName = $trip->getRoute()->getUser()->getUsername();
                     $message = "Driver {$driverName} changed trip information!";
                     /** @var NotificationRepository $notificationRepository */
