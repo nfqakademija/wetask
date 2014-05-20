@@ -23,7 +23,13 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ path('nfq_wedrive_base') }}">weDrive</a>
+                    <a class="navbar-brand"
+                       href="{{ path('nfq_wedrive_base') }}"
+                            style="padding: 10px">
+                        <img src="http://wetask.projektai.nfqakademija.lt/logo.jpg"
+                                style="height: 30px"/>
+                    </a>
+
                     {% block time %}
                         <div id="current_time"></div>
                     {% endblock %}
