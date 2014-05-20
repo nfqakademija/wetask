@@ -44,6 +44,34 @@ class BaseController extends Controller
     }
 
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function registrationConfirmedAction(Request $request)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if(in_array("ROLE_OBSERVER",$user->getRoles())){
+            return $this->redirect($this->generateUrl('nfq_wedrive_observer'));
+        }
+
+        /** @var TripRepository $tripRepository */
+        $tripRepository = $this->getDoctrine()->getRepository('NfqWeDriveBundle:Trip');
+        $tripList = $tripRepository->prepareTripList($this);
+
+        $request->getSession()->getFlashBag()->add('error', 'Registration confirmed.');
+
+        return $this->render(
+            'NfqWeDriveBundle:Default:index.html.twig',
+            array(
+                'availableTripList' => $tripList['available'],
+                'joinedTripList' => $tripList['joined']
+            )
+        );
+
+    }
+
+    /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showMapAction()

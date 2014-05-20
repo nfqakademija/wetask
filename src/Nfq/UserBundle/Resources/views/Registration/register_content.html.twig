@@ -19,9 +19,9 @@
     <div class="form-group">
         {{ form_widget(form.invitation, {'attr': {'class': 'form-control', 'placeholder': 'Invitation code'} }) }}
     </div>
-    {{ form_end(form) }}
     <input type="submit" class="btn btn-lg btn-primary btn-block"
            value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}"/>
-    <a href="{{ path('nfq_user_login') }}" class="btn btn-lg btn-primary btn-block">Log In</a>
+    {{ form_end(form) }}
+
 
 </form>

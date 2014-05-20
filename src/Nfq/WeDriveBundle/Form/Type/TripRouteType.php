@@ -46,7 +46,10 @@ class TripRouteType extends AbstractType
 //            )
             ->add(
                 'route',
-                new RouteType('trip')
+                new RouteType('trip'),
+                array(
+                    'label' => false,
+                )
             )
             ->add(
                 'description',

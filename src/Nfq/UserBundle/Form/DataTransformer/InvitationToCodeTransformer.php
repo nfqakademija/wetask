@@ -46,7 +46,7 @@ class InvitationToCodeTransformer implements DataTransformerInterface
             ->getRepository('Nfq\UserBundle\Entity\Invitation')
             ->findOneBy(array(
                     'code' => $value,
-                    'user' => null,
+                    //'user' => null,
                 ));
     }
 }
