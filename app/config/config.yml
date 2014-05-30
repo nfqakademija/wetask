@@ -36,6 +36,7 @@ assetic:
     use_controller: false
     bundles:        [NfqUserBundle, NfqWeDriveBundle]
     #java: /usr/bin/java
+    ruby: c:\server\Ruby200-x64\bin\ruby.exe
     filters:
         cssrewrite: ~
         sass: ~
