@@ -250,8 +250,8 @@ class RouteController extends Controller
 
         foreach ($routePoints as $key => $routePointData) {
             $routePoint = new RoutePoint();
-            $routePoint->setLatitude($routePointData['k'])
-                ->setLongitude($routePointData['A'])
+            $routePoint->setLatitude($routePointData['lat'])
+                ->setLongitude($routePointData['lng'])
                 ->setRoute($route)
                 ->setPOrder($key);
             $em->persist($routePoint);

@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Sonata\CoreBundle\SonataCoreBundle(),
             new Sonata\BlockBundle\SonataBlockBundle(),
-//            new Sonata\jQueryBundle\SonatajQueryBundle(),
+            new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
@@ -38,5 +38,24 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader) {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+    }
+
+
+    public function getCacheDir()
+    {
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return '/wedrive/cache/' .  $this->environment;
+        }
+
+        return parent::getCacheDir();
+    }
+
+    public function getLogDir()
+    {
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return '/wedrive/logs';
+        }
+
+        return parent::getLogDir();
     }
 }

@@ -23,7 +23,8 @@
         "sonata-project/admin-bundle": "dev-master",
         "sonata-project/doctrine-orm-admin-bundle": "2.2.7",
         "friendsofsymfony/user-bundle": "1.3.3",
-        "sonata-project/user-bundle": "2.2.4"
+        "sonata-project/user-bundle": "2.2.4",
+        "sonata-project/jquery-bundle": "1.10.2"
     },
     "scripts": {
         "post-install-cmd": [
@@ -42,7 +43,8 @@
         ]
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "vendor-dir": "/wedrive/vendor"
     },
     "extra": {
         "symfony-app-dir": "app",
