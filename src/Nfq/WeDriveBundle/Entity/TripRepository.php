@@ -23,7 +23,7 @@ class TripRepository extends EntityRepository
      * @param int $hoursInterval
      * @return array
      */
-    public function getRouteTrips(Route $route, $hoursInterval = 5)
+    public function getRouteTrips(Route $route, $hoursInterval = 2400)
     {
         $fromDate = date("Y-m-d H:i:s");
         $toDate = date("Y-m-d H:i:s", strtotime("+{$hoursInterval} hours"));
@@ -35,14 +35,14 @@ class TripRepository extends EntityRepository
                             FROM Nfq\WeDriveBundle\Entity\Trip t
                             WHERE t.route = :routeId
                             AND t.departureTime > :departureTime
-                            AND t.departureTime < :toTime
+
                             ORDER BY t.departureTime ASC
                         "
         )->setParameters(
                 array(
                     'routeId' => $route->getId(),
                     'departureTime' => $fromDate,
-                    'toTime' => $toDate
+
                 )
             );
 
@@ -96,7 +96,7 @@ class TripRepository extends EntityRepository
      * @param int $hoursInterval
      * @return ArrayCollection|Trip[]
      */
-    public function getOtherTrips(User $user, $hoursInterval = 5)
+    public function getOtherTrips(User $user, $hoursInterval = 2400)
     {
         //prepare time for query
         $fromDate = date("Y-m-d H:i:s");
@@ -111,14 +111,14 @@ class TripRepository extends EntityRepository
                             JOIN t.route r
                             WHERE r.user != :userId
                             AND t.departureTime > :departureTime
-                            AND t.departureTime < :toDate
+
                             ORDER BY t.departureTime
                         "
         )->setParameters(
                 array(
                     'userId' => $user->getId(),
                     'departureTime' => $fromDate,
-                    'toDate' => $toDate
+
                 )
             );
 
