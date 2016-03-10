@@ -58,10 +58,10 @@ class LoadRoutePointData extends AbstractFixture implements OrderedFixtureInterf
             $point->setLongitude($pointData[2]);
             $point->setPOrder($pointData[3]);
 
-            $manager->persist($point);
+//            $manager->persist($point);
         }
 
-        $manager->flush();
+//        $manager->flush();
     }
 
     /**

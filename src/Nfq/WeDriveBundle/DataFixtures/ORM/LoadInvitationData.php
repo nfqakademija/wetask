@@ -60,10 +60,10 @@ class LoadInvitationData extends AbstractFixture implements OrderedFixtureInterf
             $invitation->setCode($invitationData[1]);
             $invitation->setSent($invitationData[2]);
 
-            $manager->persist($invitation);
+         //   $manager->persist($invitation);
         }
 
-        $manager->flush();
+       // $manager->flush();
     }
 
     /**

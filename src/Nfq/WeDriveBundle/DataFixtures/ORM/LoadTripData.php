@@ -30,7 +30,7 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
 
         $everyHourCount = 5;
         //$tripsCount = 13;
-        $cycleCount = 2; // $cycleCount * $everyHourCount +5 -is fixtures availability time
+        $cycleCount = 144; // $cycleCount * $everyHourCount +5 -is fixtures availability time
 
         for($i = 0; $i < $cycleCount; $i++){
             $timeDelta = $everyHourCount * $i;
@@ -63,11 +63,11 @@ class LoadTripData extends AbstractFixture implements OrderedFixtureInterface
             $trip->setTitle($route->getDestination());
             $trip->setMaxPassengers($tripData[4]);
 
-            $manager->persist($trip);
+//            $manager->persist($trip);
             $this->addReference($tripData[3], $trip);
         }
 
-        $manager->flush();
+//        $manager->flush();
     }
 
     /**

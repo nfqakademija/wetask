@@ -85,12 +85,12 @@ class LoadNotificationData extends AbstractFixture implements OrderedFixtureInte
                 $notification->setUser($user);
                 $notification->setValidTill($passenger->getTrip()->getDepartureTime());
                 $notification->setSeen(false);
-                $manager->persist($notification);
+  //              $manager->persist($notification);
                 $flushRequired = true;
             }
         }
 
-        if ($flushRequired) $manager->flush();
+//        if ($flushRequired) $manager->flush();
     }
 
     /**

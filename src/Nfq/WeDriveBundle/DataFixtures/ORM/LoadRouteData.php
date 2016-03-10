@@ -48,10 +48,10 @@ class LoadRouteData extends AbstractFixture implements OrderedFixtureInterface
             $route->setDestination($routeData[0]);
             $route->setUser($this->getReference($routeData[1]));
             $route->setName($routeData[3]);
-            $manager->persist($route);
+//            $manager->persist($route);
             $this->addReference($routeData[2], $route);
         }
-        $manager->flush();
+//        $manager->flush();
     }
 
     /**

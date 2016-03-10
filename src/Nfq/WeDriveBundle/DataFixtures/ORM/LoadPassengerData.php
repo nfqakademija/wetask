@@ -77,11 +77,11 @@ class LoadPassengerData extends AbstractFixture implements OrderedFixtureInterfa
             $passenger->setTrip($this->getReference($passengerData[0]));
             $passenger->setAccepted($passengerData[1]);
 
-            $manager->persist($passenger);
+//            $manager->persist($passenger);
             $passenger->setUser($this->getReference($passengerData[2]));
             $this->addReference($passengerData[3], $passenger);
         }
-        $manager->flush();
+//        $manager->flush();
     }
 
     /**
