@@ -24,7 +24,7 @@
     {% for tripRow in tripList %}
         {% if (tripRow.trip.departureTime.date|date('YmdHis') > "now"|date('YmdHis')) %}
         <tr class="tripRow" id="{{ tripRow.trip.id }}">
-            <td> {{ tripRow.trip.departureTime.date|date('m-d H:i') }} </td>
+            <td> {{ tripRow.trip.departureTime.date|date('Y-m-d H:i') }} </td>
             <td> {{ tripRow.trip.title }}</td>
             <td> {{ tripRow.trip.route.user.username }}</td>
             <td>
